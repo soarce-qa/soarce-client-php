@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpdox xmlns="http://xml.phpdox.net/config">
+<project name="soarce/client" source="${basedir}/../src" workdir="${basedir}/phpdox">
+    <collector publiconly="false" backend="parser">
+        <inheritance resolve="true">
+        </inheritance>
+    </collector>
+
+    <generator output="${basedir}/api">
+        <build engine="html" enabled="true" output="html">
+            <file extension="html" />
+        </build>
+    </generator>
+</project>
+</phpdox>
