@@ -1,0 +1,233 @@
+stages:
+    - build
+    - lint
+    - test
+    - deploy
+
+composer:
+    stage: build
+    artifacts:
+        name: "$CI_JOB_NAME"
+        untracked: true
+        expire_in: "2 days"
+        paths:
+            - vendor/
+    tags:
+        - composer
+        - php-7.2
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    script:
+        - "make composer-version"
+        - "make composer-install"
+        - "make composer-autoload"
+
+lint:
+    stage: lint
+    dependencies:
+        - composer
+    tags:
+        - test
+        - php-7.2
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    script:
+        - make lint
+
+phpunit-no-coverage:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/logs/junit.xml
+        expire_in: "1 week"
+    tags:
+        - test
+        - php-7.2
+    except:
+        - tags
+    script:
+        - make phpunit-no-coverage
+
+phploc:
+    stage: test
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/logs/phploc.*
+        expire_in: "2 weeks"
+    dependencies:
+        - composer
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    tags:
+        - test
+        - php-7.2
+    script:
+        - make phploc
+
+pdepend:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/pdepend/
+            - build/logs/jdepend.xml
+            - build/logs/pdepend.xml
+        expire_in: "2 weeks"
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    tags:
+        - test
+        - php-7.2
+    script:
+        - make pdepend
+
+phpmd:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/logs/pmd.xml
+        expire_in: "2 weeks"
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    tags:
+        - test
+        - php-7.2
+    script:
+        - make phpmd
+
+phpcs:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/logs/checkstyle.xml
+        expire_in: "2 weeks"
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    tags:
+        - test
+        - php-7.2
+    script:
+        - make phpcs
+
+phpcpd:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/logs/pmd-cpd.xml
+        expire_in: "2 weeks"
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    tags:
+        - test
+        - php-7.2
+    script:
+        - make phpcpd
+
+phpunit:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/logs/junit.xml
+            - build/logs/clover.xml
+            - build/logs/crap4j.xml
+            - build/coverage/
+        expire_in: "2 weeks"
+    tags:
+        - xdebug
+        - test
+        - php-7.2
+    only:
+        - tags
+    script:
+        - make phpunit
+
+phpdox:
+    stage: test
+    dependencies:
+        - composer
+    artifacts:
+        name: "$CI_JOB_NAME"
+        paths:
+            - build/api
+            - build/phpdox
+        expire_in: "2 weeks"
+    only:
+        - branches
+        - tags
+        - pushes
+        - merge_requests
+    tags:
+        - test
+        - php-7.2
+    script:
+        - make phpdox
+
+copy-metrics:
+    stage: deploy
+    dependencies:
+        - composer
+        - lint
+        - phploc
+        - pdepend
+        - phpmd
+        - phpcpd
+        - phpcs
+        - phpunit
+        - phpdox
+    script:
+        - mkdir -p --mode=777 "/var/data/gitlab-stats/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_PIPELINE_ID"
+        - cp -R build/* "/var/data/gitlab-stats/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME/$CI_PIPELINE_ID"
+    only:
+        - tags
+    tags:
+        - deploy
+        - stats
+    when: always
+
+satis-update:
+    stage: deploy
+    script:
+        - cd /var/webshare/satis.home.segnitz.net/ && /var/webshare/satis.home.segnitz.net/bin/satis build -n /var/webshare/satis.home.segnitz.net/satis.json /var/webshare/satis.home.segnitz.net/web/private "soarce/client"
+    tags:
+        - deploy
+        - homeip
+    when: always

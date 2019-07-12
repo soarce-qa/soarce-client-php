@@ -1,0 +1,38 @@
+{
+  "name": "soarce/client",
+  "description": "This is the client for SOARCE providing and endpoint for external code coverage collection and more.",
+  "keywords": ["SOARCE", "CodeCoverage", "QA", "Testing", "xdebug"],
+  "homepage": "https://github.com/hsegnitz/tbd",
+  "type" : "library",
+  "authors": [
+    {
+      "name": "Holger Segnitz",
+      "email": "holger@segnitz.net",
+      "homepage": "https://www.segnitz.net/",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/hsegnitz/tbd/issues",
+    "forum":  "https://github.com/hsegnitz/tbd/issues",
+    "wiki":   "https://github.com/hsegnitz/tbd/wiki",
+    "source": "https://github.com/hsegnitz/tbd",
+    "docs":   "https://github.com/hsegnitz/tbd/wiki"
+  },
+  "require": {
+    "php": "^7.1",
+    "ext-xdebug": "*"
+  },
+  
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunit/phpunit": "^8.2",
+    "jakub-onderka/php-parallel-lint": "^1.0",
+    "phploc/phploc": "^5.0",
+    "pdepend/pdepend": "^2.5",
+    "phpmd/phpmd": "^2.6",
+    "squizlabs/php_codesniffer": "^3.4",
+    "sebastian/phpcpd": "^4.1",
+    "theseer/phpdox": "^0.12.0"
+  }
+}
