@@ -38,4 +38,13 @@ class FrontControllerTest extends TestCase
         $_GET['SOARCE'] = 'index';
         $this->assertStringContainsString('/?SOARCE=preconditions', (new FrontController(new Config()))->run());
     }
+
+    public function testOverrideParamName(): void
+    {
+        $_GET['SECURITY'] = 'index';
+        $config = new Config();
+        $config->setActionParamName('SECURITY');
+
+        $this->assertStringContainsString('/?SECURITY=preconditions', (new FrontController($config))->run());
+    }
 }
