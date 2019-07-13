@@ -1,0 +1,94 @@
+<?php
+
+namespace UnitTests;
+
+use PHPUnit\Framework\TestCase;
+use Soarce\Config;
+use Soarce\FrontController;
+
+class ConfigTest extends TestCase
+{
+    /** @var array */
+    private $storedGetParams;
+
+    /** @var array */
+    private $storedEnvParams;
+
+    /** @var array */
+    private $storedServerParams;
+
+    public function setUp(): void
+    {
+        $this->storedGetParams    = $_GET;
+        $this->storedEnvParams    = $_ENV;
+        $this->storedServerParams = $_SERVER;
+    }
+
+    public function tearDown(): void
+    {
+        $_GET    = $this->storedGetParams;
+        $_ENV    = $this->storedEnvParams;
+        $_SERVER = $this->storedServerParams;
+    }
+
+    public function testDefaultParams(): void
+    {
+        $config = new Config();
+
+        $this->assertEquals('SOARCE', $config->getActionParamName());
+        $this->assertEquals('/tmp/',  $config->getDataPath());
+    }
+
+    public function testEnvParams(): void
+    {
+        $_ENV['SOARCE_ACTION_PARAM_NAME'] = 'HUUURZ';
+        $_ENV['SOARCE_DATA_PATH']         = '/var/tmp/';
+
+        $config = new Config();
+
+        $this->assertEquals('HUUURZ',    $config->getActionParamName());
+        $this->assertEquals('/var/tmp/', $config->getDataPath());
+    }
+
+    public function testServerParams(): void
+    {
+        $_SERVER['SOARCE_ACTION_PARAM_NAME'] = 'DUUUURRRR';
+        $_SERVER['SOARCE_DATA_PATH']         = '/var/tmp/megapath/';
+
+        $config = new Config();
+
+        $this->assertEquals('DUUUURRRR',          $config->getActionParamName());
+        $this->assertEquals('/var/tmp/megapath/', $config->getDataPath());
+    }
+
+    public function testEnvParamsTrumpServer(): void
+    {
+        $_ENV['SOARCE_ACTION_PARAM_NAME'] = 'HUUURZ';
+        $_ENV['SOARCE_DATA_PATH']         = '/var/tmp/';
+
+        $_SERVER['SOARCE_ACTION_PARAM_NAME'] = 'DUUUURRRR';
+        $_SERVER['SOARCE_DATA_PATH']         = '/var/tmp/megapath/';
+
+        $config = new Config();
+
+        $this->assertEquals('HUUURZ',    $config->getActionParamName());
+        $this->assertEquals('/var/tmp/', $config->getDataPath());
+    }
+
+    public function testOverrideTrumpDefaultParams(): void
+    {
+        $_ENV['SOARCE_ACTION_PARAM_NAME'] = 'HUUURZ';
+        $_ENV['SOARCE_DATA_PATH']         = '/var/tmp/';
+
+        $_SERVER['SOARCE_ACTION_PARAM_NAME'] = 'DUUUURRRR';
+        $_SERVER['SOARCE_DATA_PATH']         = '/var/tmp/megapath/';
+
+        $config = new Config();
+        $config->setActionParamName('THISISAWESOME');
+        $config->setDataPath('/this/is/private/');
+
+        $this->assertEquals('THISISAWESOME',     $config->getActionParamName());
+        $this->assertEquals('/this/is/private/', $config->getDataPath());
+    }
+
+}

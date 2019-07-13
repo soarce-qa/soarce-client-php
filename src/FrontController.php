@@ -4,28 +4,17 @@ namespace Soarce;
 
 class FrontController
 {
-    /** @var string */
-    protected static $actionParamName = 'SOARCE';
+    /** @var Config */
+    private $config;
 
     /** @var string() */
     private $actionMap = [
         'index' => Action\Index::class,
     ];
 
-    /**
-     * @return string
-     */
-    public static function getActionParamName(): string
+    public function __construct(Config $config)
     {
-        return self::$actionParamName;
-    }
-
-    /**
-     * @param string $actionParamName
-     */
-    public static function setActionParamName(string $actionParamName): void
-    {
-        self::$actionParamName = $actionParamName;
+        $this->config = $config;
     }
 
     /**
@@ -35,18 +24,19 @@ class FrontController
      */
     public function run(): string
     {
-        if (!isset($_GET[self::$actionParamName])) {
+        $actionParamName = $this->config->getActionParamName();
+        if (!isset($_GET[$actionParamName])) {
             return '';
         }
 
-        if (!isset($this->actionMap[$_GET[self::$actionParamName]])) {
+        if (!isset($this->actionMap[$_GET[$actionParamName]])) {
             return '';
         }
 
-        $classname = $this->actionMap[$_GET[self::$actionParamName]];
+        $classname = $this->actionMap[$_GET[$actionParamName]];
 
         /** @var Action $action */
-        $action = new $classname();
+        $action = new $classname($this->config);
         return $action->run();
     }
 }
