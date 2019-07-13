@@ -24,6 +24,10 @@ class StartTest extends TestCase
 
     public function testUnauthorizedDirectoryCausesException(): void
     {
+        if ('root' === $_SERVER['user']) {
+            $this->markTestSkipped('cannot test if run as root');
+        }
+        
         $config = new Config();
         $config->setDataPath('/root/.ssh');
 
