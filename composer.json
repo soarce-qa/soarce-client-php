@@ -24,7 +24,7 @@
     "ext-xdebug": "*"
   },
   "autoload": {
-    "files": ["src/FrontController.php"],
+    "files": ["src/execute.php"],
     "psr-4": {
       "Soarce\\": "src/"
     }

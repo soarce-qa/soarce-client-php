@@ -5,3 +5,4 @@ vendor
 /build/logs/
 /build/pdepend/
 /build/coverage/
+/build/.phpunit.result.cache
