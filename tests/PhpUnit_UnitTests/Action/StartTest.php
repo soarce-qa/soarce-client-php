@@ -25,7 +25,7 @@ class StartTest extends TestCase
     public function testUnauthorizedDirectoryCausesException(): void
     {
         $config = new Config();
-        $config->setDataPath('/bin/');
+        $config->setDataPath('/root/.ssh');
 
         $action = new Start($config);
 
