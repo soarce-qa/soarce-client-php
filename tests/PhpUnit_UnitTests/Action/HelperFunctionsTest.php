@@ -5,7 +5,6 @@ namespace UnitTests\Action;
 use PHPUnit\Framework\TestCase;
 use Soarce\Config;
 use Soarce\Exception;
-use Soarce\Action;
 use UnitTests\Fixtures\TestAction;
 
 class HelperFunctionsTest extends TestCase
