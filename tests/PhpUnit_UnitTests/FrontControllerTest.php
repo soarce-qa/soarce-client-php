@@ -1,20 +1,18 @@
 <?php
 
-namespace UnitTests\FrontController;
+namespace UnitTests;
 
 use PHPUnit\Framework\TestCase;
-use Soarce\Exception;
-use Soarce\Action;
+use Soarce\Config;
 use Soarce\FrontController;
 
-class BasicTest extends TestCase
+class FrontControllerTest extends TestCase
 {
     /** @var array */
     private $storedGetParams;
 
     public function setUp(): void
     {
-        FrontController::setActionParamName('SOARCE');
         $this->storedGetParams = $_GET;
     }
 
@@ -26,18 +24,18 @@ class BasicTest extends TestCase
     public function testParameterNotSetDoesNothing(): void
     {
         unset($_GET['SOARCE']);
-        $this->assertEquals('', (new FrontController())->run());
+        $this->assertEquals('', (new FrontController(new Config()))->run());
     }
 
     public function testNonexistantActionDoesNothing(): void
     {
         $_GET['SOARCE'] = 'hurrrglburrrgl';
-        $this->assertEquals('', (new FrontController())->run());
+        $this->assertEquals('', (new FrontController(new Config()))->run());
     }
 
     public function testIndexDoesSomething(): void
     {
         $_GET['SOARCE'] = 'index';
-        $this->assertNotEquals('', (new FrontController())->run());
+        $this->assertStringContainsString('/?SOARCE=preconditions', (new FrontController(new Config()))->run());
     }
 }
