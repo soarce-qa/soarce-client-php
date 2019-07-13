@@ -19,9 +19,13 @@
     "source": "https://github.com/hsegnitz/tbd",
     "docs":   "https://github.com/hsegnitz/tbd/wiki"
   },
+  "config": {
+    "platform": {
+      "php": "7.1.30"
+    }
+  },
   "require": {
-    "php": "^7.1",
-    "ext-xdebug": "*"
+    "php": ">=7.1,<8.0-DEV"
   },
   "autoload": {
     "files": ["src/execute.php"],
@@ -36,9 +40,9 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "^8.2",
+    "phpunit/phpunit": "*",
     "jakub-onderka/php-parallel-lint": "^1.0",
-    "phploc/phploc": "^5.0",
+    "phploc/phploc": "*",
     "pdepend/pdepend": "^2.5",
     "phpmd/phpmd": "^2.6",
     "squizlabs/php_codesniffer": "^3.4",

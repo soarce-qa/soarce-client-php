@@ -5,7 +5,6 @@ namespace UnitTests\Action;
 use PHPUnit\Framework\TestCase;
 use Soarce\Config;
 use Soarce\Exception;
-use Soarce\Action;
 use UnitTests\Fixtures\TestAction;
 
 class HelperFunctionsTest extends TestCase
@@ -18,7 +17,7 @@ class HelperFunctionsTest extends TestCase
         $action = new TestAction($config);
 
         $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::ACTION__NO_ACTION_PARAMETER_NAME);
+        $this->expectExceptionCode(Exception::FRONTCONTROLLER__NO_ACTION_PARAMETER_NAME);
 
         $action->url('something');
     }
@@ -31,7 +30,7 @@ class HelperFunctionsTest extends TestCase
         $action = new TestAction($config);
 
         $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::ACTION__NO_ACTION_NAME);
+        $this->expectExceptionCode(Exception::FRONTCONTROLLER__NO_ACTION_NAME);
 
         $action->url('');
     }

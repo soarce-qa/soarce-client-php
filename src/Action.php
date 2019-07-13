@@ -20,11 +20,11 @@ abstract class Action
     public function url($action, $params = []): string
     {
         if ('' === trim($this->config->getActionParamName())) {
-            throw new Exception('Empty action parameter name', Exception::ACTION__NO_ACTION_PARAMETER_NAME);
+            throw new Exception('Empty action parameter name', Exception::FRONTCONTROLLER__NO_ACTION_PARAMETER_NAME);
         }
 
         if ('' === trim($action)) {
-            throw new Exception('Empty action name', Exception::ACTION__NO_ACTION_NAME);
+            throw new Exception('Empty action name', Exception::FRONTCONTROLLER__NO_ACTION_NAME);
         }
 
         $params = array_merge([$this->config->getActionParamName() => $action], $params);

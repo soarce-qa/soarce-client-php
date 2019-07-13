@@ -31,6 +31,9 @@ or preferably run this composer command in your project root:
 $ composer require --dev --prefer-dist "soarce/client"
 ```
 
+In addition, you will have to install and enable xdebug in order to generate code coverage. It has not been
+included in the "required" section as it would disallow composer-runs without it. 
+
 ## Configuration
 
 ### ENV-Variables

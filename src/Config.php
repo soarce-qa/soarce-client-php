@@ -4,6 +4,8 @@ namespace Soarce;
 
 class Config
 {
+    public const TRIGGER_FILENAME = '.SOARCE-gather-stats';
+
     /** @var string */
     protected $actionParamName;
 
