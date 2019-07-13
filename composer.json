@@ -29,6 +29,11 @@
       "Soarce\\": "src/"
     }
   },
+  "autoload-dev": {
+    "psr-4": {
+      "UnitTests\\": "tests/"
+    }
+  },
   "require-dev": {
     "roave/security-advisories": "dev-master",
     "phpunit/phpunit": "^8.2",
