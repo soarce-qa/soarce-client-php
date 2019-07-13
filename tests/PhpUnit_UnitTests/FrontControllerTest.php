@@ -1,12 +1,12 @@
 <?php
 
-namespace UnitTests\FrontController;
+namespace UnitTests;
 
 use PHPUnit\Framework\TestCase;
 use Soarce\Config;
 use Soarce\FrontController;
 
-class BasicTest extends TestCase
+class FrontControllerTest extends TestCase
 {
     /** @var array */
     private $storedGetParams;

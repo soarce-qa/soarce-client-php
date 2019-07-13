@@ -7,6 +7,9 @@ class Config
     /** @var string */
     protected $actionParamName;
 
+    /** @var string */
+    protected $dataPath;
+
     /**
      * @return string
      */
@@ -25,5 +28,24 @@ class Config
     public function setActionParamName(string $actionParamName): void
     {
         $this->actionParamName = $actionParamName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDataPath(): string
+    {
+        if (null === $this->dataPath) {
+            $this->dataPath = $_ENV['SOARCE_DATA_PATH'] ?? $_SERVER['SOARCE_DATA_PATH'] ?? '/tmp/';
+        }
+        return $this->dataPath;
+    }
+
+    /**
+     * @param string $dataPath
+     */
+    public function setDataPath(string $dataPath): void
+    {
+        $this->dataPath = $dataPath;
     }
 }
