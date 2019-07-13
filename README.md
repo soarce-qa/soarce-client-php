@@ -1,6 +1,6 @@
 # soarce/client
 
-## Version: 0.0.2
+## Version: 0.0.3
 
 ## Overview
 
@@ -33,7 +33,14 @@ $ composer require --dev --prefer-dist "soarce/client"
 
 ## Configuration
 
-... TBD/TBA ...
+### ENV-Variables
+
+* string `SOARCE_ACTION_PARAM_NAME` = "SOARCE": names the SOARCE interceptor param name. Use something long and
+random to obfuscate an active SOARCE client if necessary and/or to solve parameter name conflicts with your
+application. It has to match the main application's parameter name setting.
+* string `SOARCE_DATA_PATH` = "/tmp/": any writable location on your server. Coverage and trace data will be
+temporarily written to the location. If you host multiple services from the same host or container, make sure
+they use different `SOARCE_DATA_PATH`s.
 
 ## Debug Interface
 
@@ -42,8 +49,8 @@ Just call the index page of your application - e.g. `/` or `/index.php` and add 
 ## Known Issues
 
 ### Security
-* Currently, nothing prevents anybody from accessing the SOARCE functionality, see roadmap for planned
-  countermeasures
+* Currently, nothing prevents anybody from accessing the SOARCE functionality apart from parameter obfuscation,
+see roadmap for planned countermeasures.
 * Component requires xdebug to be active 
 
 ### Performance
