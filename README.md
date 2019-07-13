@@ -1,6 +1,6 @@
 # soarce/client
 
-## Version: 0.0.1
+## Version: 0.0.2
 
 ## Overview
 
@@ -13,7 +13,7 @@ own actions instead (e.g. handing out coverage data to the master application).
 ### DO NOT USE IN PRODUCTION!
 
 Althought there will be security measures in place, include this library only as a --dev dependency. The
-intended use is local development or use within a CI/CD pipeling. See documentation for more advanced examples.
+intended use is local development or use within a CI/CD pipeline. See documentation for more advanced examples.
 
 ## Installation
 
