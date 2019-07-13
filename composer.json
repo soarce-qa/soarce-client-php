@@ -20,8 +20,7 @@
     "docs":   "https://github.com/hsegnitz/tbd/wiki"
   },
   "require": {
-    "php": "^7.1",
-    "ext-xdebug": "*"
+    "php": "^7.1"
   },
   "autoload": {
     "files": ["src/execute.php"],
