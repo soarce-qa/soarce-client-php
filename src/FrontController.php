@@ -10,6 +10,8 @@ class FrontController
     /** @var string() */
     private $actionMap = [
         'index' => Action\Index::class,
+        'start' => Action\Start::class,
+        'end'   => Action\End::class,
     ];
 
     public function __construct(Config $config)
