@@ -45,6 +45,14 @@ application. It has to match the main application's parameter name setting.
 temporarily written to the location. If you host multiple services from the same host or container, make sure
 they use different `SOARCE_DATA_PATH`s.
 
+### X-Debug
+```
+xdebug.auto_trace = 0
+xdebug.trace_format = 1
+xdebug.trace_enable_trigger = 1
+xdebug.trace_output_name = "trace.%u-%R"
+```
+
 ## Debug Interface
 
 Just call the index page of your application - e.g. `/` or `/index.php` and add `?SOARCE=index` to the call.
