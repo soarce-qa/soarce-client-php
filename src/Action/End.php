@@ -35,8 +35,9 @@ class End extends Action
     /**
      * @param  string $fullPathDestination
      * @throws Exception
+     * @return int
      */
-    private function moveFiles($fullPathDestination): void
+    private function moveFiles($fullPathDestination): int
     {
         // traces
         $traceFileDirectory = trim(ini_get('xdebug.trace_output_dir'));
@@ -44,6 +45,7 @@ class End extends Action
             throw new Exception('Tracefile Directory does not exist or is not readable.', Exception::TRACEFILE_DIRECTORY_NOT_READABLE);
         }
 
+        $count = 0;
         $dirIter = new \DirectoryIterator($traceFileDirectory);
         foreach ($dirIter as $file) {
             if ($file->isDir() || ($file->getExtension() !== Config::SUFFIX_TRACEFILE && $file->getExtension() !== Config::SUFFIX_COVERAGEFILE)) {
@@ -54,7 +56,10 @@ class End extends Action
                 $file->getRealPath(),
                 $fullPathDestination . DIRECTORY_SEPARATOR . $file->getFilename()
             );
+            ++$count;
         }
+
+        return $count;
     }
 
     /**
@@ -72,10 +77,10 @@ class End extends Action
         }
 
         $fullPath = $this->createSubdir($_GET['usecase']);
-        $this->moveFiles($fullPath);
+        $count = $this->moveFiles($fullPath);
         touch($fullPath . DIRECTORY_SEPARATOR . Config::COMPLETED_FILENAME);
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME);
 
-        return '';
+        return json_encode(['files' => $count]);
     }
 }
