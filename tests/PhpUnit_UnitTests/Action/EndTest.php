@@ -19,6 +19,9 @@ class EndTest extends TestCase
     {
         $this->config = new Config();
         $this->config->setDataPath(__DIR__ . '/../../playground/');
+        if (!ini_get('xdebug.trace_output_dir')) {
+            ini_set('xdebug.trace_output_dir', '/tmp/');
+        }
         $this->xdebugTraceDirectory = ini_get('xdebug.trace_output_dir');
     }
 
