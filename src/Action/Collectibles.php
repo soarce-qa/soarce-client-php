@@ -34,7 +34,7 @@ class Collectibles extends Action
                 if (!in_array($file->getExtension(), [Config::SUFFIX_TRACEFILE, Config::SUFFIX_COVERAGEFILE], true)) {
                     continue;
                 }
-                $data[$usecaseDirectory->getFilename()][] = $file->getFilename();
+                $data[$usecaseDirectory->getFilename()][] = $file->getPathname();
             }
 
             if ($completedFileFound === false || [] === $data[$usecaseDirectory->getFilename()]) {
