@@ -7,7 +7,7 @@ use Soarce\Action;
 class Index extends Action
 {
     /**
-     *
+     * @return string
      */
     public function run(): string
     {

@@ -9,9 +9,10 @@ class FrontController
 
     /** @var string() */
     private $actionMap = [
-        'index' => Action\Index::class,
-        'start' => Action\Start::class,
-        'end'   => Action\End::class,
+        'end'           => Action\End::class,
+        'index'         => Action\Index::class,
+        'preconditions' => Action\Preconditions::class,
+        'start'         => Action\Start::class,
     ];
 
     public function __construct(Config $config)
