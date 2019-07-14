@@ -25,7 +25,8 @@
     }
   },
   "require": {
-    "php": ">=7.1,<8.0-DEV"
+    "php": ">=7.1,<8.0-DEV",
+    "ext-json": "*"
   },
   "autoload": {
     "files": ["src/execute.php"],
