@@ -4,7 +4,10 @@ namespace Soarce;
 
 class Config
 {
-    public const TRIGGER_FILENAME = '.SOARCE-gather-stats';
+    public const TRIGGER_FILENAME    = '.SOARCE-gather-stats';
+    public const COMPLETED_FILENAME  = '.SOARCE-completed';
+    public const SUFFIX_TRACEFILE    = 'xt';
+    public const SUFFIX_COVERAGEFILE = 'coverage';
 
     /** @var string */
     protected $actionParamName;

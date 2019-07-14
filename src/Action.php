@@ -31,6 +31,14 @@ abstract class Action
         return '/?' . http_build_query($params);
     }
 
+    /**
+     * @param  string $input
+     * @return string
+     */
+    protected function filterUsecase($input): string
+    {
+        return trim(preg_replace('/[^a-zA-Z0-9\-\._]/', '', $input));
+    }
 
     /**
      * This has to become the concrete implementation of an action
