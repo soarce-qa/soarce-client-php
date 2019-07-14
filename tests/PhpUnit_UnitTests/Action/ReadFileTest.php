@@ -4,45 +4,26 @@ namespace UnitTests\Action;
 
 use PHPUnit\Framework\TestCase;
 use Soarce\Action\Exception;
-use Soarce\Action\End;
+use Soarce\Action\ReadFile;
 use Soarce\Config;
 
-class EndTest extends TestCase
+class ReadFileTest extends TestCase
 {
-    /** @var Config */
-    private $config;
-
-    /** @var string */
-    private $xdebugTraceDirectory = '';
-
-    public function setUp()
-    {
-        $this->config = new Config();
-        $this->config->setDataPath(__DIR__ . '/../../playground/');
-        if ('' === ini_get('xdebug.trace_output_dir')) {
-            ini_set('xdebug.trace_output_dir', '/tmp/');
-        }
-        $this->xdebugTraceDirectory = ini_get('xdebug.trace_output_dir');
-    }
-
     public function tearDown()
     {
-        ini_set('xdebug.trace_output_dir', $this->xdebugTraceDirectory);
         unset($_GET['usecase']);
     }
 
-    public function testNonexistantDirectoryCausesException(): void
+    public function testMissingParamCausesException(): void
     {
-        $this->config->setDataPath('/the/freaking/moon');
-
-        $action = new End($this->config);
+        $action = new ReadFile(new Config());
 
         $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
+        $this->expectExceptionCode(Exception::MISSING_FILENAME_PARAMETER);
 
         $action->run();
     }
-
+/*
     public function testUnauthorizedDirectoryCausesException(): void
     {
         if ('root' === $_SERVER['USER']) {
@@ -146,4 +127,5 @@ class EndTest extends TestCase
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/' . Config::COMPLETED_FILENAME);
         rmdir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2');
     }
+*/
 }

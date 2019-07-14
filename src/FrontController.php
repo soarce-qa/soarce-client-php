@@ -9,9 +9,11 @@ class FrontController
 
     /** @var string() */
     private $actionMap = [
+        'collectibles'  => Action\Collectibles::class,
         'end'           => Action\End::class,
         'index'         => Action\Index::class,
         'preconditions' => Action\Preconditions::class,
+        'readfile'      => Action\ReadFile::class,
         'start'         => Action\Start::class,
     ];
 
