@@ -42,13 +42,13 @@ class StartTest extends TestCase
     public function testSuccessfulWrite(): void
     {
         $config = new Config();
-        $config->setDataPath('/tmp/');
+        $config->setDataPath(__DIR__ . '/../../playground/');
 
         $action = new Start($config);
 
         $action->run();
 
-        $this->assertFileExists('/tmp/.SOARCE-gather-stats');
-        unlink('/tmp/.SOARCE-gather-stats');
+        $this->assertFileExists(__DIR__ . '/../../playground/.SOARCE-gather-stats');
+        unlink(__DIR__ . '/../../playground/.SOARCE-gather-stats');
     }
 }
