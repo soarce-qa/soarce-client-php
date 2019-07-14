@@ -52,6 +52,7 @@ phpunit-no-coverage:
     tags:
         - test
         - php-7.2
+        - xdebug
     except:
         - tags
     script:

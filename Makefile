@@ -40,7 +40,7 @@ phpunit:
 	php -d zend_extension=xdebug.so vendor/bin/phpunit --configuration=./build/phpunit-all.xml
 
 phpunit-no-coverage:
-	php vendor/bin/phpunit --configuration=./build/phpunit-all.xml --no-coverage
+	php -d zend_extension=xdebug.so vendor/bin/phpunit --configuration=./build/phpunit-all.xml --no-coverage
 
 phpunit-nofail:
 	php -d zend_extension=xdebug.so vendor/bin/phpunit --configuration=./build/phpunit-all.xml || true
