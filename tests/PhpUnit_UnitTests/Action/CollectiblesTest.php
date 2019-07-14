@@ -75,4 +75,36 @@ class CollectiblesTest extends TestCase
         rmdir($this->config->getDataPath() . '/UnitTest');
 
     }
+
+    public function testProperUsecaseYieldsResult(): void
+    {
+        // create
+        mkdir($this->config->getDataPath() . '/UnitTest');
+        touch($this->config->getDataPath() . '/UnitTest/some-request.xt');
+        touch($this->config->getDataPath() . '/UnitTest/some-other-request.xt');
+        touch($this->config->getDataPath() . '/UnitTest/' . Config::COMPLETED_FILENAME);
+
+        // run
+        $action = new Collectibles($this->config);
+        $result = $action->run();
+
+        // assert
+        $this->assertJson($result);
+        $this->assertEquals(
+            [
+                'UnitTest' => [
+                    'some-request.xt',
+                    'some-other-request.xt',
+                ],
+            ],
+            json_decode($result, JSON_OBJECT_AS_ARRAY)
+        );
+
+        // clean
+        unlink($this->config->getDataPath() . '/UnitTest/' . Config::COMPLETED_FILENAME);
+        unlink($this->config->getDataPath() . '/UnitTest/some-other-request.xt');
+        unlink($this->config->getDataPath() . '/UnitTest/some-request.xt');
+        rmdir($this->config->getDataPath() . '/UnitTest');
+
+    }
 }
