@@ -37,4 +37,22 @@ class CollectiblesTest extends TestCase
         $this->assertJson($result);
         $this->assertEquals([], json_decode($result, JSON_OBJECT_AS_ARRAY));
     }
+
+    public function testEmptyUsecaseYieldsEmptyResult(): void
+    {
+        // create
+        mkdir($this->config->getDataPath() . '/UnitTest');
+
+        // run
+        $action = new Collectibles($this->config);
+        $result = $action->run();
+
+        // assert
+        $this->assertJson($result);
+        $this->assertEquals([], json_decode($result, JSON_OBJECT_AS_ARRAY));
+
+        // clean
+        rmdir($this->config->getDataPath() . '/UnitTest');
+
+    }
 }
