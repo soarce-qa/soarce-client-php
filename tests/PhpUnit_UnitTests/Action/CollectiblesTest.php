@@ -55,4 +55,24 @@ class CollectiblesTest extends TestCase
         rmdir($this->config->getDataPath() . '/UnitTest');
 
     }
+
+    public function testUsecaseWithoutCompletedFileYieldsEmptyResult(): void
+    {
+        // create
+        mkdir($this->config->getDataPath() . '/UnitTest');
+        touch($this->config->getDataPath() . '/UnitTest/some-request.xt');
+
+        // run
+        $action = new Collectibles($this->config);
+        $result = $action->run();
+
+        // assert
+        $this->assertJson($result);
+        $this->assertEquals([], json_decode($result, JSON_OBJECT_AS_ARRAY));
+
+        // clean
+        unlink($this->config->getDataPath() . '/UnitTest/some-request.xt');
+        rmdir($this->config->getDataPath() . '/UnitTest');
+
+    }
 }
