@@ -104,9 +104,12 @@ class EndTest extends TestCase
         // secure the stuff
         $_GET['usecase'] = 'UnitTest';
         $end = new End($this->config);
-        $end->run();
+        $out = $end->run();
 
         // assert
+        $this->assertJson($out);
+        $this->assertJsonStringEqualsJsonString('{"files": 2}', $out);
+
         $this->assertDirectoryExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt.coverage');
@@ -131,9 +134,12 @@ class EndTest extends TestCase
         // secure the stuff
         $_GET['usecase'] = 'UnitTest2';
         $end = new End($this->config);
-        $end->run();
+        $out = $end->run();
 
         // assert
+        $this->assertJson($out);
+        $this->assertJsonStringEqualsJsonString('{"files": 2}', $out);
+
         $this->assertDirectoryExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt.coverage');
