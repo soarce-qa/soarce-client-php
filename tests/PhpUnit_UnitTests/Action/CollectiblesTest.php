@@ -90,16 +90,11 @@ class CollectiblesTest extends TestCase
 
         // assert
         $this->assertJson($result);
-        $this->assertEquals(
-            [
-                'UnitTest' => [
-                    'some-request.xt',
-                    'some-other-request.xt',
-                ],
-            ],
-            json_decode($result, JSON_OBJECT_AS_ARRAY)
-        );
+        $decoded = json_decode($result, JSON_OBJECT_AS_ARRAY);
 
+        $this->assertArrayHasKey('UnitTest', $decoded);
+        $this->assertCount(2, $decoded['UnitTest']);
+        
         // clean
         unlink($this->config->getDataPath() . '/UnitTest/' . Config::COMPLETED_FILENAME);
         unlink($this->config->getDataPath() . '/UnitTest/some-other-request.xt');
