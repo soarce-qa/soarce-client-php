@@ -11,7 +11,7 @@ class ReadFileTest extends TestCase
 {
     public function tearDown()
     {
-        unset($_GET['usecase']);
+        unset($_GET['filename']);
     }
 
     public function testMissingParamCausesException(): void
@@ -23,23 +23,20 @@ class ReadFileTest extends TestCase
 
         $action->run();
     }
-/*
-    public function testUnauthorizedDirectoryCausesException(): void
+
+    public function testUnreadableFileCausesException(): void
     {
-        if ('root' === $_SERVER['USER']) {
-            $this->markTestSkipped('cannot test if run as root');
-        }
+        $action = new ReadFile(new Config());
 
-        $this->config->setDataPath('/root/.ssh');
-
-        $action = new End($this->config);
+        $_GET['filename'] = '/this/does/not/exist.xt';
 
         $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
+        $this->expectExceptionCode(Exception::FILE_NOT_FOUND);
 
         $action->run();
     }
 
+/*
     public function testMissingUsecaseNameCausesException(): void
     {
         $action = new End($this->config);
