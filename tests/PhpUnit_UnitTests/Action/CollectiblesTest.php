@@ -28,4 +28,13 @@ class CollectiblesTest extends TestCase
         $action = new Collectibles($this->config);
         $action->run();
     }
+
+    public function testEmptyDataDirectoryYieldsEmptyResult(): void
+    {
+        $action = new Collectibles($this->config);
+        $result = $action->run();
+
+        $this->assertJson($result);
+        $this->assertEquals([], json_decode($result, JSON_OBJECT_AS_ARRAY));
+    }
 }

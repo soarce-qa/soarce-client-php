@@ -3,7 +3,6 @@
 namespace Soarce\Action;
 
 use Soarce\Action;
-use Soarce\Config;
 
 class Collectibles extends Action
 {
@@ -16,6 +15,8 @@ class Collectibles extends Action
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_READABLE);
         }
 
-        return '';
+        $data = [];
+
+        return json_encode($data, JSON_PRETTY_PRINT);
     }
 }
