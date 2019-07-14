@@ -28,6 +28,7 @@ class EndTest extends TestCase
     public function tearDown()
     {
         ini_set('xdebug.trace_output_dir', $this->xdebugTraceDirectory);
+        unset($_GET['usecase']);
     }
 
     public function testNonexistantDirectoryCausesException(): void
