@@ -9,6 +9,7 @@ class FrontController
 
     /** @var string() */
     private $actionMap = [
+        'clear'         => Action\Clear::class,
         'collectibles'  => Action\Collectibles::class,
         'end'           => Action\End::class,
         'index'         => Action\Index::class,
