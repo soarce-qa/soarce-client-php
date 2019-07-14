@@ -17,6 +17,6 @@ class Start extends Action
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);
         }
 
-        return '';
+        return json_encode(['status' => 'OK']);
     }
 }

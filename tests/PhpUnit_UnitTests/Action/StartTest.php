@@ -46,7 +46,10 @@ class StartTest extends TestCase
 
         $action = new Start($config);
 
-        $action->run();
+        $return = $action->run();
+
+        $this->assertJson($return);
+        $this->assertEquals(['status' => 'OK'], json_decode($return, JSON_OBJECT_AS_ARRAY));
 
         $this->assertFileExists(__DIR__ . '/../../playground/.SOARCE-gather-stats');
         unlink(__DIR__ . '/../../playground/.SOARCE-gather-stats');
