@@ -91,7 +91,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('/this/is/private/', $config->getDataPath());
     }
 
-    public function testIsTraceActive()
+    public function testIsTraceActive(): void
     {
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../playground/');
