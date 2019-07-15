@@ -9,8 +9,7 @@ if ('' !== $SOARCEoutput) {
     die($SOARCEoutput);
 }
 
-if ((isset($_COOKIE['XDEBUG_TRACE']) || isset($_GET['XDEBUG_TRACE']) || isset($_POST['XDEBUG_TRACE']))
-    && file_exists($SOARCEconfig->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME)) {
+if ($SOARCEconfig->isTracingActive()) {
     /** @noinspection ForgottenDebugOutputInspection */
     /** @noinspection PhpComposerExtensionStubsInspection */
     xdebug_start_code_coverage();

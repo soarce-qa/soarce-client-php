@@ -100,6 +100,5 @@ class CollectiblesTest extends TestCase
         unlink($this->config->getDataPath() . '/UnitTest/some-other-request.xt');
         unlink($this->config->getDataPath() . '/UnitTest/some-request.xt');
         rmdir($this->config->getDataPath() . '/UnitTest');
-
     }
 }
