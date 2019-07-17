@@ -56,7 +56,9 @@ class Config
 
     public function isTracingActive()
     {
-        return (isset($_COOKIE['XDEBUG_TRACE']) || isset($_GET['XDEBUG_TRACE']) || isset($_POST['XDEBUG_TRACE']))
-        && file_exists($this->getDataPath() . DIRECTORY_SEPARATOR . self::TRIGGER_FILENAME);
+        return isset($_COOKIE['XDEBUG_TRACE'])
+            || isset($_GET['XDEBUG_TRACE'])
+            || isset($_POST['XDEBUG_TRACE'])
+            || file_exists($this->getDataPath() . DIRECTORY_SEPARATOR . self::TRIGGER_FILENAME);
     }
 }

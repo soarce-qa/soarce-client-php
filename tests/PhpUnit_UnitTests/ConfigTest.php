@@ -98,12 +98,12 @@ class ConfigTest extends TestCase
         $this->assertFalse($config->isTracingActive());
 
         touch($config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME);
-        $this->assertFalse($config->isTracingActive());
-
-        $_GET['XDEBUG_TRACE'] = 1;
         $this->assertTrue($config->isTracingActive());
 
         unlink($config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME);
         $this->assertFalse($config->isTracingActive());
+
+        $_GET['XDEBUG_TRACE'] = 1;
+        $this->assertTrue($config->isTracingActive());
     }
 }
