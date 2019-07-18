@@ -106,4 +106,13 @@ class ConfigTest extends TestCase
         $_GET['XDEBUG_TRACE'] = 1;
         $this->assertTrue($config->isTracingActive());
     }
+
+    public function testNumberOfPipes(): void
+    {
+        $config = new Config();
+        $this->assertEquals(16, $config->getNumberOfPipes());
+
+        $config->setNumberOfPipes(42);
+        $this->assertEquals(42, $config->getNumberOfPipes());
+    }
 }
