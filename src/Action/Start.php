@@ -13,10 +13,44 @@ class Start extends Action
      */
     public function run(): string
     {
-        if (!is_writable($this->config->getDataPath()) || false === touch($this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME)) {
+        if (!is_dir($this->config->getDataPath()) || !is_writable($this->config->getDataPath())) {
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);
         }
 
+        $this->createPipes();
+        $this->removeKillfile();
+        $this->startWorkerProcess();
+
         return json_encode(['status' => 'OK']);
+    }
+
+    /**
+     *
+     */
+    private function createPipes(): void
+    {
+        for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
+            $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i);
+            exec("mkfifo {$path}");
+        }
+    }
+
+    /**
+     * creates a detached background process
+     */
+    private function startWorkerProcess(): void
+    {
+        exec('php -f ' . __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'worker.php ' . $this->config->getDataPath() . ' >/dev/null 2>/dev/null &');
+    }
+
+    /**
+     *
+     */
+    private function removeKillfile(): void
+    {
+        $file = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::KILL_WORKER_FILENAME;
+        if (file_exists($file)) {
+            unlink($file);
+        }
     }
 }
