@@ -24,18 +24,16 @@ class End extends Action
     }
 
     /**
-     *
+     * @return void
      */
     private function writeKillfile(): void
     {
         $file = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::KILL_WORKER_FILENAME;
-        if (file_exists($file)) {
-            unlink($file);
-        }
+        touch($file);
     }
 
     /**
-     * 
+     * @return void
      */
     private function deletePipes(): void
     {

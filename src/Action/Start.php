@@ -40,7 +40,16 @@ class Start extends Action
      */
     private function startWorkerProcess(): void
     {
-        exec('php -f ' . __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'worker.php ' . $this->config->getDataPath() . ' >/dev/null 2>/dev/null &');
+        exec('php -f '
+            . __DIR__
+            . DIRECTORY_SEPARATOR
+            . '..'
+            . DIRECTORY_SEPARATOR
+            . 'worker.php '
+            . $this->config->getDataPath()
+            . ' '
+            . $this->config->getNumberOfPipes()
+            . ' >/dev/null 2>/dev/null &');
     }
 
     /**
