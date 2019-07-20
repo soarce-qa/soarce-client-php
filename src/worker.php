@@ -51,13 +51,11 @@ while (true) {
         }
 
         // send to service
-        $encodedPayload = json_encode($data, JSON_PRETTY_PRINT);
-
         $opts = [
             'http' => [
                 'method'  => 'POST',
-                'header'  => "Content-Type: application/json",
-                'content' => $encodedPayload,
+                'header'  => 'Content-Type: application/json',
+                'content' => json_encode($data, JSON_PRETTY_PRINT),
             ],
         ];
 
