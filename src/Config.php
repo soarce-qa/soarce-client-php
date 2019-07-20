@@ -10,7 +10,7 @@ class Config
 
     public const COMPLETED_FILENAME   = '.SOARCE-completed';
     public const KILL_WORKER_FILENAME = '.SOARCE-kill-worker';
-    public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d.' . self::SUFFIX_TRACEFILE;
+    public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const LOCK_NAME_TEMPLATE   = 'SOARCE_PIPE_%d.lock';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
     public const SUFFIX_TRACEFILE     = 'xt';

@@ -14,7 +14,7 @@ while (true) {
     }
 
     for ($i = 0; $i < $config->getNumberOfPipes(); $i++) {
-        $file = $config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i);
+        $file = $config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i) . '.' . Config::SUFFIX_TRACEFILE;
         $fp = fopen($file, 'rb');
         $first = fgets($fp);
 

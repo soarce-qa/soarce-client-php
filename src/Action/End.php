@@ -39,7 +39,7 @@ class End extends Action
     private function deletePipes(): void
     {
         for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
-            $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i);
+            $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i) . '.' . Config::SUFFIX_TRACEFILE;
             unlink($path);
         }
     }
