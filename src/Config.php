@@ -7,7 +7,6 @@ class Config
     private const DEFAULT_ACTION_PARAM_NAME = 'SOARCE';
     private const DEFAULT_DATA_PATH         = '/tmp/';
     private const DEFAULT_NUMBER_OF_PIPES   = 16;
-    private const DEFAULT_NUMBER_OF_WORKERS = 1;
 
     public const COMPLETED_FILENAME   = '.SOARCE-completed';
     public const KILL_WORKER_FILENAME = '.SOARCE-kill-worker';

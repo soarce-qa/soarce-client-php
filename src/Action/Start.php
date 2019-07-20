@@ -20,6 +20,7 @@ class Start extends Action
         $this->createPipes();
         $this->removeKillfile();
         $this->startWorkerProcess();
+        $this->createTriggerFile();
 
         return json_encode(['status' => 'OK']);
     }
@@ -61,5 +62,14 @@ class Start extends Action
         if (file_exists($file)) {
             unlink($file);
         }
+    }
+
+    /**
+     *
+     */
+    private function createTriggerFile(): void
+    {
+        $file = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
+        touch($file);
     }
 }

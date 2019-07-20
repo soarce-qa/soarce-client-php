@@ -17,6 +17,7 @@ class End extends Action
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);
         }
 
+        $this->deleteTriggerFile();
         $this->writeKillfile();
         $this->deletePipes();
 
@@ -41,5 +42,14 @@ class End extends Action
             $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i);
             unlink($path);
         }
+    }
+
+    /**
+     * @return void
+     */
+    private function deleteTriggerFile(): void
+    {
+        $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
+        unlink($path);
     }
 }
