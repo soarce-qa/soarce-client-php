@@ -63,7 +63,7 @@ while (true) {
 
         $context = stream_context_create($opts);
 
-        $json = file_get_contents('http://soarce.local:8001/', false, $context);
+        $json = file_get_contents('http://soarce.local/', false, $context);
     }
 
     usleep(100000);
