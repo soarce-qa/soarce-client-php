@@ -15,7 +15,7 @@ if ($SOARCEconfig->isTracingActive()) {
     //@todo figure out the filename to use by evaluating the locks
     $SOARCEpath = $SOARCEconfig->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0);
 
-    $SOARCEfp = fopen($SOARCEpath, 'wb');
+    $SOARCEfp = fopen($SOARCEpath . '.' . Config::SUFFIX_TRACEFILE, 'wb');
     fwrite($SOARCEfp, json_encode([
         'type' => 'trace',
         'request_time' => microtime(true),
