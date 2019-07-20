@@ -51,12 +51,12 @@ while (true) {
         }
 
         // send to service
-        $encodedPayload = http_build_query(['data' => $data]);
+        $encodedPayload = json_encode($data, JSON_PRETTY_PRINT);
 
         $opts = [
             'http' => [
                 'method'  => 'POST',
-                'header'  => "Content-Type: application/x-www-form-urlencoded",
+                'header'  => "Content-Type: application/json",
                 'content' => $encodedPayload,
             ],
         ];
