@@ -42,14 +42,16 @@ if ($SOARCEconfig->isTracingActive()) {
     register_shutdown_function(static function () use ($SOARCEpath) {
         /** @noinspection ForgottenDebugOutputInspection */
         /** @noinspection PhpComposerExtensionStubsInspection */
+        $coverage = xdebug_get_code_coverage();
+
+        /** @noinspection ForgottenDebugOutputInspection */
+        /** @noinspection PhpComposerExtensionStubsInspection */
         xdebug_stop_trace();
 
         usleep(10000);
 
         $outfile = $SOARCEpath . '.' . Config::SUFFIX_TRACEFILE;
 
-        /** @noinspection ForgottenDebugOutputInspection */
-        /** @noinspection PhpComposerExtensionStubsInspection */
         file_put_contents($outfile, json_encode([
                 'type' => 'coverage',
                 'request_time' => microtime(true),
@@ -58,7 +60,7 @@ if ($SOARCEconfig->isTracingActive()) {
                 'post' => $_POST,
                 'server' => $_SERVER,
                 'env' => $_ENV,
-            ]) . "\n" . json_encode(xdebug_get_code_coverage())
+            ]) . "\n" . serialize($coverage)
         );
     });
 }
