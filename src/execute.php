@@ -23,7 +23,6 @@ define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request
 if ($config->isTracingActive()) {
     $pipeHandler = new Handler($config);
     $tracePipe = $pipeHandler->getFreePipe();
-    $coveragePipe = $pipeHandler->getFreePipe();
     $requestTime = microtime(true);
 
     $fpTracefile = fopen($tracePipe->getFilenameTracefile(), 'wb');
@@ -44,11 +43,11 @@ if ($config->isTracingActive()) {
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-    register_shutdown_function(static function () use ($coveragePipe, $requestTime){
+    register_shutdown_function(static function () use ($requestTime){
         xdebug_stop_trace();
 
-        $fp = fopen($coveragePipe->getFilenameTracefile(), 'wb');
-        fwrite($fp, json_encode([
+        $data = [
+            'header' => [
                 'type' => 'coverage',
                 'request_time' => $requestTime,
                 'request_id' => SOARCE_REQUEST_ID,
@@ -56,8 +55,21 @@ if ($config->isTracingActive()) {
                 'post' => $_POST,
                 'server' => $_SERVER,
                 'env' => $_ENV,
-            ]) . "\n");
-        fwrite($fp, json_encode(xdebug_get_code_coverage()) . "\n");
-        fclose($fp);
+            ],
+            'payload' => xdebug_get_code_coverage(),
+        ];
+
+        // send to service
+        $opts = [
+            'http' => [
+                'method'  => 'POST',
+                'header'  => 'Content-Type: application/json',
+                'content' => json_encode($data, JSON_PRETTY_PRINT),
+            ],
+        ];
+
+        $context = stream_context_create($opts);
+
+        file_get_contents('http://soarce.local/receive', false, $context);
     });
 }

@@ -39,22 +39,18 @@ while (true) {
         'payload' => [],
     ];
 
-    if ('trace' === $temp['type']) {
-        $parsedData = [];
-        while (false !== ($line = fgets($fp))) {
-            $out = [];
-            if (preg_match('/^[\d]+\t[\d]+\t[\d]+\t[\d\.]+[\d]+\t[\d]+\t([^\t]+)\t(0|1)\t[^\t]{0,}\t([^\t]+)\t.*/', $line, $out)) {
-                if (!isset($parsedData[$out[3]])) {
-                    $parsedData[$out[3]] = [];
-                }
-
-                $parsedData[$out[3]][$out[1]] = $out[2];
+    $parsedData = [];
+    while (false !== ($line = fgets($fp))) {
+        $out = [];
+        if (preg_match('/^[\d]+\t[\d]+\t[\d]+\t[\d\.]+[\d]+\t[\d]+\t([^\t]+)\t(0|1)\t[^\t]{0,}\t([^\t]+)\t.*/', $line, $out)) {
+            if (!isset($parsedData[$out[3]])) {
+                $parsedData[$out[3]] = [];
             }
+
+            $parsedData[$out[3]][$out[1]] = $out[2];
         }
-        $data['payload'] = $parsedData;
-    } elseif('coverage' === $temp['type']) {
-        $data['payload'] = json_decode(stream_get_contents($fp), JSON_OBJECT_AS_ARRAY);
     }
+    $data['payload'] = $parsedData;
 
     // send to service
     $opts = [
