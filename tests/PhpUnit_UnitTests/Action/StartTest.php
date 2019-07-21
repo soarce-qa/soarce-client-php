@@ -60,7 +60,5 @@ class StartTest extends TestCase
 
         unlink($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0));
         unlink($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1));
-
-        touch($config->getDataPath() . DIRECTORY_SEPARATOR . Config::KILL_WORKER_FILENAME);
     }
 }

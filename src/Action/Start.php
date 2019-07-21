@@ -4,6 +4,7 @@ namespace Soarce\Action;
 
 use Soarce\Action;
 use Soarce\Config;
+use Soarce\Pipe\Handler;
 
 class Start extends Action
 {
@@ -18,6 +19,7 @@ class Start extends Action
         }
 
         $this->createPipes();
+        usleep(10000);
         $this->startWorkerProcess();
         $this->createTriggerFile();
 
@@ -29,9 +31,9 @@ class Start extends Action
      */
     private function createPipes(): void
     {
-        for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
-            $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i) . '.' . Config::SUFFIX_TRACEFILE;
-            exec("mkfifo {$path}");
+        $pipeHandler = new Handler($this->config);
+        foreach ($pipeHandler->getAllPipes() as $pipe) {
+            exec("mkfifo {$pipe->getFilenameTracefile()}");
         }
     }
 

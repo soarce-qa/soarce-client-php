@@ -1,8 +1,11 @@
 <?php
 
+namespace SoarceRuntime;
+
 define('SOARCE_SKIP_EXECUTE', true);
 
 use Soarce\Config;
+use Soarce\Pipe;
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
@@ -13,11 +16,15 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 $config = new Config();
 $config->setDataPath($argv[1]);
 
-while (true) {
-    usleep(random_int(90000, 110000));
+$pipe = new Pipe($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $argv[2]));
 
-    $file = $config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $argv[2]) . '.' . Config::SUFFIX_TRACEFILE;
-    $fp = fopen($file, 'rb');
+while (true) {
+    if (! file_exists($pipe->getFilenameLock())) {
+        usleep(random_int(90000, 110000));
+        continue;
+    }
+
+    $fp = fopen($pipe->getFilenameTracefile(), 'rb');
     $first = fgets($fp);
     if (false === $first) {
         continue;
@@ -55,7 +62,7 @@ while (true) {
     $opts = [
         'http' => [
             'method'  => 'POST',
-            'header'  => "Content-Type: application/json",
+            'header'  => 'Content-Type: application/json',
             'content' => json_encode($data, JSON_PRETTY_PRINT),
         ],
     ];

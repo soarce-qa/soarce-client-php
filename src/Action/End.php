@@ -4,6 +4,7 @@ namespace Soarce\Action;
 
 use Soarce\Action;
 use Soarce\Config;
+use Soarce\Pipe\Handler;
 
 class End extends Action
 {
@@ -29,9 +30,15 @@ class End extends Action
      */
     private function deletePipes(): void
     {
-        for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
-            $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i) . '.' . Config::SUFFIX_TRACEFILE;
-            unlink($path);
+        $pipeHandler = new Handler($this->config);
+        foreach ($pipeHandler->getAllPipes() as $pipe) {
+            if (file_exists($pipe->getFilenameTracefile())) {
+                unlink($pipe->getFilenameTracefile());
+            }
+
+            if (file_exists($pipe->getFilenameLock())) {
+                unlink($pipe->getFilenameLock());
+            }
         }
     }
 
@@ -41,7 +48,9 @@ class End extends Action
     private function deleteTriggerFile(): void
     {
         $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
-        unlink($path);
+        if (file_exists($path)) {
+            unlink($path);
+        }
     }
 
     /**
@@ -58,5 +67,6 @@ class End extends Action
 
         $pid = file_get_contents($pidFile);
         exec('kill -9 ' . $pid);
+        unlink($pidFile);
     }
 }

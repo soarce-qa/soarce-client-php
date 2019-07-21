@@ -1,5 +1,7 @@
 <?php
 
+namespace SoarceRuntime;
+
 define('SOARCE_SKIP_EXECUTE', true);
 
 use FastBill\ParallelProcessDispatcher\Dispatcher;
@@ -19,7 +21,7 @@ $config->setNumberOfPipes($argv[2]);
 $dispatcher = new Dispatcher($config->getNumberOfPipes());
 
 for ($i = 0; $i < $config->getNumberOfPipes(); $i++) {
-    $process = new Process('php -f worker.php ' . $config->getDataPath() . ' ' . $i);
+    $process = new Process('php -f ' . __DIR__ . '/worker.php ' . $config->getDataPath() . ' ' . $i);
     $dispatcher->addProcess($process, true);
 }
 

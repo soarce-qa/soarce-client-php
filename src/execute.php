@@ -1,30 +1,31 @@
 <?php
+/** @noinspection PhpComposerExtensionStubsInspection */
+/** @noinspection ForgottenDebugOutputInspection */
+
+namespace SoarceRuntime;
 
 if (defined('SOARCE_SKIP_EXECUTE')) {
     return;
 }
 
-/** @noinspection ForgottenDebugOutputInspection */
-/** @noinspection PhpComposerExtensionStubsInspection */
-
 use Soarce\Config;
 use Soarce\FrontController;
+use Soarce\Pipe\Handler;
 
-$SOARCEconfig = new Config();
-$SOARCEoutput = (new FrontController($SOARCEconfig))->run();
-if ('' !== $SOARCEoutput) {
-    die($SOARCEoutput);
+$config = new Config();
+$output = (new FrontController($config))->run();
+if ('' !== $output) {
+    die($output);
 }
 
-define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16)));
+define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
 
-if ($SOARCEconfig->isTracingActive()) {
-    //@todo figure out the filename to use by evaluating the locks
-    $SOARCEpath  = $SOARCEconfig->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0);
-    $SOARCEpath2 = $SOARCEconfig->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1);
+if ($config->isTracingActive()) {
+    $pipeHandler = new Handler($config);
+    $tracePipe = $pipeHandler->getFreePipe();
 
-    $SOARCEfp = fopen($SOARCEpath . '.' . Config::SUFFIX_TRACEFILE, 'wb');
-    fwrite($SOARCEfp, json_encode([
+    $fpTracefile = fopen($tracePipe->getFilenameTracefile(), 'wb');
+    fwrite($fpTracefile, json_encode([
             'type' => 'trace',
             'request_time' => microtime(true),
             'request_id' => SOARCE_REQUEST_ID,
@@ -37,16 +38,16 @@ if ($SOARCEconfig->isTracingActive()) {
     xdebug_start_code_coverage();
 
     xdebug_start_trace(
-        $SOARCEpath,
+        $tracePipe->getBasepath(),
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-    register_shutdown_function(static function () use ($SOARCEpath2) {
+    register_shutdown_function(static function () use ($pipeHandler){
         xdebug_stop_trace();
 
-        $outfile = $SOARCEpath2 . '.' . Config::SUFFIX_TRACEFILE;
+        $coveragePipe = $pipeHandler->getFreePipe();
 
-        file_put_contents($outfile, json_encode([
+        file_put_contents($coveragePipe->getFilenameTracefile(), json_encode([
                 'type' => 'coverage',
                 'request_time' => microtime(true),
                 'request_id' => SOARCE_REQUEST_ID,
