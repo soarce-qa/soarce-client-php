@@ -30,10 +30,17 @@ class Handler
         for ($tries = 0; $tries < 20; $tries++) {
             foreach ($this->getAllPipes() as $pipe) {
                 if (file_exists($pipe->getFilenameLock())) {
+                    $fp = fopen($pipe->getFilenameLock(), 'wb');
+                    if (flock($fp, LOCK_EX | LOCK_NB)) {
+                        fwrite($fp, getmypid());
+                        return $pipe;
+                    }
                     continue;
                 }
 
-                touch ($pipe->getFilenameLock());
+                $fp = fopen($pipe->getFilenameLock(), 'wb');
+                flock($fp, LOCK_EX);
+                fwrite($fp, getmypid());
                 return $pipe;
             }
             usleep(10000);
