@@ -4,7 +4,6 @@ namespace UnitTests;
 
 use PHPUnit\Framework\TestCase;
 use Soarce\Config;
-use Soarce\FrontController;
 
 class ConfigTest extends TestCase
 {
