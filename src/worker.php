@@ -18,6 +18,9 @@ $config->setDataPath($argv[1]);
 
 $pipe = new Pipe($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $argv[2]));
 
+$pidfile = $config->getDataPath() . DIRECTORY_SEPARATOR . 'worker-' . $argv[2] . '.pid';
+file_put_contents($pidfile, getmypid());
+
 while (true) {
     if (! file_exists($pipe->getFilenameLock())) {
         usleep(random_int(90000, 110000));
@@ -71,3 +74,5 @@ while (true) {
 
     file_get_contents('http://soarce.local/receive', false, $context);
 }
+
+unlink ($pidfile);

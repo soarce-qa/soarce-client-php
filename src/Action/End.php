@@ -19,8 +19,8 @@ class End extends Action
         }
 
         $this->deleteTriggerFile();
-        $this->deletePipes();
         $this->killWorker();
+        $this->deletePipes();
 
         return json_encode(['status' => 'ok']);
     }
@@ -61,12 +61,19 @@ class End extends Action
     private function killWorker(): void
     {
         $pidFile = $this->config->getDataPath() . DIRECTORY_SEPARATOR . 'worker.pid';
-        if (!file_exists($pidFile)) {
-            return;
+        if (file_exists($pidFile)) {
+            $pid = file_get_contents($pidFile);
+            exec('kill -9 ' . $pid);
+            unlink($pidFile);
         }
 
-        $pid = file_get_contents($pidFile);
-        exec('kill -9 ' . $pid);
-        unlink($pidFile);
+        for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
+            $pidFile = $this->config->getDataPath() . DIRECTORY_SEPARATOR . 'worker-' . $i . '.pid';
+            if (file_exists($pidFile)) {
+                $pid = file_get_contents($pidFile);
+                exec('kill -9 ' . $pid);
+                unlink($pidFile);
+            }
+        }
     }
 }
