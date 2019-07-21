@@ -4,63 +4,13 @@ namespace Soarce\Action;
 
 use Soarce\Action;
 use Soarce\Config;
+use Soarce\Pipe\Handler;
+use Soarce\RedisMutex;
 
 class End extends Action
 {
-    /**
-     * creates the usecase's directory, if it exists, it is cleared out
-     *
-     * @param  string $name
-     * @return string
-     * @throws Exception
-     */
-    private function createSubdir($name): string
-    {
-        $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . $this->filterUsecase($name);
-        if (!is_dir($path)) {
-            if (!mkdir($path) && !is_dir($path)) {
-                throw new Exception(sprintf('Directory "%s" was not created', $path));
-            }
-        } else {
-            $dirIter = new \DirectoryIterator($path);
-            foreach ($dirIter as $file) {
-                if ($file->isFile()) {
-                    unlink($file->getRealPath());
-                }
-            }
-        }
-        return $path;
-    }
-
-    /**
-     * @param  string $fullPathDestination
-     * @throws Exception
-     * @return int
-     */
-    private function moveFiles($fullPathDestination): int
-    {
-        // traces
-        $traceFileDirectory = trim(ini_get('xdebug.trace_output_dir'));
-        if ('' === $traceFileDirectory || '/' === $traceFileDirectory || !is_readable($traceFileDirectory)) {
-            throw new Exception('Tracefile Directory does not exist or is not readable.', Exception::TRACEFILE_DIRECTORY_NOT_READABLE);
-        }
-
-        $count = 0;
-        $dirIter = new \DirectoryIterator($traceFileDirectory);
-        foreach ($dirIter as $file) {
-            if ($file->isDir() || ($file->getExtension() !== Config::SUFFIX_TRACEFILE && $file->getExtension() !== Config::SUFFIX_COVERAGEFILE)) {
-                continue;
-            }
-
-            rename(
-                $file->getRealPath(),
-                $fullPathDestination . DIRECTORY_SEPARATOR . $file->getFilename()
-            );
-            ++$count;
-        }
-
-        return $count;
-    }
+    /** @var RedisMutex */
+    private $redisMutex;
 
     /**
      * @return string
@@ -68,19 +18,77 @@ class End extends Action
      */
     public function run(): string
     {
+        $this->redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME'], $this->config->getNumberOfPipes());
+
         if (!is_writable($this->config->getDataPath())) {
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);
         }
 
-        if (!isset($_GET['usecase']) || '' === trim($_GET['usecase']) || '' === $this->filterUsecase($_GET['usecase'])) {
-            throw new Exception('name of usecase is missing from request', Exception::NAME_OF_USECASE_MISSING_IN_REQUEST);
+        $this->deleteTriggerFile();
+        $this->killWorker();
+        $this->deletePipes();
+        $this->cleanRedisMutex();
+
+        return json_encode(['status' => 'ok']);
+    }
+
+    /**
+     *
+     */
+    private function cleanRedisMutex(): void
+    {
+        $this->redisMutex->clean();
+    }
+
+    /**
+     * @return void
+     */
+    private function deletePipes(): void
+    {
+        $pipeHandler = new Handler($this->config, $this->redisMutex);
+        foreach ($pipeHandler->getAllPipes() as $pipe) {
+            if (file_exists($pipe->getFilenameTracefile())) {
+                unlink($pipe->getFilenameTracefile());
+            }
+
+            if (file_exists($pipe->getFilenameLock())) {
+                unlink($pipe->getFilenameLock());
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    private function deleteTriggerFile(): void
+    {
+        $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
+        if (file_exists($path)) {
+            unlink($path);
+        }
+    }
+
+    /**
+     * Kills the worker hard
+     *
+     * @return void
+     */
+    private function killWorker(): void
+    {
+        $pidFile = $this->config->getDataPath() . DIRECTORY_SEPARATOR . 'worker.pid';
+        if (file_exists($pidFile)) {
+            $pid = file_get_contents($pidFile);
+            exec('kill -9 ' . $pid);
+            unlink($pidFile);
         }
 
-        $fullPath = $this->createSubdir($_GET['usecase']);
-        $count = $this->moveFiles($fullPath);
-        touch($fullPath . DIRECTORY_SEPARATOR . Config::COMPLETED_FILENAME);
-        unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME);
-
-        return json_encode(['files' => $count]);
+        for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
+            $pidFile = $this->config->getDataPath() . DIRECTORY_SEPARATOR . 'worker-' . $i . '.pid';
+            if (file_exists($pidFile)) {
+                $pid = file_get_contents($pidFile);
+                exec('kill -9 ' . $pid);
+                unlink($pidFile);
+            }
+        }
     }
 }

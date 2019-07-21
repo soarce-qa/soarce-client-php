@@ -43,6 +43,7 @@ class StartTest extends TestCase
     {
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../../playground/');
+        $config->setNumberOfPipes(2);
 
         $action = new Start($config);
 
@@ -51,7 +52,13 @@ class StartTest extends TestCase
         $this->assertJson($return);
         $this->assertEquals(['status' => 'OK'], json_decode($return, JSON_OBJECT_AS_ARRAY));
 
-        $this->assertFileExists(__DIR__ . '/../../playground/.SOARCE-gather-stats');
-        unlink(__DIR__ . '/../../playground/.SOARCE-gather-stats');
+        $this->assertFileExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0));
+        $this->assertFileExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1));
+        $this->assertFileNotExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 2));
+
+        $this->assertEquals(3, exec('ps aux | grep worker.php | wc -l'));
+
+        unlink($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0));
+        unlink($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1));
     }
 }
