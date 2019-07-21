@@ -7,10 +7,12 @@ class Pipe
     /** @var string */
     private $basePath;
 
+    /** @var callable */
+    private $releaseFunction;
     /**
      * Pipe constructor.
      *
-     * @param string $basePath
+     * @param string   $basePath
      */
     public function __construct($basePath)
     {
@@ -42,12 +44,20 @@ class Pipe
     }
 
     /**
-     * delete lock file on script end
+     * @param callable $function
+     */
+    public function registerReleaseFunction(callable $function): void
+    {
+        $this->releaseFunction = $function;
+    }
+
+    /**
+     * release redis lock
      */
     public function __destruct()
     {
-        if (file_exists($this->getFilenameLock())) {
-            unlink ($this->getFilenameLock());
+        if (null !== $this->releaseFunction) {
+            call_user_func($this->releaseFunction);
         }
     }
 }

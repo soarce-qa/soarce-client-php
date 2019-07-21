@@ -5,20 +5,26 @@ namespace Soarce\Pipe;
 use Soarce\Config;
 use Soarce\Exception;
 use Soarce\Pipe;
+use Soarce\RedisMutex;
 
 class Handler
 {
     /** @var Config */
     private $config;
 
+    /** @var RedisMutex */
+    private $redisMutex;
+
     /**
      * Handler constructor.
      *
-     * @param Config $config
+     * @param Config     $config
+     * @param RedisMutex $redisMutex
      */
-    public function __construct(Config $config)
+    public function __construct(Config $config, RedisMutex $redisMutex)
     {
         $this->config = $config;
+        $this->redisMutex = $redisMutex;
     }
 
     /**
@@ -27,23 +33,11 @@ class Handler
      */
     public function getFreePipe(): Pipe
     {
-        for ($tries = 0; $tries < 20; $tries++) {
-            foreach ($this->getAllPipes() as $pipe) {
-                if (file_exists($pipe->getFilenameLock())) {
-                    $fp = fopen($pipe->getFilenameLock(), 'wb');
-                    if (flock($fp, LOCK_EX | LOCK_NB)) {
-                        fwrite($fp, getmypid());
-                        return $pipe;
-                    }
-                    continue;
-                }
-
-                $fp = fopen($pipe->getFilenameLock(), 'wb');
-                flock($fp, LOCK_EX);
-                fwrite($fp, getmypid());
-                return $pipe;
+        for ($tries = 0; $tries < 5; $tries++) {
+            $id = $this->redisMutex->obtainLock();
+            if ($id >= 0 && $id < $this->config->getNumberOfPipes()) {
+                return $this->getAllPipes()[$id];
             }
-            usleep(10000);
         }
         throw new Exception('cannot find unused pipe');
     }

@@ -5,15 +5,21 @@ namespace Soarce\Action;
 use Soarce\Action;
 use Soarce\Config;
 use Soarce\Pipe\Handler;
+use Soarce\RedisMutex;
 
 class End extends Action
 {
+    /** @var RedisMutex */
+    private $redisMutex;
+
     /**
      * @return string
      * @throws Exception
      */
     public function run(): string
     {
+        $this->redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME'], $this->config->getNumberOfPipes());
+
         if (!is_writable($this->config->getDataPath())) {
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);
         }
@@ -21,8 +27,17 @@ class End extends Action
         $this->deleteTriggerFile();
         $this->killWorker();
         $this->deletePipes();
+        $this->cleanRedisMutex();
 
         return json_encode(['status' => 'ok']);
+    }
+
+    /**
+     *
+     */
+    private function cleanRedisMutex(): void
+    {
+        $this->redisMutex->clean();
     }
 
     /**
@@ -30,7 +45,7 @@ class End extends Action
      */
     private function deletePipes(): void
     {
-        $pipeHandler = new Handler($this->config);
+        $pipeHandler = new Handler($this->config, $this->redisMutex);
         foreach ($pipeHandler->getAllPipes() as $pipe) {
             if (file_exists($pipe->getFilenameTracefile())) {
                 unlink($pipe->getFilenameTracefile());

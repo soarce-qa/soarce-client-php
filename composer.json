@@ -27,7 +27,8 @@
   "require": {
     "php": ">=7.1,<8.0-DEV",
     "ext-json": "*",
-    "fastbill/parallel-process-dispatcher": "^1.2.1"
+    "fastbill/parallel-process-dispatcher": "^1.2.1",
+    "predis/predis": "^1.1"
   },
   "autoload": {
     "files": ["src/execute.php"],

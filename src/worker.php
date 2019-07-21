@@ -6,6 +6,7 @@ define('SOARCE_SKIP_EXECUTE', true);
 
 use Soarce\Config;
 use Soarce\Pipe;
+use Soarce\RedisMutex;
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
@@ -16,9 +17,12 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 $config = new Config();
 $config->setDataPath($argv[1]);
 
-$pipe = new Pipe($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $argv[2]));
+$id = $argv[2];
+$redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME']);
 
-$pidfile = $config->getDataPath() . DIRECTORY_SEPARATOR . 'worker-' . $argv[2] . '.pid';
+$pipe = new Pipe($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $id));
+
+$pidfile = $config->getDataPath() . DIRECTORY_SEPARATOR . 'worker-' . $id . '.pid';
 file_put_contents($pidfile, getmypid());
 
 while (true) {
@@ -64,6 +68,8 @@ while (true) {
     $context = stream_context_create($opts);
 
     file_get_contents('http://soarce.local/receive', false, $context);
+
+    $redisMutex->releaseLock($id);
 }
 
 unlink ($pidfile);

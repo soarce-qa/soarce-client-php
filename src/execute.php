@@ -11,6 +11,7 @@ if (defined('SOARCE_SKIP_EXECUTE')) {
 use Soarce\Config;
 use Soarce\FrontController;
 use Soarce\Pipe\Handler;
+use Soarce\RedisMutex;
 
 $config = new Config();
 $output = (new FrontController($config))->run();
@@ -21,7 +22,8 @@ if ('' !== $output) {
 define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
 
 if ($config->isTracingActive()) {
-    $pipeHandler = new Handler($config);
+    $redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME'], $config->getNumberOfPipes());
+    $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
     $requestTime = microtime(true);
 
