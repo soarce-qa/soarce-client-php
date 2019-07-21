@@ -1,6 +1,6 @@
 # soarce/client
 
-## Version: 0.0.3
+## Version: 0.2.0
 
 ## Overview
 
@@ -41,17 +41,50 @@ included in the "required" section as it would disallow composer-runs without it
 * string `SOARCE_ACTION_PARAM_NAME` = "SOARCE": names the SOARCE interceptor param name. Use something long and
 random to obfuscate an active SOARCE client if necessary and/or to solve parameter name conflicts with your
 application. It has to match the main application's parameter name setting.
-* string `SOARCE_DATA_PATH` = "/tmp/": any writable location on your server. Coverage and trace data will be
-temporarily written to the location. If you host multiple services from the same host or container, make sure
-they use different `SOARCE_DATA_PATH`s.
+* string `SOARCE_DATA_PATH` = "/tmp/": any writable location on your server / in your container. Named pipes, 
+trigger and pid-files will be written there. If you host multiple services from the same host or container,
+make sure they use different `SOARCE_DATA_PATH`s. Coverage is sent directly to the master application,
+trace is written to the named pipes, parsed in memory and the result then sent to the master.
 
 ### X-Debug
 ```
 xdebug.auto_trace = 0
 xdebug.trace_format = 1
-xdebug.trace_enable_trigger = 1
-xdebug.trace_output_name = "trace.%u-%R"
+xdebug.trace_enable_trigger = 0
 ```
+
+This is counterintuitive. SOARCE triggers coverage and tracing itself.
+
+### docker-compose
+
+Currently the client expects a few preconditions at static hostnames/addresses - we plan to add configuration
+options later:
+* the main application will be expected at the address "http://soarce.local:80/"
+* the redis server (for reliable mutex locking of the pipes) at "tcp://soarce.local:6379"
+* clone the application [soarce/application](https://gitlab.home.segnitz.net/soarce/application) and run
+  `docker-compose up` for it, it will create and run the necessary services within a virtual network.
+* make sure that the containers you install this package to can access the aforementioned services. This can be
+  achieved for example by running them with docker-compose and putting them into the same virtual network:
+  * for your application container (e.g. php-fpm or apache + mod_php) add a new network to the current one so it
+    looks for example like this:
+    ```
+    services:
+      my-app:
+        build: [...]
+        volumes: [...]
+        links: [...]
+        networks:
+          default:
+            aliases:
+              - my-app.local
+          soarce_default:
+    ```
+  * define the network `soarce_default` as an external network by adding this to the end of your docker-compose.yml:
+    ```
+    networks:
+      soarce_default:
+        external: true
+    ```
 
 ## Debug Interface
 
@@ -63,13 +96,6 @@ Just call the index page of your application - e.g. `/` or `/index.php` and add 
 * Currently, nothing prevents anybody from accessing the SOARCE functionality apart from parameter obfuscation,
 see roadmap for planned countermeasures.
 * Component requires xdebug to be active 
-
-### Performance
-Expect your test suite to run a bit slower than before and/or use more of resources. How much strongly
-depends on the software you're testing.
-* component needs xdebug to be active which will impact performance by itself
-* generating coverage is write-heavy
-* collecting data and storing it is heavy on network (usually between local containers) and also CPU
 
 ### Separating Requests
 We plan to group requests which are passed on further to subsequent services by the topmost request
