@@ -38,7 +38,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "UnitTests\\": "tests/"
+      "UnitTests\\": "tests/PhpUnit_UnitTests/"
     }
   },
   "require-dev": {

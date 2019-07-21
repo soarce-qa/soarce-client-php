@@ -30,7 +30,7 @@ class Start extends Action
         $this->startWorkerProcess();
         $this->createTriggerFile();
 
-        return json_encode(['status' => 'OK']);
+        return json_encode(['status' => 'ok']);
     }
 
     /**

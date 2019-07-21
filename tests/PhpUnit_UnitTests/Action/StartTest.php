@@ -41,6 +41,8 @@ class StartTest extends TestCase
 
     public function testSuccessfulWrite(): void
     {
+        $this->markTestIncomplete('we have to treat lightly around starting processes!');
+
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../../playground/');
         $config->setNumberOfPipes(2);

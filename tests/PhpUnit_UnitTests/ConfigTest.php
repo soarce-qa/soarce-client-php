@@ -110,7 +110,7 @@ class ConfigTest extends TestCase
     public function testNumberOfPipes(): void
     {
         $config = new Config();
-        $this->assertEquals(16, $config->getNumberOfPipes());
+        $this->assertEquals(10, $config->getNumberOfPipes());
 
         $config->setNumberOfPipes(42);
         $this->assertEquals(42, $config->getNumberOfPipes());

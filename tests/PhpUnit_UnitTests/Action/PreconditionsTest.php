@@ -18,6 +18,7 @@ class PreconditionsTest extends TestCase
 
         $this->assertJson($return);
         $decoded = json_decode($return, JSON_OBJECT_AS_ARRAY);
+        unset($decoded['debug']);
 
         $this->assertEquals(
             [
