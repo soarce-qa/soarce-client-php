@@ -1,5 +1,9 @@
 <?php
 
+if (defined('SOARCE_SKIP_EXECUTE')) {
+    return;
+}
+
 /** @noinspection ForgottenDebugOutputInspection */
 /** @noinspection PhpComposerExtensionStubsInspection */
 

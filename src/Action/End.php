@@ -18,19 +18,10 @@ class End extends Action
         }
 
         $this->deleteTriggerFile();
-        $this->writeKillfile();
         $this->deletePipes();
+        $this->killWorker();
 
         return json_encode(['status' => 'ok']);
-    }
-
-    /**
-     * @return void
-     */
-    private function writeKillfile(): void
-    {
-        $file = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::KILL_WORKER_FILENAME;
-        touch($file);
     }
 
     /**
@@ -51,5 +42,21 @@ class End extends Action
     {
         $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
         unlink($path);
+    }
+
+    /**
+     * Kills the worker hard
+     *
+     * @return void
+     */
+    private function killWorker(): void
+    {
+        $pidFile = $this->config->getDataPath() . DIRECTORY_SEPARATOR . 'worker.pid';
+        if (!file_exists($pidFile)) {
+            return;
+        }
+
+        $pid = file_get_contents($pidFile);
+        exec('kill -9 ' . $pid);
     }
 }

@@ -18,7 +18,6 @@ class Start extends Action
         }
 
         $this->createPipes();
-        $this->removeKillfile();
         $this->startWorkerProcess();
         $this->createTriggerFile();
 
@@ -46,22 +45,11 @@ class Start extends Action
             . DIRECTORY_SEPARATOR
             . '..'
             . DIRECTORY_SEPARATOR
-            . 'worker.php '
+            . 'workerMaster.php '
             . $this->config->getDataPath()
             . ' '
             . $this->config->getNumberOfPipes()
             . ' >/dev/null 2>/dev/null &');
-    }
-
-    /**
-     *
-     */
-    private function removeKillfile(): void
-    {
-        $file = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::KILL_WORKER_FILENAME;
-        if (file_exists($file)) {
-            unlink($file);
-        }
     }
 
     /**
