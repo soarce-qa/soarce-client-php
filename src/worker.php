@@ -22,11 +22,6 @@ $pidfile = $config->getDataPath() . DIRECTORY_SEPARATOR . 'worker-' . $argv[2] .
 file_put_contents($pidfile, getmypid());
 
 while (true) {
-    if (! file_exists($pipe->getFilenameLock())) {
-        usleep(random_int(90000, 110000));
-        continue;
-    }
-
     $fp = fopen($pipe->getFilenameTracefile(), 'rb');
     $first = fgets($fp);
     if (false === $first) {
