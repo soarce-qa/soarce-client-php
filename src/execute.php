@@ -25,18 +25,19 @@ if ($config->isTracingActive()) {
     $redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME'], $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
-    $requestTime = microtime(true);
+    $header = [
+        'type' => 'trace',
+        'host' => $_SERVER['HOSTNAME'],   //TODO read via config -- this is currently the docker container or worse the name of a shared(!) server
+        'request_time' => microtime(true),
+        'request_id' => SOARCE_REQUEST_ID,
+        'get'  => $_GET,
+        'post' => $_POST,
+        'server' => $_SERVER,
+        'env' => $_ENV,
+    ];
 
     $fpTracefile = fopen($tracePipe->getFilenameTracefile(), 'wb');
-    fwrite($fpTracefile, json_encode([
-            'type' => 'trace',
-            'request_time' => $requestTime,
-            'request_id' => SOARCE_REQUEST_ID,
-            'get'  => $_GET,
-            'post' => $_POST,
-            'server' => $_SERVER,
-            'env' => $_ENV,
-        ]) . "\n");
+    fwrite($fpTracefile, json_encode($header) . "\n");
 
     xdebug_start_code_coverage();
 
@@ -45,19 +46,11 @@ if ($config->isTracingActive()) {
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-    register_shutdown_function(static function () use ($requestTime){
+    register_shutdown_function(static function () use ($header){
         xdebug_stop_trace();
 
         $data = [
-            'header' => [
-                'type' => 'coverage',
-                'request_time' => $requestTime,
-                'request_id' => SOARCE_REQUEST_ID,
-                'get'  => $_GET,
-                'post' => $_POST,
-                'server' => $_SERVER,
-                'env' => $_ENV,
-            ],
+            'header' => $header,
             'payload' => xdebug_get_code_coverage(),
         ];
 
