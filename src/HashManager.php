@@ -53,6 +53,10 @@ class HashManager
      */
     public function getMd5ForFile($filepath): string
     {
+        if (strpos($filepath, "eval()'d code") !== false) {
+            return '';
+        }
+
         if (!isset($this->store[$filepath])) {
             $md5 = md5_file($filepath);
             $this->new[$filepath] = $md5;
