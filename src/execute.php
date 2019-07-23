@@ -49,6 +49,8 @@ if ($config->isTracingActive()) {
     register_shutdown_function(static function () use ($header){
         xdebug_stop_trace();
 
+        $header['type'] = 'coverage';
+
         $data = [
             'header' => $header,
             'payload' => xdebug_get_code_coverage(),
