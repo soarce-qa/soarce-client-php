@@ -16,10 +16,10 @@ class HashManager
     private $applicationName;
 
     /** @var string[] */
-    private $store;
+    private $store = [];
 
     /** @var string[] */
-    private $new;
+    private $new = [];
 
     /**
      * HashManager constructor.
