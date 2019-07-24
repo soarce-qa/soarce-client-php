@@ -10,6 +10,7 @@ if (defined('SOARCE_SKIP_EXECUTE')) {
 
 use Soarce\Config;
 use Soarce\FrontController;
+use Soarce\HashManager;
 use Soarce\Pipe\Handler;
 use Soarce\RedisMutex;
 
@@ -56,6 +57,11 @@ if ($config->isTracingActive()) {
             'payload' => xdebug_get_code_coverage(),
         ];
 
+        $hashManager = new HashManager($_SERVER['HOSTNAME']);
+        $hashManager->load();
+        $md5Hashes = $hashManager->getMd5ForFiles(array_keys($data['payload']));
+        $data['md5'] = $md5Hashes;
+
         // send to service
         $opts = [
             'http' => [
@@ -68,5 +74,7 @@ if ($config->isTracingActive()) {
         $context = stream_context_create($opts);
 
         file_get_contents('http://soarce.local/receive', false, $context);
+
+        $hashManager->save();
     });
 }
