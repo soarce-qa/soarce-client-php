@@ -50,10 +50,6 @@ class End extends Action
             if (file_exists($pipe->getFilenameTracefile())) {
                 unlink($pipe->getFilenameTracefile());
             }
-
-            if (file_exists($pipe->getFilenameLock())) {
-                unlink($pipe->getFilenameLock());
-            }
         }
     }
 

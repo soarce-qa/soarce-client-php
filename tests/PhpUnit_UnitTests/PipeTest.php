@@ -11,7 +11,6 @@ class PipeTest extends TestCase
     {
         $pipe = new Pipe('/tmp/SOARCE-TEST');
         $this->assertEquals('/tmp/SOARCE-TEST',      $pipe->getBasepath());
-        $this->assertEquals('/tmp/SOARCE-TEST.lock', $pipe->getFilenameLock());
         $this->assertEquals('/tmp/SOARCE-TEST.xt',   $pipe->getFilenameTracefile());
     }
 

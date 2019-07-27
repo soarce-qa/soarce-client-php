@@ -30,14 +30,6 @@ class Pipe
     /**
      * @return string
      */
-    public function getFilenameLock(): string
-    {
-        return $this->basePath . Config::SUFFFIX_LOCK;
-    }
-
-    /**
-     * @return string
-     */
     public function getFilenameTracefile(): string
     {
         return $this->basePath . Config::SUFFIX_TRACEFILE;

@@ -13,7 +13,6 @@ class Config
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
     public const SUFFIX_TRACEFILE     = '.xt';
-    public const SUFFFIX_LOCK         = '.lock';
 
     /** @var string */
     protected $actionParamName;
