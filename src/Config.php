@@ -8,8 +8,6 @@ class Config
     private const DEFAULT_DATA_PATH         = '/tmp/';
     private const DEFAULT_NUMBER_OF_PIPES   = 10;
 
-    public const COMPLETED_FILENAME   = '.SOARCE-completed';
-    public const KILL_WORKER_FILENAME = '.SOARCE-kill-worker';
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
     public const SUFFIX_TRACEFILE     = '.xt';
