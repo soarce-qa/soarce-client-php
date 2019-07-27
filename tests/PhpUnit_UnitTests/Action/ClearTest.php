@@ -68,7 +68,6 @@ class ClearTest extends TestCase
         mkdir($this->config->getDataPath() . '/UnitTest');
         touch($this->config->getDataPath() . '/UnitTest/some-request.xt');
         touch($this->config->getDataPath() . '/UnitTest/some-other-request.xt');
-        touch($this->config->getDataPath() . '/UnitTest/' . Config::COMPLETED_FILENAME);
 
         $out = $action->run();
         $this->assertJson($out);

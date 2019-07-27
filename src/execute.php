@@ -23,12 +23,12 @@ if ('' !== $output) {
 define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
 
 if ($config->isTracingActive()) {
-    $redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME'], $config->getNumberOfPipes());
+    $redisMutex = RedisMutex::getInstance($config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
     $header = [
         'type' => 'trace',
-        'host' => $_SERVER['HOSTNAME'],   //TODO read via config -- this is currently the docker container or worse the name of a shared(!) server
+        'host' => $config->getApplicationName(),
         'request_time' => microtime(true),
         'request_id' => SOARCE_REQUEST_ID,
         'get'  => $_GET,
@@ -57,7 +57,7 @@ if ($config->isTracingActive()) {
             'payload' => xdebug_get_code_coverage(),
         ];
 
-        $hashManager = new HashManager($_SERVER['HOSTNAME']);
+        $hashManager = new HashManager($header['host']);
         $hashManager->load();
         $md5Hashes = $hashManager->getMd5ForFiles(array_keys($data['payload']));
         $data['md5'] = $md5Hashes;

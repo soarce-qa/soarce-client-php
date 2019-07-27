@@ -82,12 +82,10 @@ class EndTest extends TestCase
         $this->assertDirectoryExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt.coverage');
-        $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/' . Config::COMPLETED_FILENAME);
 
         // cleanup
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt');
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt.coverage');
-        unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/' . Config::COMPLETED_FILENAME);
         rmdir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest');
     }
 
@@ -114,13 +112,11 @@ class EndTest extends TestCase
         $this->assertDirectoryExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt.coverage');
-        $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/' . Config::COMPLETED_FILENAME);
         $this->assertFileNotExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/i_should_not_survive.xt');
 
         // cleanup
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt');
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt.coverage');
-        unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/' . Config::COMPLETED_FILENAME);
         rmdir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2');
     }
 }

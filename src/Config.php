@@ -8,15 +8,15 @@ class Config
     private const DEFAULT_DATA_PATH         = '/tmp/';
     private const DEFAULT_NUMBER_OF_PIPES   = 10;
 
-    public const COMPLETED_FILENAME   = '.SOARCE-completed';
-    public const KILL_WORKER_FILENAME = '.SOARCE-kill-worker';
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
     public const SUFFIX_TRACEFILE     = '.xt';
-    public const SUFFFIX_LOCK         = '.lock';
 
     /** @var string */
     protected $actionParamName;
+
+    /** @var string */
+    protected $applicationName;
 
     /** @var string */
     protected $dataPath;
@@ -31,6 +31,18 @@ class Config
     {
         if (null === $this->actionParamName) {
             $this->actionParamName = $_ENV['SOARCE_ACTION_PARAM_NAME'] ?? $_SERVER['SOARCE_ACTION_PARAM_NAME'] ?? self::DEFAULT_ACTION_PARAM_NAME;
+        }
+
+        return $this->actionParamName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApplicationName(): string
+    {
+        if (null === $this->actionParamName) {
+            $this->actionParamName = $_ENV['SOARCE_APPLICATION_NAME'] ?? $_SERVER['SOARCE_APPLICATION_NAME'] ?? $_SERVER['HOSTNAME'];
         }
 
         return $this->actionParamName;
