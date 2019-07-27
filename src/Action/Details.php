@@ -15,8 +15,7 @@ class Details extends Action
             'server'          => $_SERVER,
             'env'             => $_ENV,
             'extensions'      => get_loaded_extensions(),
-            'zend_extensions' => get_loaded_extensions(true),
-            'ini_settings'    => ini_get_all(),
+            'ini_settings'    => ini_get_all(null, false),
         ];
 
         return json_encode($data, JSON_PRETTY_PRINT);
