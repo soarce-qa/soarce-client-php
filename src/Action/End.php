@@ -18,7 +18,7 @@ class End extends Action
      */
     public function run(): string
     {
-        $this->redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME'], $this->config->getNumberOfPipes());
+        $this->redisMutex = RedisMutex::getInstance($this->config->getApplicationName(), $this->config->getNumberOfPipes());
 
         if (!is_writable($this->config->getDataPath())) {
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);

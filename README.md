@@ -1,6 +1,6 @@
 # soarce/client
 
-## Version: 0.2.3
+## Version: 0.3.0
 
 ## Overview
 
@@ -41,6 +41,9 @@ included in the "required" section as it would disallow composer-runs without it
 * string `SOARCE_ACTION_PARAM_NAME` = "SOARCE": names the SOARCE interceptor param name. Use something long and
 random to obfuscate an active SOARCE client if necessary and/or to solve parameter name conflicts with your
 application. It has to match the main application's parameter name setting.
+* string `SOARCE_APPLICATION_NAME` = $_SERVER['HOSTNAME']: names the server/application for gathering the stats.
+This should be the same name used in the main application's config. As a fallback the "HOSTNAME" server variable
+will be used - with docker this means defaulting to the docker container's id.
 * string `SOARCE_DATA_PATH` = "/tmp/": any writable location on your server / in your container. Named pipes, 
 trigger and pid-files will be written there. If you host multiple services from the same host or container,
 make sure they use different `SOARCE_DATA_PATH`s. Coverage is sent directly to the master application,
@@ -53,7 +56,7 @@ xdebug.trace_format = 1
 xdebug.trace_enable_trigger = 0
 ```
 
-This is counterintuitive. SOARCE triggers coverage and tracing itself.
+This is counterintuitive, but, SOARCE triggers coverage and tracing itself. 
 
 ### docker-compose
 

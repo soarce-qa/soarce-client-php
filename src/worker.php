@@ -18,7 +18,7 @@ $config = new Config();
 $config->setDataPath($argv[1]);
 
 $id = $argv[2];
-$redisMutex = RedisMutex::getInstance($_SERVER['HOSTNAME']);
+$redisMutex = RedisMutex::getInstance($config->getApplicationName());
 
 $pipe = new Pipe($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $id));
 

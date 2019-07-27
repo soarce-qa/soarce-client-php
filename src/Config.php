@@ -16,6 +16,9 @@ class Config
     protected $actionParamName;
 
     /** @var string */
+    protected $applicationName;
+
+    /** @var string */
     protected $dataPath;
 
     /** @var int */
@@ -28,6 +31,18 @@ class Config
     {
         if (null === $this->actionParamName) {
             $this->actionParamName = $_ENV['SOARCE_ACTION_PARAM_NAME'] ?? $_SERVER['SOARCE_ACTION_PARAM_NAME'] ?? self::DEFAULT_ACTION_PARAM_NAME;
+        }
+
+        return $this->actionParamName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApplicationName(): string
+    {
+        if (null === $this->actionParamName) {
+            $this->actionParamName = $_ENV['SOARCE_APPLICATION_NAME'] ?? $_SERVER['SOARCE_APPLICATION_NAME'] ?? $_SERVER['HOSTNAME'];
         }
 
         return $this->actionParamName;
