@@ -10,6 +10,7 @@ class FrontController
     /** @var string() */
     private $actionMap = [
         'clear'         => Action\Clear::class,
+        'details'       => Action\Details::class,
         'end'           => Action\End::class,
         'index'         => Action\Index::class,
         'ping'          => Action\Ping::class,

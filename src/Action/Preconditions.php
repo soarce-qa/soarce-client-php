@@ -19,10 +19,6 @@ class Preconditions extends Action
             'trace_trigger_enabled' => ini_get('xdebug.trace_enable_trigger') === '1',
             'tracedir_readable'     => is_readable(ini_get('xdebug.trace_output_dir')),
             'datadir_writable'      => is_writable($this->config->getDataPath()),
-            'debug'                 => [
-                'server' => $_SERVER,
-                'env'    => $_ENV,
-            ],
         ];
 
         return json_encode($data, JSON_PRETTY_PRINT);
