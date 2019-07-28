@@ -73,7 +73,7 @@ class ClearTest extends TestCase
         $this->assertJson($out);
 
         $this->assertEquals(
-            ['deleted_files' => 3],
+            ['deleted_files' => 2],
             json_decode($out, JSON_OBJECT_AS_ARRAY)
         );
 
