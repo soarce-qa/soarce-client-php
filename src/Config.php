@@ -41,11 +41,11 @@ class Config
      */
     public function getApplicationName(): string
     {
-        if (null === $this->actionParamName) {
-            $this->actionParamName = $_ENV['SOARCE_APPLICATION_NAME'] ?? $_SERVER['SOARCE_APPLICATION_NAME'] ?? $_SERVER['HOSTNAME'];
+        if (null === $this->applicationName) {
+            $this->applicationName = $_ENV['SOARCE_APPLICATION_NAME'] ?? $_SERVER['SOARCE_APPLICATION_NAME'] ?? $_SERVER['HOSTNAME'];
         }
 
-        return $this->actionParamName;
+        return $this->applicationName;
     }
 
     /**
