@@ -20,7 +20,9 @@ class ReadFile extends Action
             throw new Exception('File not found or not readable', Exception::FILE_NOT_FOUND);
         }
 
-        header (self::CHECKSUM_HEADER . ': ' . md5_file($_GET['filename']));
+        if (php_sapi_name() !== 'cli') {
+            header (self::CHECKSUM_HEADER . ': ' . md5_file($_GET['filename']));
+        }
         return file_get_contents($_GET['filename']);
     }
 }
