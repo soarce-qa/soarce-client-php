@@ -2,8 +2,9 @@
   "name": "soarce/client",
   "description": "This is the client for SOARCE providing and endpoint for external code coverage collection and more.",
   "keywords": ["SOARCE", "CodeCoverage", "QA", "Testing", "xdebug"],
-  "homepage": "https://github.com/hsegnitz/tbd",
+  "homepage": "https://github.com/soarce-qa/soarce-client-php",
   "type" : "library",
+  "license": "MIT",
   "authors": [
     {
       "name": "Holger Segnitz",
@@ -13,11 +14,11 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/hsegnitz/tbd/issues",
-    "forum":  "https://github.com/hsegnitz/tbd/issues",
-    "wiki":   "https://github.com/hsegnitz/tbd/wiki",
-    "source": "https://github.com/hsegnitz/tbd",
-    "docs":   "https://github.com/hsegnitz/tbd/wiki"
+    "issues": "https://github.com/soarce-qa/soarce-client-php/issues",
+    "forum":  "https://github.com/soarce-qa/soarce-client-php/issues",
+    "wiki":   "https://github.com/soarce-qa/soarce-client-php/wiki",
+    "source": "https://github.com/soarce-qa/soarce-client-php",
+    "docs":   "hhttps://github.com/soarce-qa/soarce-client-php/wiki"
   },
   "config": {
     "platform": {
