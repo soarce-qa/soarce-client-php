@@ -40,7 +40,7 @@ if ($config->isTracingActive()) {
     $fpTracefile = fopen($tracePipe->getFilenameTracefile(), 'wb');
     fwrite($fpTracefile, json_encode($header) . "\n");
 
-    xdebug_start_code_coverage();
+    xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);
 
     xdebug_start_trace(
         $tracePipe->getBasepath(),
