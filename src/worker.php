@@ -43,17 +43,41 @@ while (true) {
         'payload' => [],
     ];
 
+    $parseStack = [];
     $parsedData = [];
     while (false !== ($line = fgets($fp))) {
         $out = [];
-        if (preg_match('/^[\d]+\t[\d]+\t[\d]+\t[\d\.]+[\d]+\t[\d]+\t([^\t]+)\t(0|1)\t[^\t]{0,}\t([^\t]+)\t.*/', $line, $out)) {
-            if (!isset($parsedData[$out[3]])) {
-                $parsedData[$out[3]] = [];
+        if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t0\t(?P<start>[\d.]+)\t[\d]+\t(?P<function>[^\t]+)\t(?P<type>[01])\t[^\t]*\t(?P<file>[^\t]+)\t.*/', $line, $out)) {
+            $parseStack[$out['functionNumber']] = [
+                'start'    => $out['start'],
+                'function' => $out['function'],
+                'type'     => $out['type'],
+                'file'     => $out['file'],
+            ];
+            continue;
+        }
+
+        if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t1\t(?P<end>[\d.]+)\t[\d]+.*/', $line, $out)) {
+            $info = $parseStack[$out['functionNumber']];
+            unset($parseStack[$out['functionNumber']]);
+
+            if (!isset($parsedData[$info['file']])) {
+                $parsedData[$info['file']] = [];
             }
 
-            $parsedData[$out[3]][$out[1]] = $out[2];
+            if (!isset($parsedData[$info['file']][$info['function']])) {
+                $parsedData[$info['file']][$info['function']] = [
+                    'type'     => $info['type'],
+                    'count'    => 1,
+                    'walltime' => $out['end'] - $info['start'],
+                ];
+            } else {
+                $parsedData[$info['file']][$info['function']]['count']++;
+                $parsedData[$info['file']][$info['function']]['walltime'] += ($out['end'] - $info['start']);
+            }
         }
     }
+
     $data['payload'] = $parsedData;
 
     // send to service
