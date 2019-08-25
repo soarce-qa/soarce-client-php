@@ -48,6 +48,10 @@ while (true) {
     while (false !== ($line = fgets($fp))) {
         $out = [];
         if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t0\t(?P<start>[\d.]+)\t[\d]+\t(?P<function>[^\t]+)\t(?P<type>[01])\t[^\t]*\t(?P<file>[^\t]+)\t.*/', $line, $out)) {
+            if ('' === $out['function']) {
+                continue;
+            }
+
             $parseStack[$out['functionNumber']] = [
                 'start'    => $out['start'],
                 'function' => $out['function'],
@@ -58,6 +62,10 @@ while (true) {
         }
 
         if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t1\t(?P<end>[\d.]+)\t[\d]+.*/', $line, $out)) {
+            if (! isset($parseStack[$out['functionNumber']])) {
+                continue;
+            }
+
             $info = $parseStack[$out['functionNumber']];
             unset($parseStack[$out['functionNumber']]);
 
