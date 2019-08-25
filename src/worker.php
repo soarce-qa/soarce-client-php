@@ -69,11 +69,11 @@ while (true) {
                 $parsedData[$info['file']][$info['function']] = [
                     'type'     => $info['type'],
                     'count'    => 1,
-                    'walltime' => $out['end'] - $info['start'],
+                    'walltime' => (float)$out['end'] - (float)$info['start'],
                 ];
             } else {
                 $parsedData[$info['file']][$info['function']]['count']++;
-                $parsedData[$info['file']][$info['function']]['walltime'] += ($out['end'] - $info['start']);
+                $parsedData[$info['file']][$info['function']]['walltime'] += ((float)$out['end'] - (float)$info['start']);
             }
         }
     }
