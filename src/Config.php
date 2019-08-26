@@ -4,9 +4,10 @@ namespace Soarce;
 
 class Config
 {
-    private const DEFAULT_ACTION_PARAM_NAME = 'SOARCE';
-    private const DEFAULT_DATA_PATH         = '/tmp/';
-    private const DEFAULT_NUMBER_OF_PIPES   = 10;
+    private const DEFAULT_ACTION_PARAM_NAME    = 'SOARCE';
+    private const DEFAULT_DATA_PATH            = '/tmp/';
+    private const DEFAULT_NUMBER_OF_PIPES      = 10;
+    private const DEFAULT_WHITELISTED_HOST_IPS = [];
 
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
@@ -23,6 +24,9 @@ class Config
 
     /** @var int */
     protected $numberOfPipes;
+
+    /** @var string[] */
+    protected $whitelistedHostIps = [];
 
     /**
      * @return string
@@ -103,5 +107,31 @@ class Config
     public function setNumberOfPipes(int $numberOfPipes): void
     {
         $this->numberOfPipes = $numberOfPipes;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getWhitelistedHostIps(): array
+    {
+        if ([] === $this->whitelistedHostIps) {
+            if (isset($_ENV['SOARCE_WHITELISTED_HOST_IPS']) && '' !== $_ENV['SOARCE_WHITELISTED_HOST_IPS']) {
+                $this->whitelistedHostIps = explode(',', $_ENV['SOARCE_WHITELISTED_HOST_IPS']);
+            } elseif (isset($_SERVER['SOARCE_WHITELISTED_HOST_IPS']) && $_SERVER['SOARCE_WHITELISTED_HOST_IPS']) {
+                $this->whitelistedHostIps = explode(',', $_SERVER['SOARCE_WHITELISTED_HOST_IPS']);
+            } else {
+                $this->whitelistedHostIps = self::DEFAULT_WHITELISTED_HOST_IPS;
+            }
+        }
+
+        return $this->whitelistedHostIps;
+    }
+
+    /**
+     * @param string[] $whitelistedHostIps
+     */
+    public function setWhitelistedHostIps(array $whitelistedHostIps): void
+    {
+        $this->whitelistedHostIps = $whitelistedHostIps;
     }
 }

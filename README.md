@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 0.4.0
+## Version: 0.5.1
 
 ## Overview
 
@@ -48,6 +48,10 @@ will be used - with docker this means defaulting to the docker container's id.
 trigger and pid-files will be written there. If you host multiple services from the same host or container,
 make sure they use different `SOARCE_DATA_PATH`s. Coverage is sent directly to the master application,
 trace is written to the named pipes, parsed in memory and the result then sent to the master.
+* string `SOARCE_WHITELISTED_HOST_IPS` = "": a comma-separated list of IPv4 and IPv6 addresses that should be
+able to access SOARCE commands and resources through this plugin. The empty default means no whitelisting active
+and permits all requests. This is the default as SOARCE is a development tool and should not be accessible from
+public networks anyways.
 
 ### X-Debug
 ```
@@ -96,8 +100,6 @@ Just call the index page of your application - e.g. `/` or `/index.php` and add 
 ## Known Issues
 
 ### Security
-* Currently, nothing prevents anybody from accessing the SOARCE functionality apart from parameter obfuscation,
-see roadmap for planned countermeasures.
 * Component requires xdebug to be active 
 
 ### Separating Requests
