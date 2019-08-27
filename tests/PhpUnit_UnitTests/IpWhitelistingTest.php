@@ -26,7 +26,7 @@ class IpWhitelistingTest extends TestCase
         $_GET    = $this->storedGetParams;
     }
 
-    public function testNoIpConfiguredDoesNotBlock(): void
+    public function testNoIpDoesNotBlock(): void
     {
         unset($_SERVER['HTTP_CLIENT_IP'], $_SERVER['HTTP_X_FORWARDED_FOR'], $_SERVER['REMOTE_ADDR']);
         $_GET['SOARCE'] = 'index';

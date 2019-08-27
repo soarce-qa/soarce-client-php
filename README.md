@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 0.5.1
+## Version: 0.5.2
 
 ## Overview
 
@@ -52,6 +52,11 @@ trace is written to the named pipes, parsed in memory and the result then sent t
 able to access SOARCE commands and resources through this plugin. The empty default means no whitelisting active
 and permits all requests. This is the default as SOARCE is a development tool and should not be accessible from
 public networks anyways.
+* string `SOARCE_WHITELISTED_PATHS` = "": a PATH_SEPARATOR (:) separated list of paths out of which SOARCE is
+allowed to handout sourcecode on request - to display in code coverage views. You should include all possible
+source code and library paths - a good start is usually the `common_path` parameter in the application's config,
+for example "/var/www". As with the IP whitelist, an empty path whitelist disables the feature as SOARCE should
+only be used in closed environments.
 
 ### X-Debug
 ```
