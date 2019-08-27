@@ -8,6 +8,7 @@ class Config
     private const DEFAULT_DATA_PATH            = '/tmp/';
     private const DEFAULT_NUMBER_OF_PIPES      = 10;
     private const DEFAULT_WHITELISTED_HOST_IPS = [];
+    private const DEFAULT_WHITELISTED_PATHS    = [];
 
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
@@ -27,6 +28,9 @@ class Config
 
     /** @var string[] */
     protected $whitelistedHostIps = [];
+
+    /** @var string[] */
+    protected $whitelistedPaths = [];
 
     /**
      * @return string
@@ -133,5 +137,31 @@ class Config
     public function setWhitelistedHostIps(array $whitelistedHostIps): void
     {
         $this->whitelistedHostIps = $whitelistedHostIps;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getWhitelistedPaths(): array
+    {
+        if ([] === $this->whitelistedPaths) {
+            if (isset($_ENV['SOARCE_WHITELISTED_PATHS']) && '' !== $_ENV['SOARCE_WHITELISTED_PATHS']) {
+                $this->whitelistedPaths = explode(PATH_SEPARATOR, $_ENV['SOARCE_WHITELISTED_PATHS']);
+            } elseif (isset($_SERVER['SOARCE_WHITELISTED_PATHS']) && $_SERVER['SOARCE_WHITELISTED_PATHS']) {
+                $this->whitelistedPaths = explode(PATH_SEPARATOR, $_SERVER['SOARCE_WHITELISTED_PATHS']);
+            } else {
+                $this->whitelistedPaths = self::DEFAULT_WHITELISTED_PATHS;
+            }
+        }
+
+        return $this->whitelistedPaths;
+    }
+
+    /**
+     * @param string[] $whitelistedPaths
+     */
+    public function setWhitelistedPaths(array $whitelistedPaths): void
+    {
+        $this->whitelistedPaths = $whitelistedPaths;
     }
 }
