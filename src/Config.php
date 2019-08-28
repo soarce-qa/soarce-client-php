@@ -9,6 +9,7 @@ class Config
     private const DEFAULT_NUMBER_OF_PIPES      = 10;
     private const DEFAULT_WHITELISTED_HOST_IPS = [];
     private const DEFAULT_WHITELISTED_PATHS    = [];
+    private const DEFAULT_PRESHARED_SECRET     = '';
 
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
@@ -31,6 +32,21 @@ class Config
 
     /** @var string[] */
     protected $whitelistedPaths = [];
+
+    /** @var string */
+    protected $presharedSecret;
+
+    /**
+     * @return string
+     */
+    public function getPresharedSecret(): string
+    {
+        if (null === $this->presharedSecret) {
+            $this->presharedSecret = $_ENV['SOARCE_PRESHARED_SECRET'] ?? $_SERVER['SOARCE_PRESHARED_SECRET'] ?? self::DEFAULT_PRESHARED_SECRET;
+        }
+
+        return $this->presharedSecret;
+    }
 
     /**
      * @return string

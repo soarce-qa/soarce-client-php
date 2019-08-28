@@ -30,7 +30,7 @@ class FrontController
      */
     public function run(): string
     {
-        if (!$this->isIpWhitelisted()) {
+        if (!$this->isIpWhitelisted() || !$this->isPresharedSecretAuthorized()) {
             return '';
         }
 
@@ -48,6 +48,26 @@ class FrontController
         /** @var Action $action */
         $action = new $classname($this->config);
         return $action->run();
+    }
+
+    /**
+     * @return bool
+     */
+    private function isPresharedSecretAuthorized(): bool
+    {
+        if ($this->config->getPresharedSecret() === '') {
+            return true;
+        }
+
+        if (! isset($_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'])) {
+            return false;
+        }
+
+        if ($_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] !== $this->config->getPresharedSecret()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
