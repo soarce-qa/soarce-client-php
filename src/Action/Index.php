@@ -11,8 +11,6 @@ class Index extends Action
      */
     public function run(): string
     {
-        $preconditionsUrl = self::url('preconditions');
-
         return <<<HTML
 <html lang="en">
     <head>
@@ -20,10 +18,9 @@ class Index extends Action
     </head>
     <body>
         <h1>SOARCE</h1>
-        <h2>Menu</h2>
-        <ul>
-            <li><a href="{$preconditionsUrl}">check preconditions</a></li>        
-        </ul>
+        <h2>Hello World!</h2>
+        <p>If you see this page the basic functionality of SOARCE is enabled in your service/application. Please use the main application (soarce/application) to remotely access,
+        check and control the SOARCE features.</p>
     </body>
 </html>
 HTML;

@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 0.5.2
+## Version: 0.5.3
 
 ## Overview
 
@@ -57,6 +57,9 @@ allowed to handout sourcecode on request - to display in code coverage views. Yo
 source code and library paths - a good start is usually the `common_path` parameter in the application's config,
 for example "/var/www". As with the IP whitelist, an empty path whitelist disables the feature as SOARCE should
 only be used in closed environments.
+* string `SOARCE_PRESHARED_SECRET` = "": an arbitrary string which - if used - has to be identical to the
+respective config key in the application's config. It is being sent as a HTTP header to effectively reduce
+drive-by or XSS attacks as well as brute-force attempts to guess how to access SOARCE on a certain system.
 
 ### X-Debug
 ```
@@ -97,10 +100,6 @@ options later:
       soarce_default:
         external: true
     ```
-
-## Debug Interface
-
-Just call the index page of your application - e.g. `/` or `/index.php` and add `?SOARCE=index` to the call.
 
 ## Known Issues
 
