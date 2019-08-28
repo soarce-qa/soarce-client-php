@@ -101,10 +101,6 @@ options later:
         external: true
     ```
 
-## Debug Interface
-
-Just call the index page of your application - e.g. `/` or `/index.php` and add `?SOARCE=index` to the call.
-
 ## Known Issues
 
 ### Security
