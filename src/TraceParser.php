@@ -22,22 +22,24 @@ class TraceParser
     public function analyze($fp): void
     {
         while (false !== ($line = fgets($fp))) {
-            $out = [];
-            if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t0\t(?P<start>[\d.]+)\t[\d]+\t(?P<functionName>[^\t]+)\t(?P<type>[01])\t[^\t]*\t(?P<file>[^\t]+)\t.*/', $line, $out)) {
-                if ('' === $out['functionName']) {
+
+            $split = explode("\t", $line);
+
+            if (count($split) > 9) {
+                if ('' === $split[5]) {  // functionName
                     continue;
                 }
 
-                if (!isset($this->functionIndex[$out['functionName']])) {
-                    $this->functionIndex[$out['functionName']] = count($this->functionIndex);
+                if (!isset($this->functionIndex[$split[5]])) {
+                    $this->functionIndex[$split[5]] = count($this->functionIndex);
                 }
 
-                $this->parseStack[$out['functionNumber']] = [
-                    'start'        => $out['start'],
-                    'functionName' => $out['functionName'],
-                    'number'       => $this->functionIndex[$out['functionName']],
-                    'type'         => $out['type'],
-                    'file'         => $out['file'],
+                $this->parseStack[$split[1]] = [
+                    'start'        => $split[3],
+                    'functionName' => $split[5],
+                    'number'       => $this->functionIndex[$split[5]],
+                    'type'         => $split[6],
+                    'file'         => $split[8],
                 ];
 
                 if (count($this->parseStack) >= 2) {
@@ -57,13 +59,13 @@ class TraceParser
                 continue;
             }
 
-            if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t1\t(?P<end>[\d.]+)\t[\d]+.*/', $line, $out)) {
-                if (! isset($this->parseStack[$out['functionNumber']])) {
+            if (count($split) >= 5) {
+                if (! isset($this->parseStack[$split[1]])) {
                     continue;
                 }
 
-                $info = $this->parseStack[$out['functionNumber']];
-                unset($this->parseStack[$out['functionNumber']]);
+                $info = $this->parseStack[$split[1]];
+                unset($this->parseStack[$split[1]]);
 
                 if (!isset($this->parsedData[$info['file']])) {
                     $this->parsedData[$info['file']] = [];
@@ -73,12 +75,12 @@ class TraceParser
                     $this->parsedData[$info['file']][$info['functionName']] = [
                         'type'     => $info['type'],
                         'count'    => 1,
-                        'walltime' => (float)$out['end'] - (float)$info['start'],
+                        'walltime' => (float)$split[3] - (float)$info['start'],
                         'number'   => $info['number'],
                     ];
                 } else {
                     $this->parsedData[$info['file']][$info['functionName']]['count']++;
-                    $this->parsedData[$info['file']][$info['functionName']]['walltime'] += ((float)$out['end'] - (float)$info['start']);
+                    $this->parsedData[$info['file']][$info['functionName']]['walltime'] += ((float)$split[3] - (float)$info['start']);
                 }
             }
         }

@@ -4,7 +4,7 @@
  * Machine:  i9 9900K, 64GB RAM, Xubuntu 18.04, PHP 7.2
  * Sample trace file: 5MB, 71810 lines
  *
- * Runs in: 3.989 seconds
+ * Runs in: 4.206 seconds
  */
 
 
@@ -45,7 +45,7 @@ class TraceParser2
                     'functionName' => $split[5],
                     'number'       => $this->functionIndex[$split[5]],
                     'type'         => $split[6],
-                    'file'         => $split[7],
+                    'file'         => $split[8],
                 ];
 
                 if (count($this->parseStack) >= 2) {
