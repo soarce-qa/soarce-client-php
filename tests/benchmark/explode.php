@@ -1,8 +1,14 @@
 <?php
 
-namespace Soarce;
+/**
+ * Machine:  i9 9900K, 64GB RAM, Xubuntu 18.04, PHP 7.2
+ * Sample trace file: 5MB, 71810 lines
+ *
+ * Runs in: 4.206 seconds
+ */
 
-class TraceParser
+
+class TraceParser2
 {
     /** @var array[] temporary stack - will hold metadata of "open" functions */
     private $parseStack    = [];
@@ -102,3 +108,15 @@ class TraceParser
         return $this->functionMap;
     }
 }
+
+
+$start = microtime(true);
+
+for ($i = 0; $i < 100; $i++) {
+    $fp = fopen('../PhpUnit_UnitTests/Fixtures/long-trace.xt', 'rb');
+    $traceParser = new TraceParser2();
+    $traceParser->analyze($fp);
+}
+
+echo microtime(true) - $start;
+echo "\n";

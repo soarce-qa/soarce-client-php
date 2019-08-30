@@ -1,8 +1,13 @@
 <?php
 
-namespace Soarce;
+/**
+ * Machine:  i9 9900K, 64GB RAM, Xubuntu 18.04, PHP 7.2
+ * Sample trace file: 5MB, 71810 lines
+ *
+ * Runs in: 24.608 seconds
+ */
 
-class TraceParser
+class TraceParser3
 {
     /** @var array[] temporary stack - will hold metadata of "open" functions */
     private $parseStack    = [];
@@ -21,9 +26,7 @@ class TraceParser
      */
     public function analyze($fp): void
     {
-        while (false !== ($line = fgets($fp))) {
-
-            $split = explode("\t", $line);
+        while (false !== ($split = fgetcsv($fp, 0, "\t"))) {
 
             if (count($split) > 9) {
                 if ('' === $split[5]) {  // functionName
@@ -39,7 +42,7 @@ class TraceParser
                     'functionName' => $split[5],
                     'number'       => $this->functionIndex[$split[5]],
                     'type'         => $split[6],
-                    'file'         => $split[8],
+                    'file'         => $split[7],
                 ];
 
                 if (count($this->parseStack) >= 2) {
@@ -102,3 +105,15 @@ class TraceParser
         return $this->functionMap;
     }
 }
+
+
+$start = microtime(true);
+
+for ($i = 0; $i < 100; $i++) {
+    $fp = fopen('../PhpUnit_UnitTests/Fixtures/long-trace.xt', 'rb');
+    $traceParser = new TraceParser3();
+    $traceParser->analyze($fp);
+}
+
+echo microtime(true) - $start;
+echo "\n";

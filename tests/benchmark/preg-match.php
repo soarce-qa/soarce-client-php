@@ -1,8 +1,13 @@
 <?php
 
-namespace Soarce;
+/**
+ * Machine:  i9 9900K, 64GB RAM, Xubuntu 18.04, PHP 7.2
+ * Sample trace file: 5MB, 71810 lines
+ *
+ * Runs in: 6.427 seconds
+ */
 
-class TraceParser
+class TraceParser1
 {
     /** @var array[] temporary stack - will hold metadata of "open" functions */
     private $parseStack    = [];
@@ -22,24 +27,22 @@ class TraceParser
     public function analyze($fp): void
     {
         while (false !== ($line = fgets($fp))) {
-
-            $split = explode("\t", $line);
-
-            if (count($split) > 9) {
-                if ('' === $split[5]) {  // functionName
+            $out = [];
+            if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t0\t(?P<start>[\d.]+)\t[\d]+\t(?P<functionName>[^\t]+)\t(?P<type>[01])\t[^\t]*\t(?P<file>[^\t]+)\t.*/', $line, $out)) {
+                if ('' === $out['functionName']) {
                     continue;
                 }
 
-                if (!isset($this->functionIndex[$split[5]])) {
-                    $this->functionIndex[$split[5]] = count($this->functionIndex);
+                if (!isset($this->functionIndex[$out['functionName']])) {
+                    $this->functionIndex[$out['functionName']] = count($this->functionIndex);
                 }
 
-                $this->parseStack[$split[1]] = [
-                    'start'        => $split[3],
-                    'functionName' => $split[5],
-                    'number'       => $this->functionIndex[$split[5]],
-                    'type'         => $split[6],
-                    'file'         => $split[8],
+                $this->parseStack[$out['functionNumber']] = [
+                    'start'        => $out['start'],
+                    'functionName' => $out['functionName'],
+                    'number'       => $this->functionIndex[$out['functionName']],
+                    'type'         => $out['type'],
+                    'file'         => $out['file'],
                 ];
 
                 if (count($this->parseStack) >= 2) {
@@ -59,13 +62,13 @@ class TraceParser
                 continue;
             }
 
-            if (count($split) >= 5) {
-                if (! isset($this->parseStack[$split[1]])) {
+            if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t1\t(?P<end>[\d.]+)\t[\d]+.*/', $line, $out)) {
+                if (! isset($this->parseStack[$out['functionNumber']])) {
                     continue;
                 }
 
-                $info = $this->parseStack[$split[1]];
-                unset($this->parseStack[$split[1]]);
+                $info = $this->parseStack[$out['functionNumber']];
+                unset($this->parseStack[$out['functionNumber']]);
 
                 if (!isset($this->parsedData[$info['file']])) {
                     $this->parsedData[$info['file']] = [];
@@ -75,12 +78,12 @@ class TraceParser
                     $this->parsedData[$info['file']][$info['functionName']] = [
                         'type'     => $info['type'],
                         'count'    => 1,
-                        'walltime' => (float)$split[3] - (float)$info['start'],
+                        'walltime' => (float)$out['end'] - (float)$info['start'],
                         'number'   => $info['number'],
                     ];
                 } else {
                     $this->parsedData[$info['file']][$info['functionName']]['count']++;
-                    $this->parsedData[$info['file']][$info['functionName']]['walltime'] += ((float)$split[3] - (float)$info['start']);
+                    $this->parsedData[$info['file']][$info['functionName']]['walltime'] += ((float)$out['end'] - (float)$info['start']);
                 }
             }
         }
@@ -102,3 +105,15 @@ class TraceParser
         return $this->functionMap;
     }
 }
+
+
+$start = microtime(true);
+
+for ($i = 0; $i < 100; $i++) {
+    $fp = fopen('../PhpUnit_UnitTests/Fixtures/long-trace.xt', 'rb');
+    $traceParser = new TraceParser1();
+    $traceParser->analyze($fp);
+}
+
+echo microtime(true) - $start;
+echo "\n";
