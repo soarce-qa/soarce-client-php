@@ -7,6 +7,7 @@ define('SOARCE_SKIP_EXECUTE', true);
 use Soarce\Config;
 use Soarce\Pipe;
 use Soarce\RedisMutex;
+use Soarce\TraceParser;
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
@@ -38,55 +39,16 @@ while (true) {
         continue;
     }
 
+    $traceParser = new TraceParser();
+    $traceParser->analyze($fp);
+
     $data = [
         'header' => $temp,
-        'payload' => [],
+        'payload' => [
+            'functions' => $traceParser->getParsedData(),
+            'calls'     => $traceParser->getFunctionMap(),
+        ],
     ];
-
-    $parseStack = [];
-    $parsedData = [];
-    while (false !== ($line = fgets($fp))) {
-        $out = [];
-        if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t0\t(?P<start>[\d.]+)\t[\d]+\t(?P<function>[^\t]+)\t(?P<type>[01])\t[^\t]*\t(?P<file>[^\t]+)\t.*/', $line, $out)) {
-            if ('' === $out['function']) {
-                continue;
-            }
-
-            $parseStack[$out['functionNumber']] = [
-                'start'    => $out['start'],
-                'function' => $out['function'],
-                'type'     => $out['type'],
-                'file'     => $out['file'],
-            ];
-            continue;
-        }
-
-        if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t1\t(?P<end>[\d.]+)\t[\d]+.*/', $line, $out)) {
-            if (! isset($parseStack[$out['functionNumber']])) {
-                continue;
-            }
-
-            $info = $parseStack[$out['functionNumber']];
-            unset($parseStack[$out['functionNumber']]);
-
-            if (!isset($parsedData[$info['file']])) {
-                $parsedData[$info['file']] = [];
-            }
-
-            if (!isset($parsedData[$info['file']][$info['function']])) {
-                $parsedData[$info['file']][$info['function']] = [
-                    'type'     => $info['type'],
-                    'count'    => 1,
-                    'walltime' => (float)$out['end'] - (float)$info['start'],
-                ];
-            } else {
-                $parsedData[$info['file']][$info['function']]['count']++;
-                $parsedData[$info['file']][$info['function']]['walltime'] += ((float)$out['end'] - (float)$info['start']);
-            }
-        }
-    }
-
-    $data['payload'] = $parsedData;
 
     // send to service
     $opts = [
