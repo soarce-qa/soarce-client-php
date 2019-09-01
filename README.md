@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 0.5.3
+## Version: 0.6.0
 
 ## Overview
 
