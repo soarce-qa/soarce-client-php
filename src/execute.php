@@ -20,10 +20,11 @@ if ('' !== $output) {
     die($output);
 }
 
-define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
-
 if ($config->isTracingActive()) {
-    $redisMutex = RedisMutex::getInstance($config->getApplicationName(), $config->getNumberOfPipes());
+
+    define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
+
+    $redisMutex = new RedisMutex($config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
     $header = [
