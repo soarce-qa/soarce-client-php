@@ -2,14 +2,14 @@
 
 namespace Soarce;
 
-use Predis\Client;
+use Predis\ClientInterface;
 
 class HashManager
 {
     private const PREFIX = 'filehashes:';
     private const TIMEOUT = 3600;
 
-    /** @var Client */
+    /** @var ClientInterface */
     private $client;
 
     /** @var string */
@@ -24,10 +24,10 @@ class HashManager
     /**
      * HashManager constructor.
      *
-     * @param Client $predis
-     * @param string $applicationName
+     * @param ClientInterface $predis
+     * @param string          $applicationName
      */
-    public function __construct(Client $predis, $applicationName)
+    public function __construct(ClientInterface $predis, $applicationName)
     {
         $this->applicationName = $applicationName;
         $this->client = $predis;

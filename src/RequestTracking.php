@@ -2,14 +2,14 @@
 
 namespace Soarce;
 
-use Predis\Client;
+use Predis\ClientInterface;
 
 class RequestTracking
 {
     const HEADER_NAME    = 'HTTP_X_SOARCE_REQUEST_ID';
     const EXPIRY_SECONDS = 600;
 
-    /** @var Client */
+    /** @var ClientInterface */
     private $client;
 
     /** @var string */
@@ -24,9 +24,9 @@ class RequestTracking
     /**
      * RequestTracking constructor.
      *
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

@@ -2,11 +2,11 @@
 
 namespace Soarce;
 
-use Predis\Client;
+use Predis\ClientInterface;
 
 class RedisMutex
 {
-    /** @var Client */
+    /** @var ClientInterface */
     private $client;
 
     /** @var int */
@@ -15,11 +15,11 @@ class RedisMutex
     /**
      * RedisMutex constructor.
      *
-     * @param Client $client
-     * @param string $name
-     * @param int    $numberOfPipes
+     * @param ClientInterface $client
+     * @param string          $name
+     * @param int             $numberOfPipes
      */
-    public function __construct(Client $client, $name, $numberOfPipes = null)
+    public function __construct(ClientInterface $client, $name, $numberOfPipes = null)
     {
         $this->name          = $name;
         $this->numberOfPipes = $numberOfPipes;
