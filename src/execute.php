@@ -14,6 +14,7 @@ use Soarce\FrontController;
 use Soarce\HashManager;
 use Soarce\Pipe\Handler;
 use Soarce\RedisMutex;
+use Soarce\RequestTracking;
 
 $config = new Config();
 $output = (new FrontController($config))->run();
@@ -23,12 +24,15 @@ if ('' !== $output) {
 
 if ($config->isTracingActive()) {
 
-    define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
     $predisClient = new Client([
         'scheme' => 'tcp',
         'host'   => 'soarce.local',
         'port'   => 6379,
     ]);
+
+    $requestTracking = new RequestTracking($predisClient);
+
+    //define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
 
     $redisMutex = new RedisMutex($predisClient, $config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
@@ -37,7 +41,7 @@ if ($config->isTracingActive()) {
         'type' => 'trace',
         'host' => $config->getApplicationName(),
         'request_time' => microtime(true),
-        'request_id' => SOARCE_REQUEST_ID,
+        'request_id' => $requestTracking->getRequestId(),
         'get'  => $_GET,
         'post' => $_POST,
         'server' => $_SERVER,
@@ -55,9 +59,13 @@ if ($config->isTracingActive()) {
     );
 
 
-    register_shutdown_function(static function () use ($header, $predisClient){
+    register_shutdown_function(static function () use ($header, $predisClient, $requestTracking){
         xdebug_stop_trace();
 
+        // we'll do this as early as possible, to shorten the time where multiple requests could be registered in redis.
+        $requestTracking->unregisterRequest();
+
+        // preparing coverage payload
         $header['type'] = 'coverage';
 
         $data = [
