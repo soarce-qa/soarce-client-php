@@ -2,7 +2,10 @@
 
 namespace UnitTests\Action;
 
+use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
+use Predis\Client;
+use Predis\ClientInterface;
 use Soarce\Action\Exception;
 use Soarce\Action\End;
 use Soarce\Config;
@@ -29,6 +32,7 @@ class EndTest extends TestCase
         $this->config->setDataPath('/the/freaking/moon');
 
         $action = new End($this->config);
+        $action->setPredisClient($this->getRedisMock());
 
         $this->expectException(Exception::class);
         $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
@@ -45,6 +49,7 @@ class EndTest extends TestCase
         $this->config->setDataPath('/root/.ssh');
 
         $action = new End($this->config);
+        $action->setPredisClient($this->getRedisMock());
 
         $this->expectException(Exception::class);
         $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
@@ -57,6 +62,7 @@ class EndTest extends TestCase
         $this->config->setDataPath('/warrrggbblllgrrglllblll/');
 
         $end = new End($this->config);
+        $end->setPredisClient($this->getRedisMock());
 
         $this->expectException(Exception::class);
         $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
@@ -73,6 +79,7 @@ class EndTest extends TestCase
 
         // secure the stuff
         $end = new End($this->config);
+        $end->setPredisClient($this->getRedisMock());
         $out = $end->run();
 
         // assert
@@ -103,6 +110,7 @@ class EndTest extends TestCase
         // secure the stuff
         $_GET['usecase'] = 'UnitTest2';
         $end = new End($this->config);
+        $end->setPredisClient($this->getRedisMock());
         $out = $end->run();
 
         // assert
@@ -118,5 +126,17 @@ class EndTest extends TestCase
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt');
         unlink($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt.coverage');
         rmdir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2');
+    }
+
+    /**
+     * @return ClientInterface
+     */
+    private function getRedisMock(): ClientInterface
+    {
+        $factory = new RedisMockFactory();
+        /** @var ClientInterface $redisMock */
+        $redisMock = $factory->getAdapter(Client::class, true);
+
+        return $redisMock;
     }
 }
