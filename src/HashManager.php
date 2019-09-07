@@ -24,16 +24,13 @@ class HashManager
     /**
      * HashManager constructor.
      *
+     * @param Client $predis
      * @param string $applicationName
      */
-    public function __construct($applicationName)
+    public function __construct(Client $predis, $applicationName)
     {
         $this->applicationName = $applicationName;
-        $this->client = new Client([
-            'scheme' => 'tcp',
-            'host'   => 'soarce.local',
-            'port'   => 6379,
-        ]);
+        $this->client = $predis;
     }
 
     /**

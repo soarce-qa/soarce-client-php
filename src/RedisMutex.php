@@ -15,18 +15,15 @@ class RedisMutex
     /**
      * RedisMutex constructor.
      *
+     * @param Client $client
      * @param string $name
      * @param int    $numberOfPipes
      */
-    public function __construct($name, $numberOfPipes = null)
+    public function __construct(Client $client, $name, $numberOfPipes = null)
     {
         $this->name          = $name;
         $this->numberOfPipes = $numberOfPipes;
-        $this->client = new Client([
-            'scheme' => 'tcp',
-            'host'   => 'soarce.local',
-            'port'   => 6379,
-        ]);
+        $this->client        = $client;
     }
 
     /**

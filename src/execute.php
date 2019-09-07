@@ -8,6 +8,7 @@ if (defined('SOARCE_SKIP_EXECUTE')) {
     return;
 }
 
+use Predis\Client;
 use Soarce\Config;
 use Soarce\FrontController;
 use Soarce\HashManager;
@@ -23,8 +24,13 @@ if ('' !== $output) {
 if ($config->isTracingActive()) {
 
     define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
+    $predisClient = new Client([
+        'scheme' => 'tcp',
+        'host'   => 'soarce.local',
+        'port'   => 6379,
+    ]);
 
-    $redisMutex = new RedisMutex($config->getApplicationName(), $config->getNumberOfPipes());
+    $redisMutex = new RedisMutex($predisClient, $config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
     $header = [
@@ -48,7 +54,8 @@ if ($config->isTracingActive()) {
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-    register_shutdown_function(static function () use ($header){
+
+    register_shutdown_function(static function () use ($header, $predisClient){
         xdebug_stop_trace();
 
         $header['type'] = 'coverage';
@@ -58,7 +65,7 @@ if ($config->isTracingActive()) {
             'payload' => xdebug_get_code_coverage(),
         ];
 
-        $hashManager = new HashManager($header['host']);
+        $hashManager = new HashManager($predisClient, $header['host']);
         $hashManager->load();
         $md5Hashes = $hashManager->getMd5ForFiles(array_keys($data['payload']));
         $data['md5'] = $md5Hashes;
