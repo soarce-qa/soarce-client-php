@@ -6,7 +6,6 @@ use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
 use Predis\ClientInterface;
-use Soarce\HashManager;
 use Soarce\RedisMutex;
 
 class RedisMutexTest extends TestCase
@@ -45,8 +44,6 @@ class RedisMutexTest extends TestCase
         $this->assertEquals([1,2,3], $locks);
     }
 
-
-
     /**
      * @return ClientInterface
      */
@@ -55,8 +52,8 @@ class RedisMutexTest extends TestCase
         $factory   = new RedisMockFactory();
 
         /** @var ClientInterface $redisMock */
-        $this->redisMock = $factory->getAdapter(Client::class, true);
+        $redisMock = $factory->getAdapter(Client::class, true);
 
-        return $this->redisMock;
+        return $redisMock;
     }
 }
