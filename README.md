@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 0.6.0
+## Version: 0.7.0
 
 ## Overview
 
@@ -68,7 +68,7 @@ xdebug.trace_format = 1
 xdebug.trace_enable_trigger = 0
 ```
 
-This is counterintuitive, but, SOARCE triggers coverage and tracing itself. 
+This might be counterintuitive, but, SOARCE triggers coverage and tracing itself. 
 
 ### docker-compose
 
@@ -107,7 +107,5 @@ options later:
 * Component requires xdebug to be active 
 
 ### Separating Requests
-We plan to group requests which are passed on further to subsequent services by the topmost request
-to the initial application/service - and we'll aim for working them up. This will require passing on
-request IDs manually through the respective SDKs or adaptors. We'll provide functionality to help with
-that task.
+For within a service architecture we just added a feature that automatically detects the request-id of the parent request and the sequence number of child requests within that parent request.
+This currently only works in it's zero-conf mode when each service is running in it's own VM or docker container - having a separate IP address - and without having gaps inbetween - like loadbalancers or services not equipped with an active SOARCE client. We'll add additional support options in the future.
