@@ -86,7 +86,7 @@ class RequestTracking
         }
 
         // get the request ID from parent
-        $parentRequestId = $this->client->lrange($key, 0, 1);
+        $parentRequestId = $this->client->lrange($key, 0, 1)[0];
 
         // increase a unique counter for the parent request ID to number it's requests
         $counter = $this->client->incr($parentRequestId);
