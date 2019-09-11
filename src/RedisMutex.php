@@ -2,48 +2,28 @@
 
 namespace Soarce;
 
-use Predis\Client;
+use Predis\ClientInterface;
 
 class RedisMutex
 {
-    /** @var Client */
+    /** @var ClientInterface */
     private $client;
 
     /** @var int */
     private $numberOfPipes;
 
-    /** @var self */
-    private static $instance;
-
     /**
      * RedisMutex constructor.
      *
-     * @param string $name
-     * @param int    $numberOfPipes
+     * @param ClientInterface $client
+     * @param string          $name
+     * @param int             $numberOfPipes
      */
-    private function __construct($name, $numberOfPipes = null)
+    public function __construct(ClientInterface $client, $name, $numberOfPipes = null)
     {
         $this->name          = $name;
         $this->numberOfPipes = $numberOfPipes;
-        $this->client = new Client([
-            'scheme' => 'tcp',
-            'host'   => 'soarce.local',
-            'port'   => 6379,
-        ]);
-    }
-
-    /**
-     * @param  string $name
-     * @param  int    $numberOfPipes
-     * @return RedisMutex
-     */
-    public static function getInstance($name, $numberOfPipes = null): RedisMutex
-    {
-        if (null === self::$instance) {
-            self::$instance = new self($name, $numberOfPipes);
-        }
-
-        return self::$instance;
+        $this->client        = $client;
     }
 
     /**

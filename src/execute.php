@@ -8,11 +8,13 @@ if (defined('SOARCE_SKIP_EXECUTE')) {
     return;
 }
 
+use Predis\Client;
 use Soarce\Config;
 use Soarce\FrontController;
 use Soarce\HashManager;
 use Soarce\Pipe\Handler;
 use Soarce\RedisMutex;
+use Soarce\RequestTracking;
 
 $config = new Config();
 $output = (new FrontController($config))->run();
@@ -20,17 +22,26 @@ if ('' !== $output) {
     die($output);
 }
 
-define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
-
 if ($config->isTracingActive()) {
-    $redisMutex = RedisMutex::getInstance($config->getApplicationName(), $config->getNumberOfPipes());
+
+    $predisClient = new Client([
+        'scheme' => 'tcp',
+        'host'   => 'soarce.local',
+        'port'   => 6379,
+    ]);
+
+    $requestTracking = new RequestTracking($predisClient);
+
+    //define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
+
+    $redisMutex = new RedisMutex($predisClient, $config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
     $header = [
         'type' => 'trace',
         'host' => $config->getApplicationName(),
         'request_time' => microtime(true),
-        'request_id' => SOARCE_REQUEST_ID,
+        'request_id' => $requestTracking->getRequestId(),
         'get'  => $_GET,
         'post' => $_POST,
         'server' => $_SERVER,
@@ -47,9 +58,14 @@ if ($config->isTracingActive()) {
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-    register_shutdown_function(static function () use ($header){
+
+    register_shutdown_function(static function () use ($header, $predisClient, $requestTracking){
         xdebug_stop_trace();
 
+        // we'll do this as early as possible, to shorten the time where multiple requests could be registered in redis.
+        $requestTracking->unregisterRequest();
+
+        // preparing coverage payload
         $header['type'] = 'coverage';
 
         $data = [
@@ -57,7 +73,7 @@ if ($config->isTracingActive()) {
             'payload' => xdebug_get_code_coverage(),
         ];
 
-        $hashManager = new HashManager($header['host']);
+        $hashManager = new HashManager($predisClient, $header['host']);
         $hashManager->load();
         $md5Hashes = $hashManager->getMd5ForFiles(array_keys($data['payload']));
         $data['md5'] = $md5Hashes;

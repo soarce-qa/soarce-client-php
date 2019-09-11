@@ -2,13 +2,17 @@
 
 namespace Soarce\Action;
 
+use Predis\ClientInterface;
 use Soarce\Action;
 use Soarce\Config;
 use Soarce\Pipe\Handler;
 use Soarce\RedisMutex;
 
-class End extends Action
+class End extends Action implements PredisClientInterface
 {
+    /** @var ClientInterface */
+    private $predisClient;
+
     /** @var RedisMutex */
     private $redisMutex;
 
@@ -18,7 +22,7 @@ class End extends Action
      */
     public function run(): string
     {
-        $this->redisMutex = RedisMutex::getInstance($this->config->getApplicationName(), $this->config->getNumberOfPipes());
+        $this->redisMutex = new RedisMutex($this->predisClient, $this->config->getApplicationName(), $this->config->getNumberOfPipes());
 
         if (!is_writable($this->config->getDataPath())) {
             throw new Exception('data dir does not exist, is not writable or full', Exception::DATA_DIRECTORY__NOT_WRITEABLE);
@@ -30,6 +34,14 @@ class End extends Action
         $this->cleanRedisMutex();
 
         return json_encode(['status' => 'ok']);
+    }
+
+    /**
+     * @param ClientInterface $client
+     */
+    public function setPredisClient(ClientInterface $client): void
+    {
+        $this->predisClient = $client;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace SoarceRuntime;
 
 define('SOARCE_SKIP_EXECUTE', true);
 
+use Predis\Client;
 use Soarce\Config;
 use Soarce\Pipe;
 use Soarce\RedisMutex;
@@ -19,7 +20,14 @@ $config = new Config();
 $config->setDataPath($argv[1]);
 
 $id = $argv[2];
-$redisMutex = RedisMutex::getInstance($config->getApplicationName());
+
+$predisClient = new Client([
+    'scheme' => 'tcp',
+    'host'   => 'soarce.local',
+    'port'   => 6379,
+]);
+
+$redisMutex = new RedisMutex($predisClient, $config->getApplicationName());
 
 $pipe = new Pipe($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $id));
 

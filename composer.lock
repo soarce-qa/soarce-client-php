@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48681e85504d5a0aaaeabb9efebd058b",
+    "content-hash": "84758b6042b61f1776422d53af990a69",
     "packages": [
         {
             "name": "fastbill/parallel-process-dispatcher",
@@ -204,6 +204,51 @@
             "description": "This tool check syntax of PHP files about 20x faster than serial check.",
             "homepage": "https://github.com/JakubOnderka/PHP-Parallel-Lint",
             "time": "2018-02-24T15:31:20+00:00"
+        },
+        {
+            "name": "m6web/redis-mock",
+            "version": "v4.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/M6Web/RedisMock.git",
+                "reference": "5f8821e8a39055ca4ef0d4b51dbc063aa000a2dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/M6Web/RedisMock/zipball/5f8821e8a39055ca4ef0d4b51dbc063aa000a2dc",
+                "reference": "5f8821e8a39055ca4ef0d4b51dbc063aa000a2dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "atoum/atoum": "master-dev",
+                "predis/predis": "~1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "M6Web\\Component\\RedisMock": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "M6Web",
+                    "email": "opensource@m6web.fr",
+                    "homepage": "http://tech.m6web.fr/"
+                }
+            ],
+            "description": "Library providing a PHP mock for Redis",
+            "keywords": [
+                "mock",
+                "redis"
+            ],
+            "time": "2019-08-20T13:03:26+00:00"
         },
         {
             "name": "myclabs/deep-copy",

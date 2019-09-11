@@ -2,6 +2,9 @@
 
 namespace Soarce;
 
+use Predis\Client;
+use Soarce\Action\PredisClientInterface;
+
 class FrontController
 {
     /** @var Config */
@@ -47,6 +50,16 @@ class FrontController
 
         /** @var Action $action */
         $action = new $classname($this->config);
+
+        if ($action instanceof PredisClientInterface) {
+            $predisClient = new Client([
+                'scheme' => 'tcp',
+                'host'   => 'soarce.local',
+                'port'   => 6379,
+            ]);
+            $action->setPredisClient($predisClient);
+        }
+
         return $action->run();
     }
 

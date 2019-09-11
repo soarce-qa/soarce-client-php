@@ -2,7 +2,10 @@
 
 namespace UnitTests\Action;
 
+use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
+use Predis\Client;
+use Predis\ClientInterface;
 use Soarce\Action\Exception;
 use Soarce\Action\Start;
 use Soarce\Config;
@@ -15,6 +18,7 @@ class StartTest extends TestCase
         $config->setDataPath('/the/freaking/moon');
 
         $action = new Start($config);
+        $action->setPredisClient($this->getRedisMock());
 
         $this->expectException(Exception::class);
         $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
@@ -32,6 +36,7 @@ class StartTest extends TestCase
         $config->setDataPath('/root/.ssh');
 
         $action = new Start($config);
+        $action->setPredisClient($this->getRedisMock());
 
         $this->expectException(Exception::class);
         $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
@@ -48,6 +53,7 @@ class StartTest extends TestCase
         $config->setNumberOfPipes(2);
 
         $action = new Start($config);
+        $action->setPredisClient($this->getRedisMock());
 
         $return = $action->run();
 
@@ -62,5 +68,17 @@ class StartTest extends TestCase
 
         unlink($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0));
         unlink($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1));
+    }
+
+    /**
+     * @return ClientInterface
+     */
+    private function getRedisMock(): ClientInterface
+    {
+        $factory = new RedisMockFactory();
+        /** @var ClientInterface $redisMock */
+        $redisMock = $factory->getAdapter(Client::class, true);
+
+        return $redisMock;
     }
 }
