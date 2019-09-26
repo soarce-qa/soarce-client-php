@@ -32,8 +32,6 @@ if ($config->isTracingActive()) {
 
     $requestTracking = new RequestTracking($predisClient);
 
-    //define('SOARCE_REQUEST_ID', bin2hex(random_bytes(16))); //TODO implement request-id-forwarding
-
     $redisMutex = new RedisMutex($predisClient, $config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
