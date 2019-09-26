@@ -50,7 +50,7 @@ class RequestTracking
 
         # or get default Request Id (random)
         if ($this->requestId === '') {
-            $this->requestId = bin2hex(random_bytes(16));
+            $this->requestId = bin2hex(random_bytes(8));
         }
 
         # write own RequestId to redis using own IP as key
