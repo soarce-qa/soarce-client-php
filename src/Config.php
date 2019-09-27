@@ -7,8 +7,8 @@ class Config
     const DEFAULT_ACTION_PARAM_NAME    = 'SOARCE';
     const DEFAULT_DATA_PATH            = '/tmp/';
     const DEFAULT_NUMBER_OF_PIPES      = 10;
-    const DEFAULT_WHITELISTED_HOST_IPS = [];
-    const DEFAULT_WHITELISTED_PATHS    = [];
+    public static $DEFAULT_WHITELISTED_HOST_IPS = [];
+    public static $DEFAULT_WHITELISTED_PATHS    = [];
     const DEFAULT_PRESHARED_SECRET     = '';
 
     const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
@@ -164,7 +164,7 @@ class Config
             } elseif (isset($_SERVER['SOARCE_WHITELISTED_HOST_IPS']) && $_SERVER['SOARCE_WHITELISTED_HOST_IPS']) {
                 $this->whitelistedHostIps = explode(',', $_SERVER['SOARCE_WHITELISTED_HOST_IPS']);
             } else {
-                $this->whitelistedHostIps = self::DEFAULT_WHITELISTED_HOST_IPS;
+                $this->whitelistedHostIps = self::$DEFAULT_WHITELISTED_HOST_IPS;
             }
         }
 
@@ -190,7 +190,7 @@ class Config
             } elseif (isset($_SERVER['SOARCE_WHITELISTED_PATHS']) && $_SERVER['SOARCE_WHITELISTED_PATHS']) {
                 $this->whitelistedPaths = explode(PATH_SEPARATOR, $_SERVER['SOARCE_WHITELISTED_PATHS']);
             } else {
-                $this->whitelistedPaths = self::DEFAULT_WHITELISTED_PATHS;
+                $this->whitelistedPaths = self::$DEFAULT_WHITELISTED_PATHS;
             }
         }
 
