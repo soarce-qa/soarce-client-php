@@ -21,7 +21,7 @@ class ReadFile extends Action
             throw new Exception('File not found, not readable and/or not in a whitelisted directory', Exception::FILE_NOT_FOUND);
         }
 
-        if (php_sapi_name() !== 'cli') {
+        if (PHP_SAPI !== 'cli') {
             header (self::CHECKSUM_HEADER . ': ' . md5_file($_GET['filename']));
         }
 
