@@ -48,7 +48,7 @@ class HashManager
      * @param  string $filepath
      * @return string
      */
-    public function getMd5ForFile($filepath): string
+    public function getMd5ForFile($filepath)
     {
         if (strpos($filepath, "eval()'d code") !== false) {
             return '';
@@ -67,7 +67,7 @@ class HashManager
      * @param  string[] $files
      * @return string[]
      */
-    public function getMd5ForFiles($files): array
+    public function getMd5ForFiles($files)
     {
         $return = [];
         foreach ($files as $file){

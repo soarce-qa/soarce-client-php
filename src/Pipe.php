@@ -22,7 +22,7 @@ class Pipe
     /**
      * @return string
      */
-    public function getBasepath(): string
+    public function getBasepath()
     {
         return $this->basePath;
     }
@@ -30,7 +30,7 @@ class Pipe
     /**
      * @return string
      */
-    public function getFilenameTracefile(): string
+    public function getFilenameTracefile()
     {
         return $this->basePath . Config::SUFFIX_TRACEFILE;
     }

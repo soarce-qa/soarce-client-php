@@ -7,7 +7,7 @@ use Soarce\Action;
 class TestAction extends Action
 {
 
-    public function run(): string
+    public function run()
     {
         return 'something';
     }

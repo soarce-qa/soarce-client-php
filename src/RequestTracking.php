@@ -34,7 +34,7 @@ class RequestTracking
     /**
      * @return string
      */
-    public function getRequestId(): string
+    public function getRequestId()
     {
         if (null !== $this->requestId) {
             return $this->requestId;
@@ -76,7 +76,7 @@ class RequestTracking
      *
      * @return string
      */
-    protected function getRequestIdFromRedis(): string
+    protected function getRequestIdFromRedis()
     {
         $key = 'request:' . $this->getRequestIp();
 
@@ -101,7 +101,7 @@ class RequestTracking
     /**
      * @return string
      */
-    protected function getRequestIdFromHeader(): string
+    protected function getRequestIdFromHeader()
     {
         return $_SERVER[self::HEADER_NAME] ?? '';
     }
@@ -109,7 +109,7 @@ class RequestTracking
     /**
      * @return string
      */
-    protected function getRequestIp(): string
+    protected function getRequestIp()
     {
         if (null === $this->requestIp) {
             $this->requestIp = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
@@ -121,7 +121,7 @@ class RequestTracking
     /**
      * @return string
      */
-    protected function getServerIp(): string
+    protected function getServerIp()
     {
         if (null === $this->serverIp) {
             $this->serverIp = $_SERVER['SERVER_ADDR'];

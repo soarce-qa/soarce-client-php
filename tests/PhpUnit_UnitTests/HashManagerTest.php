@@ -62,7 +62,7 @@ class HashManagerTest extends TestCase
     /**
      * @return HashManager
      */
-    private function getPreparedInstance(): HashManager
+    private function getPreparedInstance()
     {
         $factory   = new RedisMockFactory();
 

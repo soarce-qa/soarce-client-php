@@ -69,7 +69,7 @@ class RequestTrackingTest extends TestCase
     /**
      * @return ClientInterface
      */
-    private function getRedisMock(): ClientInterface
+    private function getRedisMock()
     {
         $factory   = new RedisMockFactory();
 

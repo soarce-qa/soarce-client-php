@@ -92,7 +92,7 @@ class TraceParser3
     /**
      * @return array
      */
-    public function getParsedData(): array
+    public function getParsedData()
     {
         return $this->parsedData;
     }
@@ -100,7 +100,7 @@ class TraceParser3
     /**
      * @return array
      */
-    public function getFunctionMap(): array
+    public function getFunctionMap()
     {
         return $this->functionMap;
     }

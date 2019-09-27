@@ -39,7 +39,7 @@ class Config
     /**
      * @return string
      */
-    public function getPresharedSecret(): string
+    public function getPresharedSecret()
     {
         if (null === $this->presharedSecret) {
             $this->presharedSecret = $_ENV['SOARCE_PRESHARED_SECRET'] ?? $_SERVER['SOARCE_PRESHARED_SECRET'] ?? self::DEFAULT_PRESHARED_SECRET;
@@ -51,7 +51,7 @@ class Config
     /**
      * @return string
      */
-    public function getActionParamName(): string
+    public function getActionParamName()
     {
         if (null === $this->actionParamName) {
             $this->actionParamName = $_ENV['SOARCE_ACTION_PARAM_NAME'] ?? $_SERVER['SOARCE_ACTION_PARAM_NAME'] ?? self::DEFAULT_ACTION_PARAM_NAME;
@@ -63,7 +63,7 @@ class Config
     /**
      * @return string
      */
-    public function getApplicationName(): string
+    public function getApplicationName()
     {
         if (null === $this->applicationName) {
             $this->applicationName = $_ENV['SOARCE_APPLICATION_NAME'] ?? $_SERVER['SOARCE_APPLICATION_NAME'] ?? $_SERVER['HOSTNAME'];
@@ -75,7 +75,7 @@ class Config
     /**
      * @param string $actionParamName
      */
-    public function setActionParamName(string $actionParamName)
+    public function setActionParamName($actionParamName)
     {
         $this->actionParamName = $actionParamName;
     }
@@ -83,7 +83,7 @@ class Config
     /**
      * @return string
      */
-    public function getDataPath(): string
+    public function getDataPath()
     {
         if (null === $this->dataPath) {
             $this->dataPath = $_ENV['SOARCE_DATA_PATH'] ?? $_SERVER['SOARCE_DATA_PATH'] ?? self::DEFAULT_DATA_PATH;
@@ -94,7 +94,7 @@ class Config
     /**
      * @param string $dataPath
      */
-    public function setDataPath(string $dataPath)
+    public function setDataPath($dataPath)
     {
         $this->dataPath = $dataPath;
     }
@@ -102,7 +102,7 @@ class Config
     /**
      * @return bool
      */
-    public function isTracingActive(): bool
+    public function isTracingActive()
     {
         return isset($_COOKIE['XDEBUG_TRACE'])
             || isset($_GET['XDEBUG_TRACE'])
@@ -113,7 +113,7 @@ class Config
     /**
      * @return int
      */
-    public function getNumberOfPipes(): int
+    public function getNumberOfPipes()
     {
         if (null === $this->numberOfPipes) {
             return self::DEFAULT_NUMBER_OF_PIPES;
@@ -132,7 +132,7 @@ class Config
     /**
      * @return string[]
      */
-    public function getWhitelistedHostIps(): array
+    public function getWhitelistedHostIps()
     {
         if ([] === $this->whitelistedHostIps) {
             if (isset($_ENV['SOARCE_WHITELISTED_HOST_IPS']) && '' !== $_ENV['SOARCE_WHITELISTED_HOST_IPS']) {
@@ -158,7 +158,7 @@ class Config
     /**
      * @return string[]
      */
-    public function getWhitelistedPaths(): array
+    public function getWhitelistedPaths()
     {
         if ([] === $this->whitelistedPaths) {
             if (isset($_ENV['SOARCE_WHITELISTED_PATHS']) && '' !== $_ENV['SOARCE_WHITELISTED_PATHS']) {

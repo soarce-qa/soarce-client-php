@@ -20,7 +20,7 @@ class End extends Action implements PredisClientInterface
      * @return string
      * @throws Exception
      */
-    public function run(): string
+    public function run()
     {
         $this->redisMutex = new RedisMutex($this->predisClient, $this->config->getApplicationName(), $this->config->getNumberOfPipes());
 

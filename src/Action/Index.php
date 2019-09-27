@@ -9,7 +9,7 @@ class Index extends Action
     /**
      * @return string
      */
-    public function run(): string
+    public function run()
     {
         return <<<HTML
 <html lang="en">

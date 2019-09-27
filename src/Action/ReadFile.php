@@ -11,7 +11,7 @@ class ReadFile extends Action
     /**
      * @return string
      */
-    public function run(): string
+    public function run()
     {
         if (!isset($_GET['filename'])) {
             throw new Exception('Filename parameter not submitted', Exception::MISSING_FILENAME_PARAMETER);
@@ -32,7 +32,7 @@ class ReadFile extends Action
      * @param  string $filename
      * @return boolean
      */
-    private function isPathPermittedByWhitelist($filename): bool
+    private function isPathPermittedByWhitelist($filename)
     {
         $realPath = realpath($filename);
 

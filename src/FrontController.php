@@ -31,7 +31,7 @@ class FrontController
      *
      * @return string
      */
-    public function run(): string
+    public function run()
     {
         if (!$this->isIpWhitelisted() || !$this->isPresharedSecretAuthorized()) {
             return '';
@@ -66,7 +66,7 @@ class FrontController
     /**
      * @return bool
      */
-    private function isPresharedSecretAuthorized(): bool
+    private function isPresharedSecretAuthorized()
     {
         if ($this->config->getPresharedSecret() === '') {
             return true;
@@ -86,7 +86,7 @@ class FrontController
     /**
      * @return bool
      */
-    private function isIpWhitelisted(): bool
+    private function isIpWhitelisted()
     {
         // no whitelist means we accept all calls (this is a dev tool and should not be hosted publicly anyways).
         if ($this->config->getWhitelistedHostIps() === []) {
