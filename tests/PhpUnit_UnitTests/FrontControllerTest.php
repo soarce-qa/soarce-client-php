@@ -36,7 +36,7 @@ class FrontControllerTest extends TestCase
     public function testIndexDoesSomething()
     {
         $_GET['SOARCE'] = 'index';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $this->assertContains('Hello World!', (new FrontController(new Config()))->run());
     }
 
     public function testOverrideParamName()
@@ -45,6 +45,6 @@ class FrontControllerTest extends TestCase
         $config = new Config();
         $config->setActionParamName('SECURITY');
 
-        $this->assertStringContainsString('Hello World!', (new FrontController($config))->run());
+        $this->assertContains('Hello World!', (new FrontController($config))->run());
     }
 }
