@@ -43,13 +43,15 @@ class PathWhitelistingTest extends TestCase
         $this->assertContains('this is a test', (new FrontController(new Config()))->run());
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 5
+     */
     public function testNonWhitelistedPathThrowsException()
     {
         $_GET['SOARCE'] = 'readfile';
         $_GET['filename'] = '/etc/passwd';
         $_SERVER['SOARCE_WHITELISTED_PATHS'] = '/home/:/something/else';
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::FILE_NOT_FOUND);
         (new FrontController(new Config()))->run();
     }
 }

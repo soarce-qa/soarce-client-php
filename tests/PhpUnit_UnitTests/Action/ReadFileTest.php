@@ -14,24 +14,26 @@ class ReadFileTest extends TestCase
         unset($_GET['filename']);
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 4
+     */
     public function testMissingParamCausesException()
     {
         $action = new ReadFile(new Config());
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::MISSING_FILENAME_PARAMETER);
-
         $action->run();
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 5
+     */
     public function testUnreadableFileCausesException()
     {
         $action = new ReadFile(new Config());
 
         $_GET['filename'] = '/this/does/not/exist.xt';
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::FILE_NOT_FOUND);
 
         $action->run();
     }

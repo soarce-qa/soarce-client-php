@@ -12,6 +12,10 @@ use Soarce\Config;
 
 class StartTest extends TestCase
 {
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
     public function testNonexistantDirectoryCausesException()
     {
         $config = new Config();
@@ -20,12 +24,13 @@ class StartTest extends TestCase
         $action = new Start($config);
         $action->setPredisClient($this->getRedisMock());
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
-
         $action->run();
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
     public function testUnauthorizedDirectoryCausesException()
     {
         if ('root' === $_SERVER['USER']) {
@@ -37,9 +42,6 @@ class StartTest extends TestCase
 
         $action = new Start($config);
         $action->setPredisClient($this->getRedisMock());
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
 
         $action->run();
     }

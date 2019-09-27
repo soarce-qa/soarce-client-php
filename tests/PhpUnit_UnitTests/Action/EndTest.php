@@ -27,6 +27,10 @@ class EndTest extends TestCase
         unset($_GET['usecase']);
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
     public function testNonexistantDirectoryCausesException()
     {
         $this->config->setDataPath('/the/freaking/moon');
@@ -34,12 +38,13 @@ class EndTest extends TestCase
         $action = new End($this->config);
         $action->setPredisClient($this->getRedisMock());
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
-
         $action->run();
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
     public function testUnauthorizedDirectoryCausesException()
     {
         if ('root' === $_SERVER['USER']) {
@@ -51,21 +56,19 @@ class EndTest extends TestCase
         $action = new End($this->config);
         $action->setPredisClient($this->getRedisMock());
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
-
         $action->run();
     }
 
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
     public function testProblemWithTraceDirectoryThrowsException()
     {
         $this->config->setDataPath('/warrrggbblllgrrglllblll/');
 
         $end = new End($this->config);
         $end->setPredisClient($this->getRedisMock());
-
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
 
         $end->run();
     }
