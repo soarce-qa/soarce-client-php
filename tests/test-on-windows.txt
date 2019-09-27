@@ -1,0 +1,33 @@
+#worksOnMyMachine
+
+C:\PHP\5.3\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\5.3\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\5.4\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\5.4\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\5.5\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\5.5\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\5.6\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\5.6\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\7.0\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\7.0\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\7.1\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\7.1\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\7.2\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\7.2\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
+
+C:\PHP\7.3\php.exe vendor\phpunit\phpunit\phpunit --configuration=./build/phpunit-all.xml --no-coverage
+C:\PHP\7.3\php.exe vendor\jakub-onderka\php-parallel-lint\parallel-lint --blame src tests -j 16
+
