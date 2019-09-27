@@ -4,7 +4,6 @@ namespace UnitTests\Action;
 
 use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
-use Predis\Client;
 use Predis\ClientInterface;
 use Soarce\Action\Exception;
 use Soarce\Action\Start;
@@ -79,7 +78,7 @@ class StartTest extends TestCase
     {
         $factory = new RedisMockFactory();
         /** @var ClientInterface $redisMock */
-        $redisMock = $factory->getAdapter(Client::class, true);
+        $redisMock = $factory->getAdapter('\Predis\Client', true);
 
         return $redisMock;
     }

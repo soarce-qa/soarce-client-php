@@ -4,7 +4,6 @@ namespace UnitTests;
 
 use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
-use Predis\Client;
 use Predis\ClientInterface;
 use Soarce\HashManager;
 
@@ -67,7 +66,7 @@ class HashManagerTest extends TestCase
         $factory   = new RedisMockFactory();
 
         /** @var ClientInterface $redisMock */
-        $this->redisMock = $factory->getAdapter(Client::class, true);
+        $this->redisMock = $factory->getAdapter('\Predis\Client', true);
 
         return new HashManager($this->redisMock, 'testApplicationName');
     }

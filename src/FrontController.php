@@ -12,13 +12,13 @@ class FrontController
 
     /** @var string() */
     private $actionMap = [
-        'details'       => Action\Details::class,
-        'end'           => Action\End::class,
-        'index'         => Action\Index::class,
-        'ping'          => Action\Ping::class,
-        'preconditions' => Action\Preconditions::class,
-        'readfile'      => Action\ReadFile::class,
-        'start'         => Action\Start::class,
+        'details'       => '\Soarce\Action\Details',
+        'end'           => '\Soarce\Action\End',
+        'index'         => '\Soarce\Action\Index',
+        'ping'          => '\Soarce\Action\Ping',
+        'preconditions' => '\Soarce\Action\Preconditions',
+        'readfile'      => '\Soarce\Action\ReadFile',
+        'start'         => '\Soarce\Action\Start',
     ];
 
     public function __construct(Config $config)
