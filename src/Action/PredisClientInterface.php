@@ -9,5 +9,5 @@ interface PredisClientInterface
     /**
      * @param ClientInterface $client
      */
-    public function setPredisClient(ClientInterface $client): void;
+    public function setPredisClient(ClientInterface $client);
 }

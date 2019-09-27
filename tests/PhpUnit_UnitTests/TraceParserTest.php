@@ -7,14 +7,13 @@ use Soarce\TraceParser;
 
 class TraceParserTest extends TestCase
 {
-    public function testEverything(): void
+    public function testEverything()
     {
         $parser = new TraceParser();
         $fp = fopen(__DIR__ . '/Fixtures/demo-trace.txt', 'rb');
         $parser->analyze($fp);
 
         $parsedData = $parser->getParsedData();
-        $this->assertIsArray($parsedData);
         $this->assertCount(1, $parsedData);
         $this->assertArrayHasKey('../trace.php', $parsedData);
         $this->assertCount(4, $parsedData['../trace.php']);

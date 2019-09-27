@@ -64,7 +64,7 @@ class RequestTracking
     /**
      * This is a "shutdown function" which removes the request ID from redis - as the request is done.
      */
-    public function unregisterRequest(): void
+    public function unregisterRequest()
     {
         $key = 'request:' . $this->getServerIp();
         $this->client->lrem($key, 1, $this->requestId);

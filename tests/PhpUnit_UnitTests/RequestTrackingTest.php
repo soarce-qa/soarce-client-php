@@ -6,7 +6,6 @@ use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
 use Predis\ClientInterface;
-use Soarce\RedisMutex;
 use Soarce\RequestTracking;
 
 class RequestTrackingTest extends TestCase
@@ -16,19 +15,19 @@ class RequestTrackingTest extends TestCase
     /** @var array */
     private $storedServerParams;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->storedServerParams = $_SERVER;
         $_SERVER['SERVER_ADDR'] = '1.3.3.7';
         $_SERVER['REMOTE_ADDR'] = '42.42.42.42';
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         $_SERVER = $this->storedServerParams;
     }
 
-    public function testIdFromRequestHeader(): void
+    public function testIdFromRequestHeader()
     {
         $this->markTestIncomplete('the mock is faulty - we will make this into an integration test at a later point in time.');
 
@@ -47,7 +46,7 @@ class RequestTrackingTest extends TestCase
         $this->assertCount(0, $redis->keys('request:1.3.3.7'));
     }
 
-    public function testIdFromRedis(): void
+    public function testIdFromRedis()
     {
         $this->markTestIncomplete('the mock is faulty - we will make this into an integration test at a later point in time.');
 

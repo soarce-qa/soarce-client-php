@@ -24,7 +24,7 @@ class TraceParser1
     /**
      * @param  resource $fp
      */
-    public function analyze($fp): void
+    public function analyze($fp)
     {
         while (false !== ($line = fgets($fp))) {
             $out = [];
