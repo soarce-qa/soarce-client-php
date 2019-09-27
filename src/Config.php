@@ -75,7 +75,7 @@ class Config
     /**
      * @param string $actionParamName
      */
-    public function setActionParamName(string $actionParamName): void
+    public function setActionParamName(string $actionParamName)
     {
         $this->actionParamName = $actionParamName;
     }
@@ -94,7 +94,7 @@ class Config
     /**
      * @param string $dataPath
      */
-    public function setDataPath(string $dataPath): void
+    public function setDataPath(string $dataPath)
     {
         $this->dataPath = $dataPath;
     }
@@ -124,7 +124,7 @@ class Config
     /**
      * @param int $numberOfPipes
      */
-    public function setNumberOfPipes(int $numberOfPipes): void
+    public function setNumberOfPipes(int $numberOfPipes)
     {
         $this->numberOfPipes = $numberOfPipes;
     }
@@ -150,7 +150,7 @@ class Config
     /**
      * @param string[] $whitelistedHostIps
      */
-    public function setWhitelistedHostIps(array $whitelistedHostIps): void
+    public function setWhitelistedHostIps(array $whitelistedHostIps)
     {
         $this->whitelistedHostIps = $whitelistedHostIps;
     }
@@ -176,7 +176,7 @@ class Config
     /**
      * @param string[] $whitelistedPaths
      */
-    public function setWhitelistedPaths(array $whitelistedPaths): void
+    public function setWhitelistedPaths(array $whitelistedPaths)
     {
         $this->whitelistedPaths = $whitelistedPaths;
     }

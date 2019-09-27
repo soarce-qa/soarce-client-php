@@ -38,7 +38,7 @@ class Pipe
     /**
      * @param callable $function
      */
-    public function registerReleaseFunction(callable $function): void
+    public function registerReleaseFunction(callable $function)
     {
         $this->releaseFunction = $function;
     }

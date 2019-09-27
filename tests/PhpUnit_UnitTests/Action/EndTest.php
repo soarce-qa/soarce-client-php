@@ -27,7 +27,7 @@ class EndTest extends TestCase
         unset($_GET['usecase']);
     }
 
-    public function testNonexistantDirectoryCausesException(): void
+    public function testNonexistantDirectoryCausesException()
     {
         $this->config->setDataPath('/the/freaking/moon');
 
@@ -40,7 +40,7 @@ class EndTest extends TestCase
         $action->run();
     }
 
-    public function testUnauthorizedDirectoryCausesException(): void
+    public function testUnauthorizedDirectoryCausesException()
     {
         if ('root' === $_SERVER['USER']) {
             $this->markTestSkipped('cannot test if run as root');
@@ -57,7 +57,7 @@ class EndTest extends TestCase
         $action->run();
     }
 
-    public function testProblemWithTraceDirectoryThrowsException(): void
+    public function testProblemWithTraceDirectoryThrowsException()
     {
         $this->config->setDataPath('/warrrggbblllgrrglllblll/');
 
@@ -70,7 +70,7 @@ class EndTest extends TestCase
         $end->run();
     }
 
-    public function testFreshDirectory(): void
+    public function testFreshDirectory()
     {
         $this->markTestIncomplete('starting processes is hard to test');
 
@@ -96,7 +96,7 @@ class EndTest extends TestCase
         rmdir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest');
     }
 
-    public function testExistingDirectory(): void
+    public function testExistingDirectory()
     {
         $this->markTestIncomplete('starting processes is hard to test');
 

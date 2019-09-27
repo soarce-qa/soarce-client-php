@@ -7,7 +7,7 @@ use Soarce\TraceParser;
 
 class TraceParserTest extends TestCase
 {
-    public function testEverything(): void
+    public function testEverything()
     {
         $parser = new TraceParser();
         $fp = fopen(__DIR__ . '/Fixtures/demo-trace.txt', 'rb');

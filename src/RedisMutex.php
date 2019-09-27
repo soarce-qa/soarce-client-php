@@ -28,7 +28,7 @@ class RedisMutex
 
     /**
      */
-    public function seed(): void
+    public function seed()
     {
         $this->clean();
         foreach ($this->allLockNames() as $num => $lock) {
@@ -38,7 +38,7 @@ class RedisMutex
 
     /**
      */
-    public function clean(): void
+    public function clean()
     {
         $this->client->del($this->allLockNames());
         $this->client->del($this->allWorkNames());
@@ -58,7 +58,7 @@ class RedisMutex
      * @param  int    $id
      * @return void
      */
-    public function releaseLock($id): void
+    public function releaseLock($id)
     {
         $this->client->rpoplpush("work:{$this->name}:{$id}", "lock:{$this->name}:{$id}");
     }

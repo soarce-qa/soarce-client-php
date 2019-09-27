@@ -12,7 +12,7 @@ use Soarce\Config;
 
 class StartTest extends TestCase
 {
-    public function testNonexistantDirectoryCausesException(): void
+    public function testNonexistantDirectoryCausesException()
     {
         $config = new Config();
         $config->setDataPath('/the/freaking/moon');
@@ -26,7 +26,7 @@ class StartTest extends TestCase
         $action->run();
     }
 
-    public function testUnauthorizedDirectoryCausesException(): void
+    public function testUnauthorizedDirectoryCausesException()
     {
         if ('root' === $_SERVER['USER']) {
             $this->markTestSkipped('cannot test if run as root');
@@ -44,7 +44,7 @@ class StartTest extends TestCase
         $action->run();
     }
 
-    public function testSuccessfulWrite(): void
+    public function testSuccessfulWrite()
     {
         $this->markTestIncomplete('we have to treat lightly around starting processes!');
 
