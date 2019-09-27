@@ -88,7 +88,7 @@ class EndTest extends TestCase
         $this->assertJson($out);
         $this->assertJsonStringEqualsJsonString('{"status": "ok"}', $out);
 
-        $this->assertDirectoryExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest');
+        $this->assertTrue(is_dir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest'));
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest/abcdef.xt.coverage');
 
@@ -119,7 +119,7 @@ class EndTest extends TestCase
         $this->assertJson($out);
         $this->assertJsonStringEqualsJsonString('{"files": 2}', $out);
 
-        $this->assertDirectoryExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2');
+        $this->assertTrue(is_dir($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2'));
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt');
         $this->assertFileExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/abcdef.xt.coverage');
         $this->assertFileNotExists($this->config->getDataPath() . DIRECTORY_SEPARATOR . 'UnitTest2/i_should_not_survive.xt');
