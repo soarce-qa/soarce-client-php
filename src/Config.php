@@ -148,7 +148,7 @@ class Config
     /**
      * @param int $numberOfPipes
      */
-    public function setNumberOfPipes(int $numberOfPipes)
+    public function setNumberOfPipes($numberOfPipes)
     {
         $this->numberOfPipes = $numberOfPipes;
     }
