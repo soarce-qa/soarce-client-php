@@ -42,7 +42,13 @@ class Config
     public function getPresharedSecret()
     {
         if (null === $this->presharedSecret) {
-            $this->presharedSecret = $_ENV['SOARCE_PRESHARED_SECRET'] ?? $_SERVER['SOARCE_PRESHARED_SECRET'] ?? self::DEFAULT_PRESHARED_SECRET;
+            if (isset($_ENV['SOARCE_PRESHARED_SECRET'])) {
+                $this->presharedSecret = $_ENV['SOARCE_PRESHARED_SECRET'];
+            } elseif (isset($_SERVER['SOARCE_PRESHARED_SECRET'])) {
+                $this->presharedSecret = $_SERVER['SOARCE_PRESHARED_SECRET'];
+            } else {
+                $this->presharedSecret = self::DEFAULT_PRESHARED_SECRET;
+            }
         }
 
         return $this->presharedSecret;
@@ -54,7 +60,13 @@ class Config
     public function getActionParamName()
     {
         if (null === $this->actionParamName) {
-            $this->actionParamName = $_ENV['SOARCE_ACTION_PARAM_NAME'] ?? $_SERVER['SOARCE_ACTION_PARAM_NAME'] ?? self::DEFAULT_ACTION_PARAM_NAME;
+            if (isset($_ENV['SOARCE_ACTION_PARAM_NAME'])) {
+                $this->actionParamName = $_ENV['SOARCE_ACTION_PARAM_NAME'];
+            } elseif (isset($_SERVER['SOARCE_ACTION_PARAM_NAME'])) {
+                $this->actionParamName = $_SERVER['SOARCE_ACTION_PARAM_NAME'];
+            } else {
+                $this->actionParamName = self::DEFAULT_ACTION_PARAM_NAME;
+            }
         }
 
         return $this->actionParamName;
@@ -66,7 +78,13 @@ class Config
     public function getApplicationName()
     {
         if (null === $this->applicationName) {
-            $this->applicationName = $_ENV['SOARCE_APPLICATION_NAME'] ?? $_SERVER['SOARCE_APPLICATION_NAME'] ?? $_SERVER['HOSTNAME'];
+            if (isset($_ENV['SOARCE_APPLICATION_NAME'])) {
+                $this->applicationName = $_ENV['SOARCE_APPLICATION_NAME'];
+            } elseif (isset($_SERVER['SOARCE_APPLICATION_NAME'])) {
+                $this->applicationName = $_SERVER['SOARCE_APPLICATION_NAME'];
+            } else {
+                $this->applicationName = $_SERVER['HOSTNAME'];
+            }
         }
 
         return $this->applicationName;
@@ -86,7 +104,13 @@ class Config
     public function getDataPath()
     {
         if (null === $this->dataPath) {
-            $this->dataPath = $_ENV['SOARCE_DATA_PATH'] ?? $_SERVER['SOARCE_DATA_PATH'] ?? self::DEFAULT_DATA_PATH;
+            if (isset($_ENV['SOARCE_DATA_PATH'])) {
+                $this->dataPath = $_ENV['SOARCE_DATA_PATH'];
+            } elseif (isset($_SERVER['SOARCE_DATA_PATH'])) {
+                $this->dataPath = $_SERVER['SOARCE_DATA_PATH'];
+            } else {
+                $this->dataPath = self::DEFAULT_DATA_PATH;
+            }
         }
         return $this->dataPath;
     }

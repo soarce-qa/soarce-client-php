@@ -103,7 +103,11 @@ class RequestTracking
      */
     protected function getRequestIdFromHeader()
     {
-        return $_SERVER[self::HEADER_NAME] ?? '';
+        if (isset($_SERVER[self::HEADER_NAME])) {
+            return $_SERVER[self::HEADER_NAME];
+        }
+
+        return '';
     }
 
     /**
@@ -112,7 +116,14 @@ class RequestTracking
     protected function getRequestIp()
     {
         if (null === $this->requestIp) {
-            $this->requestIp = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+            $this->requestIp = '';
+            if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $this->requestIp = $_SERVER['HTTP_CLIENT_IP'];
+            } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $this->requestIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+                $this->requestIp = $_SERVER['REMOTE_ADDR'];
+            }
         }
 
         return $this->requestIp;
