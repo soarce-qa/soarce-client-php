@@ -6,7 +6,7 @@ use Soarce\Action;
 
 class ReadFile extends Action
 {
-    private const CHECKSUM_HEADER = 'X-SOARCE-FileChecksum';
+    const CHECKSUM_HEADER = 'X-SOARCE-FileChecksum';
 
     /**
      * @return string

@@ -4,16 +4,16 @@ namespace Soarce;
 
 class Config
 {
-    private const DEFAULT_ACTION_PARAM_NAME    = 'SOARCE';
-    private const DEFAULT_DATA_PATH            = '/tmp/';
-    private const DEFAULT_NUMBER_OF_PIPES      = 10;
-    private const DEFAULT_WHITELISTED_HOST_IPS = [];
-    private const DEFAULT_WHITELISTED_PATHS    = [];
-    private const DEFAULT_PRESHARED_SECRET     = '';
+    const DEFAULT_ACTION_PARAM_NAME    = 'SOARCE';
+    const DEFAULT_DATA_PATH            = '/tmp/';
+    const DEFAULT_NUMBER_OF_PIPES      = 10;
+    const DEFAULT_WHITELISTED_HOST_IPS = [];
+    const DEFAULT_WHITELISTED_PATHS    = [];
+    const DEFAULT_PRESHARED_SECRET     = '';
 
-    public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
-    public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
-    public const SUFFIX_TRACEFILE     = '.xt';
+    const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
+    const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
+    const SUFFIX_TRACEFILE     = '.xt';
 
     /** @var string */
     protected $actionParamName;

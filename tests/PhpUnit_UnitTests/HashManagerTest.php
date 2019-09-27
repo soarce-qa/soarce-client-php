@@ -10,7 +10,7 @@ use Soarce\HashManager;
 
 class HashManagerTest extends TestCase
 {
-    private const REDIS_KEY = 'filehashes:testApplicationName';
+    const REDIS_KEY = 'filehashes:testApplicationName';
 
     /** @var ClientInterface */
     private $redisMock;

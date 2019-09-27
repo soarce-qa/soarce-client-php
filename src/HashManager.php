@@ -6,8 +6,8 @@ use Predis\ClientInterface;
 
 class HashManager
 {
-    private const PREFIX = 'filehashes:';
-    private const TIMEOUT = 3600;
+    const PREFIX = 'filehashes:';
+    const TIMEOUT = 3600;
 
     /** @var ClientInterface */
     private $client;
