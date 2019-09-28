@@ -36,7 +36,8 @@ class Handler
         for ($tries = 0; $tries < 5; $tries++) {
             $id = $this->redisMutex->obtainLock();
             if ($id >= 0 && $id < $this->config->getNumberOfPipes()) {
-                return $this->getAllPipes()[$id];
+                $allPipes = $this->getAllPipes();
+                return $allPipes[$id];
             }
         }
         throw new Exception('cannot find unused pipe');

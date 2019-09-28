@@ -52,7 +52,8 @@ class RedisMutex
      */
     public function obtainLock()
     {
-        $id = $this->client->brpop($this->allLockNames(), 300)[1];
+        $temp = $this->client->brpop($this->allLockNames(), 300);
+        $id = $temp[1];
         $this->client->lpush("work:{$this->name}:{$id}", array($id));
         return $id;
     }
