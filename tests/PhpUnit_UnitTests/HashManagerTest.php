@@ -42,8 +42,8 @@ class HashManagerTest extends TestCase
         $hashManager->load();
 
         $this->assertEquals(
-            [$filename => 'thisAintNoMd5Hash'],
-            $hashManager->getMd5ForFiles([$filename])
+            array($filename => 'thisAintNoMd5Hash'),
+            $hashManager->getMd5ForFiles(array($filename))
         );
     }
 

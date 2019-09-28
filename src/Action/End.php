@@ -33,7 +33,7 @@ class End extends Action implements PredisClientInterface
         $this->deletePipes();
         $this->cleanRedisMutex();
 
-        return json_encode(['status' => 'ok']);
+        return json_encode(array('status' => 'ok'));
     }
 
     /**

@@ -22,15 +22,15 @@ class TraceParserTest extends TestCase
         $this->assertEquals(6, $parsedData['../trace.php']['ord']['count']);
         $this->assertEquals(3, $parsedData['../trace.php']['ord']['number']);
 
-        $this->assertEquals([
-                0 => [
+        $this->assertEquals(array(
+                0 => array(
                    1 => 1,
                    2 => 6,
-                ],
-                2 => [
+                ),
+                2 => array(
                     3 => 6,
-                ],
-            ], $parser->getFunctionMap()
+                ),
+        ), $parser->getFunctionMap()
         );
     }
 }

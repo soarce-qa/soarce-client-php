@@ -34,7 +34,7 @@ class Start extends Action implements PredisClientInterface
         $this->startWorkerProcess();
         $this->createTriggerFile();
 
-        return json_encode(['status' => 'ok']);
+        return json_encode(array('status' => 'ok'));
     }
 
     /**

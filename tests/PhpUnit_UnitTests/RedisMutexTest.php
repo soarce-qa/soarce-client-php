@@ -32,15 +32,15 @@ class RedisMutexTest extends TestCase
         $redisMutex = new RedisMutex($redisMock, 'test', 3);
         $redisMutex->seed();
 
-        $locks = [
+        $locks = array(
             $redisMutex->obtainLock(),
             $redisMutex->obtainLock(),
             $redisMutex->obtainLock(),
-        ];
+        );
 
         sort($locks);
 
-        $this->assertEquals([1,2,3], $locks);
+        $this->assertEquals(array(1, 2, 3), $locks);
     }
 
     /**

@@ -47,7 +47,7 @@ class Handler
      */
     public function getAllPipes()
     {
-        $pipes = [];
+        $pipes = array();
         for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
             $basePath = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i);
             $pipes[] = new Pipe($basePath);

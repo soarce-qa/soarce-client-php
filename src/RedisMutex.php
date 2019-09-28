@@ -35,7 +35,7 @@ class RedisMutex
     {
         $this->clean();
         foreach ($this->allLockNames() as $num => $lock) {
-            $this->client->lpush($lock, [$num]);
+            $this->client->lpush($lock, array($num));
         }
     }
 
@@ -53,7 +53,7 @@ class RedisMutex
     public function obtainLock()
     {
         $id = $this->client->brpop($this->allLockNames(), 300)[1];
-        $this->client->lpush("work:{$this->name}:{$id}", [$id]);
+        $this->client->lpush("work:{$this->name}:{$id}", array($id));
         return $id;
     }
 
@@ -92,7 +92,7 @@ class RedisMutex
             throw new Exception('unknown number of pipes, cannot run command');
         }
 
-        $list = [];
+        $list = array();
         for ($i = 0; $i < $this->numberOfPipes; $i++) {
             $list[$i] = "{$prefix}:{$this->name}:$i";
         }

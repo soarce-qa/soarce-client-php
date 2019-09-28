@@ -38,7 +38,7 @@ class RequestTrackingTest extends TestCase
         $this->assertEquals('abcdefghijkl', $requestTracking->getRequestId());
 
         $this->assertCount(1, $redis->keys('request:1.3.3.7'));
-        $this->assertEquals(['abcdefghijkl'], $redis->lrange('request:1.3.3.7', 0, 1));
+        $this->assertEquals(array('abcdefghijkl'), $redis->lrange('request:1.3.3.7', 0, 1));
 
         $requestTracking->unregisterRequest();
 
@@ -52,13 +52,13 @@ class RequestTrackingTest extends TestCase
         $redis = $this->getRedisMock();
 
         $key = 'request:42.42.42.42';
-        $redis->lpush($key, ['huahuahuahua']);
+        $redis->lpush($key, array('huahuahuahua'));
 
         $requestTracking = new RequestTracking($redis);
         $this->assertEquals('huahuahuahua-1', $requestTracking->getRequestId());
 
         $this->assertCount(1, $redis->keys('request:1.3.3.7'));
-        $this->assertEquals(['huahuahuahua-1'], $redis->lrange('request:1.3.3.7', 0, 1));
+        $this->assertEquals(array('huahuahuahua-1'), $redis->lrange('request:1.3.3.7', 0, 1));
 
         $requestTracking->unregisterRequest();
 

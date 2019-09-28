@@ -16,10 +16,10 @@ class HashManager
     private $applicationName;
 
     /** @var string[] */
-    private $store = [];
+    private $store = array();
 
     /** @var string[] */
-    private $new = [];
+    private $new = array();
 
     /**
      * HashManager constructor.
@@ -38,7 +38,7 @@ class HashManager
      */
     public function load()
     {
-        $this->store = [];
+        $this->store = array();
         if (is_array($res = $this->client->hgetall(self::PREFIX . $this->applicationName))) {
             $this->store = $res;
         }
@@ -69,7 +69,7 @@ class HashManager
      */
     public function getMd5ForFiles($files)
     {
-        $return = [];
+        $return = array();
         foreach ($files as $file){
             $return[$file] = $this->getMd5ForFile($file);
         }

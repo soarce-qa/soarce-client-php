@@ -41,7 +41,7 @@ class ReadFile extends Action
         }
 
         // no whitelist means access to all!
-        if ([] === $this->config->getWhitelistedPaths()) {
+        if (array() === $this->config->getWhitelistedPaths()) {
             return true;
         }
 

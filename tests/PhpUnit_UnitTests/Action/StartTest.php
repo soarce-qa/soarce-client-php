@@ -59,7 +59,7 @@ class StartTest extends TestCase
         $return = $action->run();
 
         $this->assertJson($return);
-        $this->assertEquals(['status' => 'OK'], json_decode($return, JSON_OBJECT_AS_ARRAY));
+        $this->assertEquals(array('status' => 'OK'), json_decode($return, JSON_OBJECT_AS_ARRAY));
 
         $this->assertFileExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0));
         $this->assertFileExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1));

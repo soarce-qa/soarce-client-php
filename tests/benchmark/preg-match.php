@@ -10,16 +10,16 @@
 class TraceParser1
 {
     /** @var array[] temporary stack - will hold metadata of "open" functions */
-    private $parseStack    = [];
+    private $parseStack    = array();
 
     /** @var array[] end result that will be delivered to the service - one entry per function, listing type, number of calls and sum of walltime */
-    private $parsedData    = [];
+    private $parsedData    = array();
 
     /** @var int[]   internal function number index that assigns an ID for every function */
-    private $functionIndex = [];
+    private $functionIndex = array();
 
     /** @var int[][] functionId based map of what function calls which function how often: [caller][callee] => calls */
-    private $functionMap   = [];
+    private $functionMap   = array();
 
     /**
      * @param  resource $fp
@@ -27,7 +27,7 @@ class TraceParser1
     public function analyze($fp)
     {
         while (false !== ($line = fgets($fp))) {
-            $out = [];
+            $out = array();
             if (preg_match('/^[\d]+\t(?P<functionNumber>[\d]+)\t0\t(?P<start>[\d.]+)\t[\d]+\t(?P<functionName>[^\t]+)\t(?P<type>[01])\t[^\t]*\t(?P<file>[^\t]+)\t.*/', $line, $out)) {
                 if ('' === $out['functionName']) {
                     continue;
@@ -37,13 +37,13 @@ class TraceParser1
                     $this->functionIndex[$out['functionName']] = count($this->functionIndex);
                 }
 
-                $this->parseStack[$out['functionNumber']] = [
+                $this->parseStack[$out['functionNumber']] = array(
                     'start'        => $out['start'],
                     'functionName' => $out['functionName'],
                     'number'       => $this->functionIndex[$out['functionName']],
                     'type'         => $out['type'],
                     'file'         => $out['file'],
-                ];
+                );
 
                 if (count($this->parseStack) >= 2) {
                     $slice = array_slice($this->parseStack, count($this->parseStack)-2, 2);
@@ -51,7 +51,7 @@ class TraceParser1
                     $callerId = array_pop($slice)['number'];
 
                     if (!isset($this->functionMap[$callerId])) {
-                        $this->functionMap[$callerId] = [];
+                        $this->functionMap[$callerId] = array();
                     }
                     if (!isset($this->functionMap[$callerId][$calleeId])) {
                         $this->functionMap[$callerId][$calleeId] = 0;
@@ -71,16 +71,16 @@ class TraceParser1
                 unset($this->parseStack[$out['functionNumber']]);
 
                 if (!isset($this->parsedData[$info['file']])) {
-                    $this->parsedData[$info['file']] = [];
+                    $this->parsedData[$info['file']] = array();
                 }
 
                 if (!isset($this->parsedData[$info['file']][$info['functionName']])) {
-                    $this->parsedData[$info['file']][$info['functionName']] = [
+                    $this->parsedData[$info['file']][$info['functionName']] = array(
                         'type'     => $info['type'],
                         'count'    => 1,
                         'walltime' => (float)$out['end'] - (float)$info['start'],
                         'number'   => $info['number'],
-                    ];
+                    );
                 } else {
                     $this->parsedData[$info['file']][$info['functionName']]['count']++;
                     $this->parsedData[$info['file']][$info['functionName']]['walltime'] += ((float)$out['end'] - (float)$info['start']);

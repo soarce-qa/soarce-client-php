@@ -11,7 +11,7 @@ class FrontController
     private $config;
 
     /** @var string() */
-    private $actionMap = [
+    private $actionMap = array(
         'details'       => '\Soarce\Action\Details',
         'end'           => '\Soarce\Action\End',
         'index'         => '\Soarce\Action\Index',
@@ -19,7 +19,7 @@ class FrontController
         'preconditions' => '\Soarce\Action\Preconditions',
         'readfile'      => '\Soarce\Action\ReadFile',
         'start'         => '\Soarce\Action\Start',
-    ];
+    );
 
     public function __construct(Config $config)
     {
@@ -52,11 +52,11 @@ class FrontController
         $action = new $classname($this->config);
 
         if ($action instanceof PredisClientInterface) {
-            $predisClient = new Client([
+            $predisClient = new Client(array(
                 'scheme' => 'tcp',
                 'host'   => 'soarce.local',
                 'port'   => 6379,
-            ]);
+            ));
             $action->setPredisClient($predisClient);
         }
 
@@ -89,7 +89,7 @@ class FrontController
     private function isIpWhitelisted()
     {
         // no whitelist means we accept all calls (this is a dev tool and should not be hosted publicly anyways).
-        if ($this->config->getWhitelistedHostIps() === []) {
+        if ($this->config->getWhitelistedHostIps() === array()) {
             return true;
         }
 

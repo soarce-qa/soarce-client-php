@@ -24,18 +24,18 @@ if ('' !== $output) {
 
 if ($config->isTracingActive()) {
 
-    $predisClient = new Client([
+    $predisClient = new Client(array(
         'scheme' => 'tcp',
         'host'   => 'soarce.local',
         'port'   => 6379,
-    ]);
+    ));
 
     $requestTracking = new RequestTracking($predisClient);
 
     $redisMutex = new RedisMutex($predisClient, $config->getApplicationName(), $config->getNumberOfPipes());
     $pipeHandler = new Handler($config, $redisMutex);
     $tracePipe = $pipeHandler->getFreePipe();
-    $header = [
+    $header = array(
         'type' => 'trace',
         'host' => $config->getApplicationName(),
         'request_time' => microtime(true),
@@ -44,7 +44,7 @@ if ($config->isTracingActive()) {
         'post' => $_POST,
         'server' => $_SERVER,
         'env' => $_ENV,
-    ];
+    );
 
     $fpTracefile = fopen($tracePipe->getFilenameTracefile(), 'wb');
     fwrite($fpTracefile, json_encode($header) . "\n");
@@ -66,10 +66,10 @@ if ($config->isTracingActive()) {
         // preparing coverage payload
         $header['type'] = 'coverage';
 
-        $data = [
+        $data = array(
             'header' => $header,
             'payload' => xdebug_get_code_coverage(),
-        ];
+        );
 
         $hashManager = new HashManager($predisClient, $header['host']);
         $hashManager->load();
@@ -77,13 +77,13 @@ if ($config->isTracingActive()) {
         $data['md5'] = $md5Hashes;
 
         // send to service
-        $opts = [
-            'http' => [
+        $opts = array(
+            'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-Type: application/json',
                 'content' => json_encode($data, JSON_PRETTY_PRINT),
-            ],
-        ];
+            ),
+        );
 
         $context = stream_context_create($opts);
 

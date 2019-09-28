@@ -55,7 +55,7 @@ class RequestTracking
 
         # write own RequestId to redis using own IP as key
         $key = 'request:' . $this->getServerIp();
-        $this->client->lpush($key,  [$this->requestId]);
+        $this->client->lpush($key,  array($this->requestId));
         $this->client->expire($key, self::EXPIRY_SECONDS);
 
         return $this->requestId;

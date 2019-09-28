@@ -21,11 +21,11 @@ $config->setDataPath($argv[1]);
 
 $id = $argv[2];
 
-$predisClient = new Client([
+$predisClient = new Client(array(
     'scheme' => 'tcp',
     'host'   => 'soarce.local',
     'port'   => 6379,
-]);
+));
 
 $redisMutex = new RedisMutex($predisClient, $config->getApplicationName());
 
@@ -50,22 +50,22 @@ while (true) {
     $traceParser = new TraceParser();
     $traceParser->analyze($fp);
 
-    $data = [
+    $data = array(
         'header' => $temp,
-        'payload' => [
+        'payload' => array(
             'functions' => $traceParser->getParsedData(),
             'calls'     => $traceParser->getFunctionMap(),
-        ],
-    ];
+        ),
+    );
 
     // send to service
-    $opts = [
-        'http' => [
+    $opts = array(
+        'http' => array(
             'method'  => 'POST',
             'header'  => 'Content-Type: application/json',
             'content' => json_encode($data, JSON_PRETTY_PRINT),
-        ],
-    ];
+        ),
+    );
 
     $context = stream_context_create($opts);
 
