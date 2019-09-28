@@ -30,7 +30,8 @@ class PresharedSecretTest extends TestCase
     {
         $_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] = 'abcdefg';
         $_GET['SOARCE'] = 'index';
-        $this->assertContains('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
     public function testMatchingSecretDoesNotBlock()
@@ -38,7 +39,8 @@ class PresharedSecretTest extends TestCase
         $_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] = 'abcdefg';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_PRESHARED_SECRET'] = 'abcdefg';
-        $this->assertContains('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
     public function testDifferentSecretsSkipSoarceExecution()
@@ -46,7 +48,8 @@ class PresharedSecretTest extends TestCase
         $_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] = 'abcdefg';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_PRESHARED_SECRET'] = 'qwertyu';
-        $this->assertEquals('', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertEquals('', $fc->run());
     }
 
 }

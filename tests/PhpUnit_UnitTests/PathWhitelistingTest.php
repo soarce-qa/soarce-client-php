@@ -32,7 +32,8 @@ class PathWhitelistingTest extends TestCase
         $_GET['SOARCE'] = 'readfile';
         $_GET['filename'] = realpath(__DIR__ . '/Fixtures/dummy.txt');
         $_SERVER['SOARCE_WHITELISTED_PATHS'] = '';
-        $this->assertContains('this is a test', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('this is a test', $fc->run());
     }
 
     public function testWhitelistAndPathWithinDoesNotBlock()
@@ -40,7 +41,8 @@ class PathWhitelistingTest extends TestCase
         $_GET['SOARCE'] = 'readfile';
         $_GET['filename'] = realpath(__DIR__ . '/Fixtures/dummy.txt');
         $_SERVER['SOARCE_WHITELISTED_PATHS'] = '/home/:/something/else';
-        $this->assertContains('this is a test', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('this is a test', $fc->run());
     }
 
     /**
@@ -52,6 +54,7 @@ class PathWhitelistingTest extends TestCase
         $_GET['SOARCE'] = 'readfile';
         $_GET['filename'] = '/etc/passwd';
         $_SERVER['SOARCE_WHITELISTED_PATHS'] = '/home/:/something/else';
-        (new FrontController(new Config()))->run();
+        $fc = new FrontController(new Config());
+        $fc->run();
     }
 }

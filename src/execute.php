@@ -17,7 +17,8 @@ use Soarce\RedisMutex;
 use Soarce\RequestTracking;
 
 $config = new Config();
-$output = (new FrontController($config))->run();
+$frontController = new FrontController($config);
+$output = $frontController->run();
 if ('' !== $output) {
     die($output);
 }

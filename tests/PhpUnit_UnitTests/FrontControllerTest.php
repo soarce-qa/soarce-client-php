@@ -24,19 +24,22 @@ class FrontControllerTest extends TestCase
     public function testParameterNotSetDoesNothing()
     {
         unset($_GET['SOARCE']);
-        $this->assertEquals('', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertEquals('', $fc->run());
     }
 
     public function testNonexistantActionDoesNothing()
     {
         $_GET['SOARCE'] = 'hurrrglburrrgl';
-        $this->assertEquals('', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertEquals('', $fc->run());
     }
 
     public function testIndexDoesSomething()
     {
         $_GET['SOARCE'] = 'index';
-        $this->assertContains('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
     public function testOverrideParamName()
@@ -45,6 +48,8 @@ class FrontControllerTest extends TestCase
         $config = new Config();
         $config->setActionParamName('SECURITY');
 
-        $this->assertContains('Hello World!', (new FrontController($config))->run());
+        $fc = new FrontController($config);
+
+        $this->assertContains('Hello World!', $fc->run());
     }
 }
