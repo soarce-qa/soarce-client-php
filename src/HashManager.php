@@ -6,8 +6,8 @@ use Predis\ClientInterface;
 
 class HashManager
 {
-    private const PREFIX = 'filehashes:';
-    private const TIMEOUT = 3600;
+    const PREFIX = 'filehashes:';
+    const TIMEOUT = 3600;
 
     /** @var ClientInterface */
     private $client;
@@ -36,7 +36,7 @@ class HashManager
     /**
      *
      */
-    public function load(): void
+    public function load()
     {
         $this->store = [];
         if (is_array($res = $this->client->hgetall(self::PREFIX . $this->applicationName))) {
@@ -48,7 +48,7 @@ class HashManager
      * @param  string $filepath
      * @return string
      */
-    public function getMd5ForFile($filepath): string
+    public function getMd5ForFile($filepath)
     {
         if (strpos($filepath, "eval()'d code") !== false) {
             return '';
@@ -67,7 +67,7 @@ class HashManager
      * @param  string[] $files
      * @return string[]
      */
-    public function getMd5ForFiles($files): array
+    public function getMd5ForFiles($files)
     {
         $return = [];
         foreach ($files as $file){
@@ -79,7 +79,7 @@ class HashManager
     /**
      *
      */
-    public function save(): void
+    public function save()
     {
        foreach ($this->new as $path => $md5) {
            $this->client->hset(self::PREFIX . $this->applicationName, $path, $md5);

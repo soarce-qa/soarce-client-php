@@ -9,7 +9,7 @@ class Details extends Action
     /**
      * @return string
      */
-    public function run(): string
+    public function run()
     {
         $data = [
             'server'          => $_SERVER,

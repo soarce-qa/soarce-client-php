@@ -31,7 +31,7 @@ class Handler
      * @return Pipe
      * @throws Exception
      */
-    public function getFreePipe(): Pipe
+    public function getFreePipe()
     {
         for ($tries = 0; $tries < 5; $tries++) {
             $id = $this->redisMutex->obtainLock();
@@ -45,7 +45,7 @@ class Handler
     /**
      * @return Pipe[]
      */
-    public function getAllPipes(): array
+    public function getAllPipes()
     {
         $pipes = [];
         for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {

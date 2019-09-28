@@ -6,12 +6,12 @@ use Soarce\Action;
 
 class ReadFile extends Action
 {
-    private const CHECKSUM_HEADER = 'X-SOARCE-FileChecksum';
+    const CHECKSUM_HEADER = 'X-SOARCE-FileChecksum';
 
     /**
      * @return string
      */
-    public function run(): string
+    public function run()
     {
         if (!isset($_GET['filename'])) {
             throw new Exception('Filename parameter not submitted', Exception::MISSING_FILENAME_PARAMETER);
@@ -21,7 +21,7 @@ class ReadFile extends Action
             throw new Exception('File not found, not readable and/or not in a whitelisted directory', Exception::FILE_NOT_FOUND);
         }
 
-        if (php_sapi_name() !== 'cli') {
+        if (PHP_SAPI !== 'cli') {
             header (self::CHECKSUM_HEADER . ': ' . md5_file($_GET['filename']));
         }
 
@@ -32,7 +32,7 @@ class ReadFile extends Action
      * @param  string $filename
      * @return boolean
      */
-    private function isPathPermittedByWhitelist($filename): bool
+    private function isPathPermittedByWhitelist($filename)
     {
         $realPath = realpath($filename);
 

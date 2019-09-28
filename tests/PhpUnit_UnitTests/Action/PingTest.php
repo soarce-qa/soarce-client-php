@@ -8,7 +8,7 @@ use Soarce\Config;
 
 class PingTest extends TestCase
 {
-    public function testPongIsReceived(): void
+    public function testPongIsReceived()
     {
         $action = new Ping(new Config());
         $this->assertEquals('pong', $action->run());
