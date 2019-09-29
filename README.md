@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 0.7.1
+## Version: 2.0.0
 
 ## Overview
 
@@ -14,6 +14,18 @@ own actions instead (e.g. handing out coverage data to the master application).
 
 Althought there will be security measures in place, include this library only as a --dev dependency. The
 intended use is local development or use within a CI/CD pipeline. See documentation for more advanced examples.
+
+### Versions
+
+This tool is inteded to help with legacy software maintenance and upgrades. Because of this we have
+multiple versions of this client available, supporting legacy versions of PHP down to PHP 5.3.9. The current
+minimum PHP-Version for the master branch and active development is the oldest supported PHP versions by php.net.
+Whenever EOL of one is reached, we'll create a new major version and there drop support. Currently the following
+branches are available:
+* 1.x - PHP 5.3.9
+* 2.x - PHP 5.4 - 5.6
+* 3.x - PHP 7.0
+* 4.x/master - PHP 7.1+
 
 ## Installation
 
