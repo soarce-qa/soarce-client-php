@@ -18,7 +18,7 @@ class PipeTest extends TestCase
     {
         $interceptor = false;
         $pipe = new Pipe('/tmp/SOARCE-TEST');
-        $pipe->registerReleaseFunction(static function() use (&$interceptor) {
+        $pipe->registerReleaseFunction(function() use (&$interceptor) {
            $interceptor = true;
         });
 

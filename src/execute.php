@@ -58,7 +58,7 @@ if ($config->isTracingActive()) {
     );
 
 
-    register_shutdown_function(static function () use ($header, $predisClient, $requestTracking){
+    register_shutdown_function(function () use ($header, $predisClient, $requestTracking){
         xdebug_stop_trace();
 
         // we'll do this as early as possible, to shorten the time where multiple requests could be registered in redis.
