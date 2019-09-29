@@ -20,7 +20,7 @@ class End extends Action implements PredisClientInterface
      * @return string
      * @throws Exception
      */
-    public function run(): string
+    public function run()
     {
         $this->redisMutex = new RedisMutex($this->predisClient, $this->config->getApplicationName(), $this->config->getNumberOfPipes());
 
@@ -33,13 +33,13 @@ class End extends Action implements PredisClientInterface
         $this->deletePipes();
         $this->cleanRedisMutex();
 
-        return json_encode(['status' => 'ok']);
+        return json_encode(array('status' => 'ok'));
     }
 
     /**
      * @param ClientInterface $client
      */
-    public function setPredisClient(ClientInterface $client): void
+    public function setPredisClient(ClientInterface $client)
     {
         $this->predisClient = $client;
     }
@@ -47,7 +47,7 @@ class End extends Action implements PredisClientInterface
     /**
      *
      */
-    private function cleanRedisMutex(): void
+    private function cleanRedisMutex()
     {
         $this->redisMutex->clean();
     }
@@ -55,7 +55,7 @@ class End extends Action implements PredisClientInterface
     /**
      * @return void
      */
-    private function deletePipes(): void
+    private function deletePipes()
     {
         $pipeHandler = new Handler($this->config, $this->redisMutex);
         foreach ($pipeHandler->getAllPipes() as $pipe) {
@@ -68,7 +68,7 @@ class End extends Action implements PredisClientInterface
     /**
      * @return void
      */
-    private function deleteTriggerFile(): void
+    private function deleteTriggerFile()
     {
         $path = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
         if (file_exists($path)) {
@@ -81,7 +81,7 @@ class End extends Action implements PredisClientInterface
      *
      * @return void
      */
-    private function killWorker(): void
+    private function killWorker()
     {
         $pidFile = $this->config->getDataPath() . DIRECTORY_SEPARATOR . 'worker.pid';
         if (file_exists($pidFile)) {

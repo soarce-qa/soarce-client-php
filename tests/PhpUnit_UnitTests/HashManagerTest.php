@@ -4,18 +4,17 @@ namespace UnitTests;
 
 use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
-use Predis\Client;
 use Predis\ClientInterface;
 use Soarce\HashManager;
 
 class HashManagerTest extends TestCase
 {
-    private const REDIS_KEY = 'filehashes:testApplicationName';
+    const REDIS_KEY = 'filehashes:testApplicationName';
 
     /** @var ClientInterface */
     private $redisMock;
 
-    public function testStoreNewFileInEmptyCache(): void
+    public function testStoreNewFileInEmptyCache()
     {
         $filename = realpath(__DIR__ . '/Fixtures/dummy.txt');
 
@@ -32,7 +31,7 @@ class HashManagerTest extends TestCase
         $this->assertEquals('54b0c58c7ce9f2a8b551351102ee0938', array_pop($storageContent));
     }
 
-    public function testCaching(): void
+    public function testCaching()
     {
         $filename = realpath(__DIR__ . '/Fixtures/dummy.txt');
 
@@ -43,12 +42,12 @@ class HashManagerTest extends TestCase
         $hashManager->load();
 
         $this->assertEquals(
-            [$filename => 'thisAintNoMd5Hash'],
-            $hashManager->getMd5ForFiles([$filename])
+            array($filename => 'thisAintNoMd5Hash'),
+            $hashManager->getMd5ForFiles(array($filename))
         );
     }
 
-    public function testEvalIsIgnored(): void
+    public function testEvalIsIgnored()
     {
         $filename = "something in eval()'d code we do not want";
 
@@ -62,12 +61,12 @@ class HashManagerTest extends TestCase
     /**
      * @return HashManager
      */
-    private function getPreparedInstance(): HashManager
+    private function getPreparedInstance()
     {
         $factory   = new RedisMockFactory();
 
         /** @var ClientInterface $redisMock */
-        $this->redisMock = $factory->getAdapter(Client::class, true);
+        $this->redisMock = $factory->getAdapter('\Predis\Client', true);
 
         return new HashManager($this->redisMock, 'testApplicationName');
     }

@@ -8,7 +8,7 @@ use Soarce\Config;
 
 class PreconditionsTest extends TestCase
 {
-    public function testEverythingIsWell(): void
+    public function testEverythingIsWell()
     {
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../../playground/');
@@ -20,7 +20,7 @@ class PreconditionsTest extends TestCase
         $decoded = json_decode($return, JSON_OBJECT_AS_ARRAY);
 
         $this->assertEquals(
-            [
+            array(
                 'xdebug_installed'      => true,
                 'autotrace_off'         => true,
                 'trace_format'          => true,
@@ -28,7 +28,7 @@ class PreconditionsTest extends TestCase
                 'trace_trigger_enabled' => true,
                 'tracedir_readable'     => true,
                 'datadir_writable'      => true,
-            ],
+            ),
             $decoded
         );
     }

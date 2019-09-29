@@ -11,15 +11,15 @@ class FrontController
     private $config;
 
     /** @var string() */
-    private $actionMap = [
-        'details'       => Action\Details::class,
-        'end'           => Action\End::class,
-        'index'         => Action\Index::class,
-        'ping'          => Action\Ping::class,
-        'preconditions' => Action\Preconditions::class,
-        'readfile'      => Action\ReadFile::class,
-        'start'         => Action\Start::class,
-    ];
+    private $actionMap = array(
+        'details'       => '\Soarce\Action\Details',
+        'end'           => '\Soarce\Action\End',
+        'index'         => '\Soarce\Action\Index',
+        'ping'          => '\Soarce\Action\Ping',
+        'preconditions' => '\Soarce\Action\Preconditions',
+        'readfile'      => '\Soarce\Action\ReadFile',
+        'start'         => '\Soarce\Action\Start',
+    );
 
     public function __construct(Config $config)
     {
@@ -31,7 +31,7 @@ class FrontController
      *
      * @return string
      */
-    public function run(): string
+    public function run()
     {
         if (!$this->isIpWhitelisted() || !$this->isPresharedSecretAuthorized()) {
             return '';
@@ -52,11 +52,11 @@ class FrontController
         $action = new $classname($this->config);
 
         if ($action instanceof PredisClientInterface) {
-            $predisClient = new Client([
+            $predisClient = new Client(array(
                 'scheme' => 'tcp',
                 'host'   => 'soarce.local',
                 'port'   => 6379,
-            ]);
+            ));
             $action->setPredisClient($predisClient);
         }
 
@@ -66,7 +66,7 @@ class FrontController
     /**
      * @return bool
      */
-    private function isPresharedSecretAuthorized(): bool
+    private function isPresharedSecretAuthorized()
     {
         if ($this->config->getPresharedSecret() === '') {
             return true;
@@ -86,14 +86,21 @@ class FrontController
     /**
      * @return bool
      */
-    private function isIpWhitelisted(): bool
+    private function isIpWhitelisted()
     {
         // no whitelist means we accept all calls (this is a dev tool and should not be hosted publicly anyways).
-        if ($this->config->getWhitelistedHostIps() === []) {
+        if ($this->config->getWhitelistedHostIps() === array()) {
             return true;
         }
 
-        $ip = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+        $ip = '';
+        if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
 
         // not a remote call?
         if ('' === $ip) {

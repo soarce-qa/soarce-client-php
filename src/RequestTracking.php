@@ -34,7 +34,7 @@ class RequestTracking
     /**
      * @return string
      */
-    public function getRequestId(): string
+    public function getRequestId()
     {
         if (null !== $this->requestId) {
             return $this->requestId;
@@ -55,7 +55,7 @@ class RequestTracking
 
         # write own RequestId to redis using own IP as key
         $key = 'request:' . $this->getServerIp();
-        $this->client->lpush($key,  [$this->requestId]);
+        $this->client->lpush($key,  array($this->requestId));
         $this->client->expire($key, self::EXPIRY_SECONDS);
 
         return $this->requestId;
@@ -64,7 +64,7 @@ class RequestTracking
     /**
      * This is a "shutdown function" which removes the request ID from redis - as the request is done.
      */
-    public function unregisterRequest(): void
+    public function unregisterRequest()
     {
         $key = 'request:' . $this->getServerIp();
         $this->client->lrem($key, 1, $this->requestId);
@@ -76,7 +76,7 @@ class RequestTracking
      *
      * @return string
      */
-    protected function getRequestIdFromRedis(): string
+    protected function getRequestIdFromRedis()
     {
         $key = 'request:' . $this->getRequestIp();
 
@@ -86,7 +86,8 @@ class RequestTracking
         }
 
         // get the request ID from parent
-        $parentRequestId = $this->client->lrange($key, 0, 1)[0];
+        $temp = $this->client->lrange($key, 0, 1);
+        $parentRequestId = $temp[0];
 
         // increase a unique counter for the parent request ID to number it's requests
         $counter = $this->client->incr($parentRequestId);
@@ -101,18 +102,29 @@ class RequestTracking
     /**
      * @return string
      */
-    protected function getRequestIdFromHeader(): string
+    protected function getRequestIdFromHeader()
     {
-        return $_SERVER[self::HEADER_NAME] ?? '';
+        if (isset($_SERVER[self::HEADER_NAME])) {
+            return $_SERVER[self::HEADER_NAME];
+        }
+
+        return '';
     }
 
     /**
      * @return string
      */
-    protected function getRequestIp(): string
+    protected function getRequestIp()
     {
         if (null === $this->requestIp) {
-            $this->requestIp = $_SERVER['HTTP_CLIENT_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+            $this->requestIp = '';
+            if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+                $this->requestIp = $_SERVER['HTTP_CLIENT_IP'];
+            } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                $this->requestIp = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+                $this->requestIp = $_SERVER['REMOTE_ADDR'];
+            }
         }
 
         return $this->requestIp;
@@ -121,7 +133,7 @@ class RequestTracking
     /**
      * @return string
      */
-    protected function getServerIp(): string
+    protected function getServerIp()
     {
         if (null === $this->serverIp) {
             $this->serverIp = $_SERVER['SERVER_ADDR'];

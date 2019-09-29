@@ -14,48 +14,52 @@ class IpWhitelistingTest extends TestCase
     /** @var array */
     private $storedGetParams;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->storedServerParams = $_SERVER;
         $this->storedGetParams    = $_GET;
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         $_SERVER = $this->storedServerParams;
         $_GET    = $this->storedGetParams;
     }
 
-    public function testNoIpDoesNotBlock(): void
+    public function testNoIpDoesNotBlock()
     {
         unset($_SERVER['HTTP_CLIENT_IP'], $_SERVER['HTTP_X_FORWARDED_FOR'], $_SERVER['REMOTE_ADDR']);
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_WHITELISTED_HOST_IPS'] = '::1,127.0.0.1';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
-    public function testNoWhitelistDoesNotBlock(): void
+    public function testNoWhitelistDoesNotBlock()
     {
         $_SERVER['REMOTE_ADDR'] = '::1';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_WHITELISTED_HOST_IPS'] = '';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
-    public function testWhitelistAndCorrectIpDoesNotBlock(): void
+    public function testWhitelistAndCorrectIpDoesNotBlock()
     {
         $_SERVER['REMOTE_ADDR'] = '::1';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_WHITELISTED_HOST_IPS'] = '127.0.0.1,::1,192.168.0.2';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
-    public function testNonWhitelistedIpSkipsSoarceExecution(): void
+    public function testNonWhitelistedIpSkipsSoarceExecution()
     {
         $_SERVER['REMOTE_ADDR'] = '42::1';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_WHITELISTED_HOST_IPS'] = '127.0.0.1,::1,192.168.0.2';
-        $this->assertEquals('', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertEquals('', $fc->run());
     }
 
 }

@@ -20,7 +20,7 @@ class Start extends Action implements PredisClientInterface
      * @return string
      * @throws Exception
      */
-    public function run(): string
+    public function run()
     {
         $this->redisMutex = new RedisMutex($this->predisClient, $this->config->getApplicationName(), $this->config->getNumberOfPipes());
 
@@ -34,13 +34,13 @@ class Start extends Action implements PredisClientInterface
         $this->startWorkerProcess();
         $this->createTriggerFile();
 
-        return json_encode(['status' => 'ok']);
+        return json_encode(array('status' => 'ok'));
     }
 
     /**
      * @param ClientInterface $client
      */
-    public function setPredisClient(ClientInterface $client): void
+    public function setPredisClient(ClientInterface $client)
     {
         $this->predisClient = $client;
     }
@@ -48,7 +48,7 @@ class Start extends Action implements PredisClientInterface
     /**
      *
      */
-    private function seedRedisMutex(): void
+    private function seedRedisMutex()
     {
         $this->redisMutex->seed();
     }
@@ -56,7 +56,7 @@ class Start extends Action implements PredisClientInterface
     /**
      *
      */
-    private function createPipes(): void
+    private function createPipes()
     {
         $pipeHandler = new Handler($this->config, $this->redisMutex);
         foreach ($pipeHandler->getAllPipes() as $pipe) {
@@ -67,7 +67,7 @@ class Start extends Action implements PredisClientInterface
     /**
      * creates a detached background process
      */
-    private function startWorkerProcess(): void
+    private function startWorkerProcess()
     {
         exec('php -f '
             . __DIR__
@@ -84,7 +84,7 @@ class Start extends Action implements PredisClientInterface
     /**
      *
      */
-    private function createTriggerFile(): void
+    private function createTriggerFile()
     {
         $file = $this->config->getDataPath() . DIRECTORY_SEPARATOR . Config::TRIGGER_FILENAME;
         touch($file);

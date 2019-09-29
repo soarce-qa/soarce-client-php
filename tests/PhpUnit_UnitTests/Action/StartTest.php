@@ -4,7 +4,6 @@ namespace UnitTests\Action;
 
 use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
-use Predis\Client;
 use Predis\ClientInterface;
 use Soarce\Action\Exception;
 use Soarce\Action\Start;
@@ -12,7 +11,11 @@ use Soarce\Config;
 
 class StartTest extends TestCase
 {
-    public function testNonexistantDirectoryCausesException(): void
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
+    public function testNonexistantDirectoryCausesException()
     {
         $config = new Config();
         $config->setDataPath('/the/freaking/moon');
@@ -20,13 +23,14 @@ class StartTest extends TestCase
         $action = new Start($config);
         $action->setPredisClient($this->getRedisMock());
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
-
         $action->run();
     }
 
-    public function testUnauthorizedDirectoryCausesException(): void
+    /**
+     * @expectedException Exception
+     * @expectedExceptionCode 1
+     */
+    public function testUnauthorizedDirectoryCausesException()
     {
         if ('root' === $_SERVER['USER']) {
             $this->markTestSkipped('cannot test if run as root');
@@ -38,13 +42,10 @@ class StartTest extends TestCase
         $action = new Start($config);
         $action->setPredisClient($this->getRedisMock());
 
-        $this->expectException(Exception::class);
-        $this->expectExceptionCode(Exception::DATA_DIRECTORY__NOT_WRITEABLE);
-
         $action->run();
     }
 
-    public function testSuccessfulWrite(): void
+    public function testSuccessfulWrite()
     {
         $this->markTestIncomplete('we have to treat lightly around starting processes!');
 
@@ -58,7 +59,7 @@ class StartTest extends TestCase
         $return = $action->run();
 
         $this->assertJson($return);
-        $this->assertEquals(['status' => 'OK'], json_decode($return, JSON_OBJECT_AS_ARRAY));
+        $this->assertEquals(array('status' => 'OK'), json_decode($return, JSON_OBJECT_AS_ARRAY));
 
         $this->assertFileExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 0));
         $this->assertFileExists($config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, 1));
@@ -73,11 +74,11 @@ class StartTest extends TestCase
     /**
      * @return ClientInterface
      */
-    private function getRedisMock(): ClientInterface
+    private function getRedisMock()
     {
         $factory = new RedisMockFactory();
         /** @var ClientInterface $redisMock */
-        $redisMock = $factory->getAdapter(Client::class, true);
+        $redisMock = $factory->getAdapter('\Predis\Client', true);
 
         return $redisMock;
     }

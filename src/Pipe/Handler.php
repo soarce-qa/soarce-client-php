@@ -31,12 +31,13 @@ class Handler
      * @return Pipe
      * @throws Exception
      */
-    public function getFreePipe(): Pipe
+    public function getFreePipe()
     {
         for ($tries = 0; $tries < 5; $tries++) {
             $id = $this->redisMutex->obtainLock();
             if ($id >= 0 && $id < $this->config->getNumberOfPipes()) {
-                return $this->getAllPipes()[$id];
+                $allPipes = $this->getAllPipes();
+                return $allPipes[$id];
             }
         }
         throw new Exception('cannot find unused pipe');
@@ -45,9 +46,9 @@ class Handler
     /**
      * @return Pipe[]
      */
-    public function getAllPipes(): array
+    public function getAllPipes()
     {
-        $pipes = [];
+        $pipes = array();
         for ($i = 0; $i < $this->config->getNumberOfPipes(); $i++) {
             $basePath = $this->config->getDataPath() . DIRECTORY_SEPARATOR . sprintf(Config::PIPE_NAME_TEMPLATE, $i);
             $pipes[] = new Pipe($basePath);

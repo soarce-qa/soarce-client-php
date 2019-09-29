@@ -14,39 +14,42 @@ class PresharedSecretTest extends TestCase
     /** @var array */
     private $storedGetParams;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->storedServerParams = $_SERVER;
         $this->storedGetParams    = $_GET;
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         $_SERVER = $this->storedServerParams;
         $_GET    = $this->storedGetParams;
     }
 
-    public function testNoConfigDoesNotBlock(): void
+    public function testNoConfigDoesNotBlock()
     {
         $_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] = 'abcdefg';
         $_GET['SOARCE'] = 'index';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
-    public function testMatchingSecretDoesNotBlock(): void
+    public function testMatchingSecretDoesNotBlock()
     {
         $_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] = 'abcdefg';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_PRESHARED_SECRET'] = 'abcdefg';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertContains('Hello World!', $fc->run());
     }
 
-    public function testDifferentSecretsSkipSoarceExecution(): void
+    public function testDifferentSecretsSkipSoarceExecution()
     {
         $_SERVER['HTTP_X_SOARCE_PRESHARED_SECRET'] = 'abcdefg';
         $_GET['SOARCE'] = 'index';
         $_SERVER['SOARCE_PRESHARED_SECRET'] = 'qwertyu';
-        $this->assertEquals('', (new FrontController(new Config()))->run());
+        $fc = new FrontController(new Config());
+        $this->assertEquals('', $fc->run());
     }
 
 }
