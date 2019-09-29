@@ -82,7 +82,7 @@ if ($config->isTracingActive()) {
             'http' => array(
                 'method'  => 'POST',
                 'header'  => 'Content-Type: application/json',
-                'content' => json_encode($data, JSON_PRETTY_PRINT),
+                'content' => json_encode($data),
             ),
         );
 

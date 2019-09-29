@@ -21,6 +21,6 @@ class Preconditions extends Action
             'datadir_writable'      => is_writable($this->config->getDataPath()),
         );
 
-        return json_encode($data, JSON_PRETTY_PRINT);
+        return json_encode($data);
     }
 }

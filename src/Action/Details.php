@@ -18,6 +18,6 @@ class Details extends Action
             'ini_settings'    => ini_get_all(null, false),
         );
 
-        return json_encode($data, JSON_PRETTY_PRINT);
+        return json_encode($data);
     }
 }
