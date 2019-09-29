@@ -6,6 +6,9 @@ use Predis\ClientInterface;
 
 class RedisMutex
 {
+    /** @var string */
+    private $name;
+
     /** @var ClientInterface */
     private $client;
 

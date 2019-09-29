@@ -6,7 +6,6 @@ use M6Web\Component\RedisMock\RedisMockFactory;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
 use Predis\ClientInterface;
-use Soarce\RedisMutex;
 use Soarce\RequestTracking;
 
 class RequestTrackingTest extends TestCase
