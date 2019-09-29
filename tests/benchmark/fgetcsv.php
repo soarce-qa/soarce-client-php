@@ -24,7 +24,7 @@ class TraceParser3
     /**
      * @param  resource $fp
      */
-    public function analyze($fp): void
+    public function analyze($fp)
     {
         while (false !== ($split = fgetcsv($fp, 0, "\t"))) {
 

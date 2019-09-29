@@ -14,7 +14,7 @@ class ReadFileTest extends TestCase
         unset($_GET['filename']);
     }
 
-    public function testMissingParamCausesException(): void
+    public function testMissingParamCausesException()
     {
         $action = new ReadFile(new Config());
 
@@ -24,7 +24,7 @@ class ReadFileTest extends TestCase
         $action->run();
     }
 
-    public function testUnreadableFileCausesException(): void
+    public function testUnreadableFileCausesException()
     {
         $action = new ReadFile(new Config());
 
@@ -36,7 +36,7 @@ class ReadFileTest extends TestCase
         $action->run();
     }
 
-    public function testReadingAnActualFile(): void
+    public function testReadingAnActualFile()
     {
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../../playground/');

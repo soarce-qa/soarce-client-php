@@ -10,7 +10,7 @@ use Soarce\RedisMutex;
 
 class RedisMutexTest extends TestCase
 {
-    public function testSeeding(): void
+    public function testSeeding()
     {
         $redisMock = $this->getRedisMock();
         $redisMutex = new RedisMutex($redisMock, 'test', 3);
@@ -25,7 +25,7 @@ class RedisMutexTest extends TestCase
         $this->assertCount(0, $keys);
     }
 
-    public function testLocking(): void
+    public function testLocking()
     {
         $this->markTestIncomplete('This needs to become an integration test one day as "brpop" is understandably not mockable.');
 

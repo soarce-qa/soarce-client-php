@@ -11,40 +11,40 @@ class FrontControllerTest extends TestCase
     /** @var array */
     private $storedGetParams;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->storedGetParams = $_GET;
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         $_GET = $this->storedGetParams;
     }
 
-    public function testParameterNotSetDoesNothing(): void
+    public function testParameterNotSetDoesNothing()
     {
         unset($_GET['SOARCE']);
         $this->assertEquals('', (new FrontController(new Config()))->run());
     }
 
-    public function testNonexistantActionDoesNothing(): void
+    public function testNonexistantActionDoesNothing()
     {
         $_GET['SOARCE'] = 'hurrrglburrrgl';
         $this->assertEquals('', (new FrontController(new Config()))->run());
     }
 
-    public function testIndexDoesSomething(): void
+    public function testIndexDoesSomething()
     {
         $_GET['SOARCE'] = 'index';
-        $this->assertStringContainsString('Hello World!', (new FrontController(new Config()))->run());
+        $this->assertContains('Hello World!', (new FrontController(new Config()))->run());
     }
 
-    public function testOverrideParamName(): void
+    public function testOverrideParamName()
     {
         $_GET['SECURITY'] = 'index';
         $config = new Config();
         $config->setActionParamName('SECURITY');
 
-        $this->assertStringContainsString('Hello World!', (new FrontController($config))->run());
+        $this->assertContains('Hello World!', (new FrontController($config))->run());
     }
 }

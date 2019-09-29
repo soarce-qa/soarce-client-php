@@ -10,12 +10,12 @@ use Soarce\HashManager;
 
 class HashManagerTest extends TestCase
 {
-    private const REDIS_KEY = 'filehashes:testApplicationName';
+    const REDIS_KEY = 'filehashes:testApplicationName';
 
     /** @var ClientInterface */
     private $redisMock;
 
-    public function testStoreNewFileInEmptyCache(): void
+    public function testStoreNewFileInEmptyCache()
     {
         $filename = realpath(__DIR__ . '/Fixtures/dummy.txt');
 
@@ -32,7 +32,7 @@ class HashManagerTest extends TestCase
         $this->assertEquals('54b0c58c7ce9f2a8b551351102ee0938', array_pop($storageContent));
     }
 
-    public function testCaching(): void
+    public function testCaching()
     {
         $filename = realpath(__DIR__ . '/Fixtures/dummy.txt');
 
@@ -48,7 +48,7 @@ class HashManagerTest extends TestCase
         );
     }
 
-    public function testEvalIsIgnored(): void
+    public function testEvalIsIgnored()
     {
         $filename = "something in eval()'d code we do not want";
 
