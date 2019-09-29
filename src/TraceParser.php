@@ -19,7 +19,7 @@ class TraceParser
     /**
      * @param  resource $fp
      */
-    public function analyze($fp): void
+    public function analyze($fp)
     {
         while (false !== ($line = fgets($fp))) {
 
@@ -89,7 +89,7 @@ class TraceParser
     /**
      * @return array
      */
-    public function getParsedData(): array
+    public function getParsedData()
     {
         return $this->parsedData;
     }
@@ -97,7 +97,7 @@ class TraceParser
     /**
      * @return array
      */
-    public function getFunctionMap(): array
+    public function getFunctionMap()
     {
         return $this->functionMap;
     }

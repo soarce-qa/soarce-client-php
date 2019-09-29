@@ -16,21 +16,21 @@ class ConfigTest extends TestCase
     /** @var array */
     private $storedServerParams;
 
-    public function setUp(): void
+    public function setUp()
     {
         $this->storedGetParams    = $_GET;
         $this->storedEnvParams    = $_ENV;
         $this->storedServerParams = $_SERVER;
     }
 
-    public function tearDown(): void
+    public function tearDown()
     {
         $_GET    = $this->storedGetParams;
         $_ENV    = $this->storedEnvParams;
         $_SERVER = $this->storedServerParams;
     }
 
-    public function testDefaultParams(): void
+    public function testDefaultParams()
     {
         $config = new Config();
 
@@ -38,7 +38,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('/tmp/',  $config->getDataPath());
     }
 
-    public function testEnvParams(): void
+    public function testEnvParams()
     {
         $_ENV['SOARCE_ACTION_PARAM_NAME'] = 'HUUURZ';
         $_ENV['SOARCE_DATA_PATH']         = '/var/tmp/';
@@ -49,7 +49,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('/var/tmp/', $config->getDataPath());
     }
 
-    public function testServerParams(): void
+    public function testServerParams()
     {
         $_SERVER['SOARCE_ACTION_PARAM_NAME'] = 'DUUUURRRR';
         $_SERVER['SOARCE_DATA_PATH']         = '/var/tmp/megapath/';
@@ -60,7 +60,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('/var/tmp/megapath/', $config->getDataPath());
     }
 
-    public function testEnvParamsTrumpServer(): void
+    public function testEnvParamsTrumpServer()
     {
         $_ENV['SOARCE_ACTION_PARAM_NAME'] = 'HUUURZ';
         $_ENV['SOARCE_DATA_PATH']         = '/var/tmp/';
@@ -74,7 +74,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('/var/tmp/', $config->getDataPath());
     }
 
-    public function testOverrideTrumpDefaultParams(): void
+    public function testOverrideTrumpDefaultParams()
     {
         $_ENV['SOARCE_ACTION_PARAM_NAME'] = 'HUUURZ';
         $_ENV['SOARCE_DATA_PATH']         = '/var/tmp/';
@@ -90,7 +90,7 @@ class ConfigTest extends TestCase
         $this->assertEquals('/this/is/private/', $config->getDataPath());
     }
 
-    public function testIsTraceActive(): void
+    public function testIsTraceActive()
     {
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../playground/');
@@ -106,7 +106,7 @@ class ConfigTest extends TestCase
         $this->assertTrue($config->isTracingActive());
     }
 
-    public function testNumberOfPipes(): void
+    public function testNumberOfPipes()
     {
         $config = new Config();
         $this->assertEquals(10, $config->getNumberOfPipes());

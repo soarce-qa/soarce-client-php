@@ -17,5 +17,5 @@ abstract class Action
      *
      * @return string
      */
-    abstract public function run(): string;
+    abstract public function run();
 }

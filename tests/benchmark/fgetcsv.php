@@ -24,7 +24,7 @@ class TraceParser3
     /**
      * @param  resource $fp
      */
-    public function analyze($fp): void
+    public function analyze($fp)
     {
         while (false !== ($split = fgetcsv($fp, 0, "\t"))) {
 
@@ -92,7 +92,7 @@ class TraceParser3
     /**
      * @return array
      */
-    public function getParsedData(): array
+    public function getParsedData()
     {
         return $this->parsedData;
     }
@@ -100,7 +100,7 @@ class TraceParser3
     /**
      * @return array
      */
-    public function getFunctionMap(): array
+    public function getFunctionMap()
     {
         return $this->functionMap;
     }

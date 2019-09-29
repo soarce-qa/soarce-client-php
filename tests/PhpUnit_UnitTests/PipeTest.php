@@ -7,14 +7,14 @@ use Soarce\Pipe;
 
 class PipeTest extends TestCase
 {
-    public function testStatics(): void
+    public function testStatics()
     {
         $pipe = new Pipe('/tmp/SOARCE-TEST');
         $this->assertEquals('/tmp/SOARCE-TEST',      $pipe->getBasepath());
         $this->assertEquals('/tmp/SOARCE-TEST.xt',   $pipe->getFilenameTracefile());
     }
 
-    public function testReleaseFunction(): void
+    public function testReleaseFunction()
     {
         $interceptor = false;
         $pipe = new Pipe('/tmp/SOARCE-TEST');

@@ -8,7 +8,7 @@ use Soarce\Config;
 
 class PreconditionsTest extends TestCase
 {
-    public function testEverythingIsWell(): void
+    public function testEverythingIsWell()
     {
         $config = new Config();
         $config->setDataPath(__DIR__ . '/../../playground/');
