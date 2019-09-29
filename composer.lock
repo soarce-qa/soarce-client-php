@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/soarce-qa/parallel-process-dispatcher.git",
-                "reference": "dffecdd9ebf57602f14d0b3cdeadb6f08be689bd"
+                "reference": "cb60a90ea5f09a22a0d7630b76db2e1ed8f3dee6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/soarce-qa/parallel-process-dispatcher/zipball/dffecdd9ebf57602f14d0b3cdeadb6f08be689bd",
-                "reference": "dffecdd9ebf57602f14d0b3cdeadb6f08be689bd",
+                "url": "https://api.github.com/repos/soarce-qa/parallel-process-dispatcher/zipball/cb60a90ea5f09a22a0d7630b76db2e1ed8f3dee6",
+                "reference": "cb60a90ea5f09a22a0d7630b76db2e1ed8f3dee6",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
             "support": {
                 "source": "https://github.com/soarce-qa/parallel-process-dispatcher/tree/legacy/5.3"
             },
-            "time": "2019-09-27T14:29:21+00:00"
+            "time": "2019-09-29T10:41:52+00:00"
         },
         {
             "name": "predis/predis",
