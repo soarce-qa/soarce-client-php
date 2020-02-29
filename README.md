@@ -1,6 +1,6 @@
 # soarce/client [![Packagist](https://img.shields.io/packagist/dt/soarce/client.svg)](https://packagist.org/packages/soarce/client)
 
-## Version: 2.0.0
+## Version: 2.0.1
 
 ## Overview
 
@@ -23,7 +23,7 @@ minimum PHP-Version for the master branch and active development is the oldest s
 Whenever EOL of one is reached, we'll create a new major version and there drop support. Currently the following
 branches are available:
 * 1.x - PHP 5.3.9
-* 2.x - PHP 5.4 - 5.6
+* 2.x - PHP 5.5 - 5.6
 * 3.x - PHP 7.0
 * 4.x/master - PHP 7.1+
 

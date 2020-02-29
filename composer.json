@@ -22,14 +22,14 @@
   },
   "config": {
     "platform": {
-      "php": "5.4"
+      "php": "5.5"
     }
   },
   "require": {
-    "php": ">=5.4,<8.0-DEV",
+    "php": ">=5.5,<8.0-DEV",
     "ext-json": "*",
-    "fastbill/parallel-process-dispatcher": "^1.2.1",
-    "predis/predis": "^1.1"
+    "predis/predis": "^1.1",
+    "soarce/parallel-process-dispatcher": "^2.1"
   },
   "autoload": {
     "files": ["src/execute.php"],
