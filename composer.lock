@@ -4,56 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c60f30c8179844a69bd9882faf44ba33",
+    "content-hash": "45e59a66cfb2778a72a932dfb024207f",
     "packages": [
-        {
-            "name": "fastbill/parallel-process-dispatcher",
-            "version": "dev-legacy/5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/soarce-qa/parallel-process-dispatcher.git",
-                "reference": "cb60a90ea5f09a22a0d7630b76db2e1ed8f3dee6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/soarce-qa/parallel-process-dispatcher/zipball/cb60a90ea5f09a22a0d7630b76db2e1ed8f3dee6",
-                "reference": "cb60a90ea5f09a22a0d7630b76db2e1ed8f3dee6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "jakub-onderka/php-parallel-lint": "*",
-                "pdepend/pdepend": "^2.5",
-                "phploc/phploc": "^2.1",
-                "phpmd/phpmd": "*",
-                "phpunit/phpunit": "^4.8",
-                "sebastian/phpcpd": "^2.0",
-                "squizlabs/php_codesniffer": "*",
-                "theseer/phpdox": "0.8.1.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FastBill\\ParallelProcessDispatcher\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Holger Segnitz",
-                    "email": "hsegnitz@fastbill.com"
-                }
-            ],
-            "description": "Tiny PHP library for running jobs in background and/or in parallel",
-            "support": {
-                "source": "https://github.com/soarce-qa/parallel-process-dispatcher/tree/legacy/5.3"
-            },
-            "time": "2019-09-29T10:41:52+00:00"
-        },
         {
             "name": "predis/predis",
             "version": "v1.1.1",
@@ -103,6 +55,57 @@
                 "redis"
             ],
             "time": "2016-06-16T16:22:20+00:00"
+        },
+        {
+            "name": "soarce/parallel-process-dispatcher",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soarce-qa/parallel-process-dispatcher.git",
+                "reference": "3385819b19d20e11a667f6a1f96c7897fe38fd0b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soarce-qa/parallel-process-dispatcher/zipball/3385819b19d20e11a667f6a1f96c7897fe38fd0b",
+                "reference": "3385819b19d20e11a667f6a1f96c7897fe38fd0b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "replace": {
+                "fastbill/parallel-process-dispatcher": "*"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "*",
+                "pdepend/pdepend": "^2.5",
+                "phploc/phploc": "^2.1",
+                "phpmd/phpmd": "*",
+                "phpunit/phpunit": "^4.8",
+                "sebastian/phpcpd": "^2.0",
+                "squizlabs/php_codesniffer": "*",
+                "theseer/phpdox": "0.8.1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Soarce\\ParallelProcessDispatcher\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Holger Segnitz",
+                    "email": "holger@segnitz.net"
+                }
+            ],
+            "description": "Tiny PHP library for running jobs in background and/or in parallel",
+            "support": {
+                "source": "https://github.com/soarce-qa/parallel-process-dispatcher/tree/1.2.2"
+            },
+            "time": "2020-02-29T16:06:59+00:00"
         }
     ],
     "packages-dev": [
@@ -2427,6 +2430,7 @@
                 }
             ],
             "description": "An XSL wrapper / extension to the PHP 5.x XSLTProcessor with Exception and extended Callback support",
+            "abandoned": true,
             "time": "2014-11-27T20:08:52+00:00"
         },
         {
@@ -2485,7 +2489,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "php": 20,
-        "fastbill/parallel-process-dispatcher": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
