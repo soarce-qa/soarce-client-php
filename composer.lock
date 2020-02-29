@@ -4,51 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84758b6042b61f1776422d53af990a69",
+    "content-hash": "5784ac3506746b92e31a840dac2c78fc",
     "packages": [
-        {
-            "name": "fastbill/parallel-process-dispatcher",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fastbill/parallel-process-dispatcher.git",
-                "reference": "9f4d0b91695e7a5940732d639eaea0c2f984be9c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fastbill/parallel-process-dispatcher/zipball/9f4d0b91695e7a5940732d639eaea0c2f984be9c",
-                "reference": "9f4d0b91695e7a5940732d639eaea0c2f984be9c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4,<8.0-DEV"
-            },
-            "require-dev": {
-                "jakub-onderka/php-parallel-lint": "*",
-                "pdepend/pdepend": "*",
-                "phploc/phploc": "*",
-                "phpmd/phpmd": "*",
-                "phpunit/phpunit": "*",
-                "sebastian/phpcpd": "*",
-                "squizlabs/php_codesniffer": "*",
-                "theseer/phpdox": "*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "FastBill\\ParallelProcessDispatcher\\": "src/FastBill/ParallelProcessDispatcher"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Holger Segnitz",
-                    "email": "hsegnitz@fastbill.com"
-                }
-            ],
-            "description": "module for running cli-processes in parallel",
-            "time": "2017-12-05T19:26:08+00:00"
-        },
         {
             "name": "predis/predis",
             "version": "v1.1.1",
@@ -98,6 +55,55 @@
                 "redis"
             ],
             "time": "2016-06-16T16:22:20+00:00"
+        },
+        {
+            "name": "soarce/parallel-process-dispatcher",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soarce-qa/parallel-process-dispatcher.git",
+                "reference": "a8e80203c9a7fbb57f4d5259998a01e13a0de527"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soarce-qa/parallel-process-dispatcher/zipball/a8e80203c9a7fbb57f4d5259998a01e13a0de527",
+                "reference": "a8e80203c9a7fbb57f4d5259998a01e13a0de527",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1,<8.0-DEV"
+            },
+            "replace": {
+                "fastbill/parallel-process-dispatcher": "*"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "*",
+                "pdepend/pdepend": "*",
+                "phploc/phploc": "*",
+                "phpmd/phpmd": "*",
+                "phpunit/phpunit": "*",
+                "sebastian/phpcpd": "*",
+                "squizlabs/php_codesniffer": "*",
+                "theseer/phpdox": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Soarce\\ParallelProcessDispatcher\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Holger Segnitz",
+                    "email": "holger@segnitz.net"
+                }
+            ],
+            "description": "Tiny PHP library for running jobs in background and/or in parallel",
+            "time": "2020-02-29T18:42:58+00:00"
         }
     ],
     "packages-dev": [
@@ -2797,6 +2803,7 @@
                 }
             ],
             "description": "An XSL wrapper / extension to the PHP 5.x XSLTProcessor with Exception and extended Callback support",
+            "abandoned": true,
             "time": "2014-11-27T20:08:52+00:00"
         },
         {
