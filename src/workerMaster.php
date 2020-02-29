@@ -4,8 +4,8 @@ namespace SoarceRuntime;
 
 define('SOARCE_SKIP_EXECUTE', true);
 
-use FastBill\ParallelProcessDispatcher\Dispatcher;
-use FastBill\ParallelProcessDispatcher\Process;
+use Soarce\ParallelProcessDispatcher\Dispatcher;
+use Soarce\ParallelProcessDispatcher\Process;
 use Soarce\Config;
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
