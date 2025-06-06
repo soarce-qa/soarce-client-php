@@ -5,16 +5,16 @@ namespace Soarce;
 class TraceParser
 {
     /** @var array[] temporary stack - will hold metadata of "open" functions */
-    private $parseStack    = [];
+    private array $parseStack    = [];
 
     /** @var array[] end result that will be delivered to the service - one entry per function, listing type, number of calls and sum of walltime */
-    private $parsedData    = [];
+    private array $parsedData    = [];
 
     /** @var int[]   internal function number index that assigns an ID for every function */
-    private $functionIndex = [];
+    private array $functionIndex = [];
 
     /** @var int[][] functionId based map of what function calls which function how often: [caller][callee] => calls */
-    private $functionMap   = [];
+    private array $functionMap   = [];
 
     /**
      * @param  resource $fp
@@ -22,7 +22,6 @@ class TraceParser
     public function analyze($fp): void
     {
         while (false !== ($line = fgets($fp))) {
-
             $split = explode("\t", $line);
 
             if (count($split) > 9) {

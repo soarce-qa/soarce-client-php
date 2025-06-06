@@ -9,17 +9,11 @@ class HashManager
     private const PREFIX = 'filehashes:';
     private const TIMEOUT = 3600;
 
-    /** @var ClientInterface */
-    private $client;
-
-    /** @var string */
-    private $applicationName;
+    /** @var string[] */
+    private array $store = [];
 
     /** @var string[] */
-    private $store = [];
-
-    /** @var string[] */
-    private $new = [];
+    private array $new = [];
 
     /**
      * HashManager constructor.
@@ -27,30 +21,20 @@ class HashManager
      * @param ClientInterface $predis
      * @param string          $applicationName
      */
-    public function __construct(ClientInterface $predis, $applicationName)
-    {
-        $this->applicationName = $applicationName;
-        $this->client = $predis;
-    }
+    public function __construct(private ClientInterface $predis, private string $applicationName)
+    {}
 
-    /**
-     *
-     */
     public function load(): void
     {
         $this->store = [];
-        if (is_array($res = $this->client->hgetall(self::PREFIX . $this->applicationName))) {
+        if (is_array($res = $this->predis->hgetall(self::PREFIX . $this->applicationName))) {
             $this->store = $res;
         }
     }
 
-    /**
-     * @param  string $filepath
-     * @return string
-     */
-    public function getMd5ForFile($filepath): string
+    public function getMd5ForFile(string $filepath): string
     {
-        if (strpos($filepath, "eval()'d code") !== false) {
+        if (str_contains($filepath, "eval()'d code")) {
             return '';
         }
 
@@ -64,10 +48,10 @@ class HashManager
     }
 
     /**
-     * @param  string[] $files
+     * @param string[] $files
      * @return string[]
      */
-    public function getMd5ForFiles($files): array
+    public function getMd5ForFiles(array $files): array
     {
         $return = [];
         foreach ($files as $file){
@@ -76,15 +60,12 @@ class HashManager
         return $return;
     }
 
-    /**
-     *
-     */
     public function save(): void
     {
        foreach ($this->new as $path => $md5) {
-           $this->client->hset(self::PREFIX . $this->applicationName, $path, $md5);
+           $this->predis->hset(self::PREFIX . $this->applicationName, $path, $md5);
        }
-       $this->client->expire(self::PREFIX . $this->applicationName, self::TIMEOUT);
+       $this->predis->expire(self::PREFIX . $this->applicationName, self::TIMEOUT);
     }
 
 }

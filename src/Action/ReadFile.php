@@ -8,9 +8,6 @@ class ReadFile extends Action
 {
     private const CHECKSUM_HEADER = 'X-SOARCE-FileChecksum';
 
-    /**
-     * @return string
-     */
     public function run(): string
     {
         if (!isset($_GET['filename'])) {
@@ -28,11 +25,7 @@ class ReadFile extends Action
         return file_get_contents($_GET['filename']);
     }
 
-    /**
-     * @param  string $filename
-     * @return boolean
-     */
-    private function isPathPermittedByWhitelist($filename): bool
+    private function isPathPermittedByWhitelist(string $filename): bool
     {
         $realPath = realpath($filename);
 
@@ -46,7 +39,7 @@ class ReadFile extends Action
         }
 
         foreach ($this->config->getWhitelistedPaths() as $whitelistedPath) {
-            if (0 === strpos($realPath, $whitelistedPath)) {
+            if (str_starts_with($realPath, $whitelistedPath)) {
                 return true;
             }
         }

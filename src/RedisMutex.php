@@ -6,31 +6,16 @@ use Predis\ClientInterface;
 
 class RedisMutex
 {
-    /** @var string */
-    private $name;
-
-    /** @var ClientInterface */
-    private $client;
-
-    /** @var int */
-    private $numberOfPipes;
-
     /**
      * RedisMutex constructor.
      *
      * @param ClientInterface $client
      * @param string          $name
-     * @param int             $numberOfPipes
+     * @param int|null $numberOfPipes
      */
-    public function __construct(ClientInterface $client, $name, $numberOfPipes = null)
-    {
-        $this->name          = $name;
-        $this->numberOfPipes = $numberOfPipes;
-        $this->client        = $client;
-    }
+    public function __construct(private ClientInterface $client, private string $name, private ?int $numberOfPipes = null)
+    {}
 
-    /**
-     */
     public function seed(): void
     {
         $this->clean();
@@ -39,17 +24,12 @@ class RedisMutex
         }
     }
 
-    /**
-     */
     public function clean(): void
     {
         $this->client->del($this->allLockNames());
         $this->client->del($this->allWorkNames());
     }
 
-    /**
-     * @return int
-     */
     public function obtainLock(): int
     {
         $id = $this->client->brpop($this->allLockNames(), 300)[1];
@@ -57,11 +37,7 @@ class RedisMutex
         return $id;
     }
 
-    /**
-     * @param  int    $id
-     * @return void
-     */
-    public function releaseLock($id): void
+    public function releaseLock(int $id): void
     {
         $this->client->rpoplpush("work:{$this->name}:{$id}", "lock:{$this->name}:{$id}");
     }
@@ -83,10 +59,10 @@ class RedisMutex
     }
 
     /**
-     * @param  string   $prefix
+     * @param string $prefix
      * @return string[]
      */
-    protected function allNames($prefix): array
+    protected function allNames(string $prefix): array
     {
         if (null === $this->numberOfPipes) {
             throw new Exception('unknown number of pipes, cannot run command');

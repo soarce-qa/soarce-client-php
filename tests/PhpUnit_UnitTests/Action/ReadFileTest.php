@@ -9,7 +9,7 @@ use Soarce\Config;
 
 class ReadFileTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['filename']);
     }

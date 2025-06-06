@@ -7,11 +7,8 @@ use Soarce\Action\PredisClientInterface;
 
 class FrontController
 {
-    /** @var Config */
-    private $config;
-
-    /** @var string() */
-    private $actionMap = [
+    /** @var string[] */
+    private array $actionMap = [
         'details'       => Action\Details::class,
         'end'           => Action\End::class,
         'index'         => Action\Index::class,
@@ -21,15 +18,11 @@ class FrontController
         'start'         => Action\Start::class,
     ];
 
-    public function __construct(Config $config)
-    {
-        $this->config = $config;
-    }
+    public function __construct(private Config $config)
+    {}
 
     /**
      * running or skipping SOARCE
-     *
-     * @return string
      */
     public function run(): string
     {

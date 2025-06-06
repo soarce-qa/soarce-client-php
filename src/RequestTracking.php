@@ -9,26 +9,14 @@ class RequestTracking
     const HEADER_NAME    = 'HTTP_X_SOARCE_REQUEST_ID';
     const EXPIRY_SECONDS = 600;
 
-    /** @var ClientInterface */
-    private $client;
+    private ?string $requestId;
 
-    /** @var string */
-    private $requestId;
+    private ?string $serverIp;
 
-    /** @var string */
-    private $serverIp;
+    private ?string $requestIp;
 
-    /** @var string */
-    private $requestIp;
-
-    /**
-     * RequestTracking constructor.
-     *
-     * @param ClientInterface $client
-     */
-    public function __construct(ClientInterface $client)
+    public function __construct(private ClientInterface $client)
     {
-        $this->client = $client;
     }
 
     /**

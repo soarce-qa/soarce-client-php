@@ -15,30 +15,22 @@ class Config
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
     public const SUFFIX_TRACEFILE     = '.xt';
 
-    /** @var string */
-    protected $actionParamName;
+    protected ?string $actionParamName;
 
-    /** @var string */
-    protected $applicationName;
+    protected ?string $applicationName;
 
-    /** @var string */
-    protected $dataPath;
+    protected ?string $dataPath;
 
-    /** @var int */
-    protected $numberOfPipes;
+    protected ?int $numberOfPipes;
 
     /** @var string[] */
-    protected $whitelistedHostIps = [];
+    protected array $whitelistedHostIps = [];
 
     /** @var string[] */
-    protected $whitelistedPaths = [];
+    protected array $whitelistedPaths = [];
 
-    /** @var string */
-    protected $presharedSecret;
+    protected ?string $presharedSecret;
 
-    /**
-     * @return string
-     */
     public function getPresharedSecret(): string
     {
         if (null === $this->presharedSecret) {
@@ -115,10 +107,7 @@ class Config
      */
     public function getNumberOfPipes(): int
     {
-        if (null === $this->numberOfPipes) {
-            return self::DEFAULT_NUMBER_OF_PIPES;
-        }
-        return $this->numberOfPipes;
+        return $this->numberOfPipes ?? self::DEFAULT_NUMBER_OF_PIPES;
     }
 
     /**

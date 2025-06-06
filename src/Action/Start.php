@@ -10,11 +10,9 @@ use Soarce\RedisMutex;
 
 class Start extends Action implements PredisClientInterface
 {
-    /** @var ClientInterface */
-    private $predisClient;
+    private ClientInterface $predisClient;
 
-    /** @var RedisMutex */
-    private $redisMutex;
+    private RedisMutex $redisMutex;
 
     /**
      * @return string

@@ -22,14 +22,14 @@
   },
   "config": {
     "platform": {
-      "php": "7.1.30"
+      "php": "8.4.7"
     }
   },
   "require": {
-    "php": ">=7.1,<8.0-DEV",
+    "php": ">=8.0,<9.0-DEV",
     "ext-json": "*",
     "predis/predis": "^1.1",
-    "soarce/parallel-process-dispatcher": "^4.1"
+    "soarce/parallel-process-dispatcher": "*"
   },
   "autoload": {
     "files": ["src/execute.php"],
@@ -44,14 +44,8 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "*",
-    "jakub-onderka/php-parallel-lint": "^1.0",
-    "phploc/phploc": "*",
-    "pdepend/pdepend": "^2.5",
-    "phpmd/phpmd": "^2.6",
-    "squizlabs/php_codesniffer": "^3.4",
-    "sebastian/phpcpd": "^4.1",
-    "theseer/phpdox": "^0.12.0",
-    "m6web/redis-mock": "^4.6"
+    "phpunit/phpunit": "^12",
+    "php-parallel-lint/php-parallel-lint": "*",
+    "m6web/redis-mock": "*"
   }
 }

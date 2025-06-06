@@ -15,14 +15,14 @@ class EndTest extends TestCase
     /** @var Config */
     private $config;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->config = new Config();
         $this->config->setDataPath(__DIR__ . '/../../playground/');
         $_SERVER['HOSTNAME'] = 'UnitTest';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($_GET['usecase']);
     }

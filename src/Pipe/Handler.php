@@ -9,22 +9,11 @@ use Soarce\RedisMutex;
 
 class Handler
 {
-    /** @var Config */
-    private $config;
-
-    /** @var RedisMutex */
-    private $redisMutex;
-
     /**
      * Handler constructor.
-     *
-     * @param Config     $config
-     * @param RedisMutex $redisMutex
      */
-    public function __construct(Config $config, RedisMutex $redisMutex)
+    public function __construct(private Config $config, private RedisMutex $redisMutex)
     {
-        $this->config = $config;
-        $this->redisMutex = $redisMutex;
     }
 
     /**

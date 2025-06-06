@@ -25,7 +25,8 @@ branches are available:
 * 1.x - PHP 5.3.9
 * 2.x - PHP 5.4 - 5.6
 * 3.x - PHP 7.0
-* 4.x/master - PHP 7.1+
+* 4.x - PHP 7.1+
+* 5.x/master - PHP 8.0+
 
 ## Installation
 

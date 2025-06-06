@@ -4,20 +4,13 @@ namespace Soarce;
 
 class Pipe
 {
-    /** @var string */
-    private $basePath;
-
     /** @var callable */
     private $releaseFunction;
     /**
      * Pipe constructor.
-     *
-     * @param string   $basePath
      */
-    public function __construct($basePath)
-    {
-        $this->basePath = $basePath;
-    }
+    public function __construct(private string $basePath)
+    {}
 
     /**
      * @return string
