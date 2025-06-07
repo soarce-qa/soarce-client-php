@@ -15,13 +15,13 @@ class Config
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
     public const SUFFIX_TRACEFILE     = '.xt';
 
-    protected ?string $actionParamName;
+    protected ?string $actionParamName = null;
 
-    protected ?string $applicationName;
+    protected ?string $applicationName = null;
 
-    protected ?string $dataPath;
+    protected ?string $dataPath = null;
 
-    protected ?int $numberOfPipes;
+    protected ?int $numberOfPipes = null;
 
     /** @var string[] */
     protected array $whitelistedHostIps = [];
@@ -29,7 +29,7 @@ class Config
     /** @var string[] */
     protected array $whitelistedPaths = [];
 
-    protected ?string $presharedSecret;
+    protected ?string $presharedSecret = null;
 
     public function getPresharedSecret(): string
     {

@@ -9,11 +9,11 @@ class RequestTracking
     const HEADER_NAME    = 'HTTP_X_SOARCE_REQUEST_ID';
     const EXPIRY_SECONDS = 600;
 
-    private ?string $requestId;
+    private ?string $requestId = null;
 
-    private ?string $serverIp;
+    private ?string $serverIp = null;
 
-    private ?string $requestIp;
+    private ?string $requestIp = null;
 
     public function __construct(private ClientInterface $client)
     {
