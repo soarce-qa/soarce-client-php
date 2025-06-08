@@ -22,10 +22,11 @@ multiple versions of this client available, supporting legacy versions of PHP do
 minimum PHP-Version for the master branch and active development is the oldest supported PHP versions by php.net.
 Whenever EOL of one is reached, we'll create a new major version and there drop support. Currently the following
 branches are available:
-* 1.x - PHP 5.3.9
-* 2.x - PHP 5.4 - 5.6
-* 3.x - PHP 7.0
-* 4.x/master - PHP 7.1+
+* 1.x - PHP 5.3.9      --  deprecated
+* 2.x - PHP 5.4 - 5.6  --  deprecated
+* 3.x - PHP 7.0        --  deprecated
+* 4.x - PHP 7.2+       --  xdebug 3 is needed!  
+* 5.x/master
 
 ## Installation
 

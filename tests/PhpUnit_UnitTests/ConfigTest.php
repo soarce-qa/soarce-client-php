@@ -7,14 +7,11 @@ use Soarce\Config;
 
 class ConfigTest extends TestCase
 {
-    /** @var array */
-    private $storedGetParams;
+    private array $storedGetParams;
 
-    /** @var array */
-    private $storedEnvParams;
+    private array $storedEnvParams;
 
-    /** @var array */
-    private $storedServerParams;
+    private array $storedServerParams;
 
     public function setUp(): void
     {

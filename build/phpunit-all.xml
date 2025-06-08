@@ -4,7 +4,9 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
         stopOnFailure="false"
-        backupGlobals="false">
+        backupGlobals="false"
+        bootstrap="../vendor/autoload.php"
+>
     <filter>
         <whitelist>
             <directory suffix=".php">../src/</directory>
