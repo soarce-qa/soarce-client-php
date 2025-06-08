@@ -21,13 +21,13 @@ class PreconditionsTest extends TestCase
 
         $this->assertEquals(
             [
-                'xdebug_installed'      => true,
-                'autotrace_off'         => true,
-                'trace_format'          => true,
-                'trace_output_name'     => true,
-                'trace_trigger_enabled' => true,
-                'tracedir_readable'     => true,
-                'datadir_writable'      => true,
+                'xdebug_installed'   => true,
+                'xdebug_3'           => true,
+                'trace_format'       => true,
+                'trace_output_name'  => true,
+                'datadir_writable'   => true,
+                'outputdir_readable' => true,
+                'xdebug_mode'        => true,
             ],
             $decoded
         );

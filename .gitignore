@@ -6,3 +6,7 @@ vendor
 /build/pdepend/
 /build/coverage/
 /build/.phpunit.result.cache
+
+phpunit.phar
+
+tools/
