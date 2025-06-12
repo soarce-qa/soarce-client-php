@@ -42,9 +42,9 @@ class TraceParser
                 ];
 
                 if (count($this->parseStack) >= 2) {
-                    $slice = array_slice($this->parseStack, count($this->parseStack)-2, 2);
-                    $calleeId = array_pop($slice)['number'];
-                    $callerId = array_pop($slice)['number'];
+                    $slice = array_slice($this->parseStack, -2, 2);
+                    $callerId = $slice[0]['number'];
+                    $calleeId = $slice[1]['number'];
 
                     if (!isset($this->functionMap[$callerId])) {
                         $this->functionMap[$callerId] = [];
