@@ -23,6 +23,7 @@ class PreconditionsTest extends TestCase
             [
                 'xdebug_installed'   => true,
                 'xdebug_3'           => true,
+                'compression_off'    => true,
                 'trace_format'       => true,
                 'trace_output_name'  => true,
                 'datadir_writable'   => true,
