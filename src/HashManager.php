@@ -25,17 +25,14 @@ class HashManager
      * HashManager constructor.
      *
      * @param ClientInterface $predis
-     * @param string          $applicationName
+     * @param string $applicationName
      */
-    public function __construct(ClientInterface $predis, $applicationName)
+    public function __construct(ClientInterface $predis, string $applicationName)
     {
         $this->applicationName = $applicationName;
         $this->client = $predis;
     }
 
-    /**
-     *
-     */
     public function load(): void
     {
         $this->store = [];
@@ -44,11 +41,7 @@ class HashManager
         }
     }
 
-    /**
-     * @param  string $filepath
-     * @return string
-     */
-    public function getMd5ForFile($filepath): string
+    public function getMd5ForFile(string $filepath): string
     {
         if (strpos($filepath, "eval()'d code") !== false) {
             return '';
@@ -67,7 +60,7 @@ class HashManager
      * @param  string[] $files
      * @return string[]
      */
-    public function getMd5ForFiles($files): array
+    public function getMd5ForFiles(array $files): array
     {
         $return = [];
         foreach ($files as $file){
@@ -76,9 +69,6 @@ class HashManager
         return $return;
     }
 
-    /**
-     *
-     */
     public function save(): void
     {
        foreach ($this->new as $path => $md5) {
@@ -87,4 +77,8 @@ class HashManager
        $this->client->expire(self::PREFIX . $this->applicationName, self::TIMEOUT);
     }
 
+    public function reset(): void
+    {
+        $this->client->del([self::PREFIX . $this->applicationName]);
+    }
 }
