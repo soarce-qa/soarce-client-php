@@ -56,7 +56,6 @@ if ($config->isTracingActive()) {
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-
     register_shutdown_function(static function () use ($header, $predisClient, $requestTracking){
         xdebug_stop_trace();
 

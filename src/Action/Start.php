@@ -5,6 +5,7 @@ namespace Soarce\Action;
 use Predis\ClientInterface;
 use Soarce\Action;
 use Soarce\Config;
+use Soarce\HashManager;
 use Soarce\Pipe\Handler;
 use Soarce\RedisMutex;
 
@@ -31,6 +32,9 @@ class Start extends Action implements PredisClientInterface
         usleep(10000);
         $this->startWorkerProcess();
         $this->createTriggerFile();
+
+        $hashManager = new HashManager($this->predisClient, $this->config->getApplicationName());
+        $hashManager->reset();
 
         return json_encode(['status' => 'ok']);
     }

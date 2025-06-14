@@ -19,7 +19,7 @@ class HashManager
      * HashManager constructor.
      *
      * @param ClientInterface $predis
-     * @param string          $applicationName
+     * @param string $applicationName
      */
     public function __construct(private ClientInterface $predis, private string $applicationName)
     {}
@@ -68,4 +68,8 @@ class HashManager
        $this->predis->expire(self::PREFIX . $this->applicationName, self::TIMEOUT);
     }
 
+    public function reset(): void
+    {
+        $this->predis->del([self::PREFIX . $this->applicationName]);
+    }
 }
