@@ -124,7 +124,7 @@ class RequestTracking
     protected function getServerIp(): string
     {
         if (null === $this->serverIp) {
-            $this->serverIp = $_SERVER['SERVER_ADDR'];
+            $this->serverIp = $_SERVER['SERVER_ADDR'] ?? 'cli';
         }
         return $this->serverIp;
     }

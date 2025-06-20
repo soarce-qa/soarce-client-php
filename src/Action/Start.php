@@ -64,7 +64,7 @@ class Start extends Action implements PredisClientInterface
     {
         $pipeHandler = new Handler($this->config, $this->redisMutex);
         foreach ($pipeHandler->getAllPipes() as $pipe) {
-            exec("mkfifo {$pipe->getFilenameTracefile()}");
+            exec("mkfifo {$pipe->getFilenameTracefile()} && chmod 666 {$pipe->getFilenameTracefile()}");
         }
     }
 
