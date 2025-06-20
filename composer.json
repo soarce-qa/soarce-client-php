@@ -28,7 +28,7 @@
   "require": {
     "php": ">=8.0,<9.0-DEV",
     "ext-json": "*",
-    "predis/predis": "^1.1",
+    "predis/predis": "^3",
     "soarce/parallel-process-dispatcher": "*"
   },
   "autoload": {
