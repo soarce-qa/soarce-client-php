@@ -46,13 +46,10 @@ class TraceParser
                     $callerId = $slice[0]['number'];
                     $calleeId = $slice[1]['number'];
 
-                    if (!isset($this->functionMap[$callerId])) {
-                        $this->functionMap[$callerId] = [];
-                    }
                     if (!isset($this->functionMap[$callerId][$calleeId])) {
                         $this->functionMap[$callerId][$calleeId] = 0;
                     }
-                    $this->functionMap[$callerId][$calleeId]++;
+                    ++$this->functionMap[$callerId][$calleeId];
                 }
 
                 continue;
@@ -78,7 +75,7 @@ class TraceParser
                         'number'   => $info['number'],
                     ];
                 } else {
-                    $this->parsedData[$info['file']][$info['functionName']]['count']++;
+                    ++$this->parsedData[$info['file']][$info['functionName']]['count'];
                     $this->parsedData[$info['file']][$info['functionName']]['walltime'] += ((float)$split[3] - (float)$info['start']);
                 }
             }
