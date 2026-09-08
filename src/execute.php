@@ -26,7 +26,7 @@ if ($config->isTracingActive()) {
 
     $predisClient = new Client([
         'scheme' => 'tcp',
-        'host'   => 'soarce.local',
+        'host'   => $config->getRedisHost(),
         'port'   => 6379,
     ]);
 
@@ -56,7 +56,7 @@ if ($config->isTracingActive()) {
         XDEBUG_TRACE_COMPUTERIZED
     );
 
-    register_shutdown_function(static function () use ($header, $predisClient, $requestTracking){
+    register_shutdown_function(static function () use ($header, $predisClient, $requestTracking, $config){
         xdebug_stop_trace();
 
         // we'll do this as early as possible, to shorten the time where multiple requests could be registered in redis.
@@ -86,7 +86,7 @@ if ($config->isTracingActive()) {
 
         $context = stream_context_create($opts);
 
-        file_get_contents('http://soarce.local/receive', false, $context);
+        file_get_contents('http://' . $config->getApiHost() . '/receive', false, $context);
 
         $hashManager->save();
     });
