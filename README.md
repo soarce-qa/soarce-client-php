@@ -73,22 +73,26 @@ only be used in closed environments.
 * string `SOARCE_PRESHARED_SECRET` = "": an arbitrary string which - if used - has to be identical to the
 respective config key in the application's config. It is being sent as a HTTP header to effectively reduce
 drive-by or XSS attacks as well as brute-force attempts to guess how to access SOARCE on a certain system.
+* string `SOARCE_REDIS_HOST` = "redis-soarce": hostname under which to reach the common redis. Default is the
+  docker internal name used by the main application.
+* string `SOARCE_API_HOST` = "web-soarce": hostname under which to reach the api to upload coverage/traces.
+  Default is the docker internal name used by the main application.
 
 ### X-Debug
 ```
-xdebug.auto_trace = 0
+xdebug.start_with_request = no
 xdebug.trace_format = 1
 xdebug.trace_enable_trigger = 0
 ```
 
 This might be counterintuitive, but, SOARCE triggers coverage and tracing itself. 
 
-### docker-compose
+### docker compose
 
 Currently the client expects a few preconditions at static hostnames/addresses - we plan to add configuration
 options later:
-* the main application will be expected at the address "http://soarce.local:80/"
-* the redis server (for reliable mutex locking of the pipes) at "tcp://soarce.local:6379"
+* the main application will be expected at the address "http://web-soarce:80/"  --  see Config
+* the redis server (for reliable mutex locking of the pipes) at "tcp://redis-soarce:6379"   --  see Config
 * clone the application [soarce/application](https://gitlab.home.segnitz.net/soarce/application) and run
   `docker-compose up` for it, it will create and run the necessary services within a virtual network.
 * make sure that the containers you install this package to can access the aforementioned services. This can be

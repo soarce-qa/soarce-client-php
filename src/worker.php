@@ -23,7 +23,7 @@ $id = $argv[2];
 
 $predisClient = new Client([
     'scheme' => 'tcp',
-    'host'   => 'soarce.local',
+    'host'   => $config->getRedisHost(),
     'port'   => 6379,
 ]);
 
@@ -69,7 +69,7 @@ while (true) {
 
     $context = stream_context_create($opts);
 
-    file_get_contents('http://soarce.local/receive', false, $context);
+    file_get_contents('http://' . $config->getApiHost() . '/receive', false, $context);
 
     $redisMutex->releaseLock($id);
 }

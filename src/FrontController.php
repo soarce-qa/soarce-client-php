@@ -54,7 +54,7 @@ class FrontController
         if ($action instanceof PredisClientInterface) {
             $predisClient = new Client([
                 'scheme' => 'tcp',
-                'host'   => 'soarce.local',
+                'host'   => $this->config->getRedisHost(),
                 'port'   => 6379,
             ]);
             $action->setPredisClient($predisClient);

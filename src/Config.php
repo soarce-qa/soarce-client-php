@@ -10,6 +10,8 @@ class Config
     private const DEFAULT_WHITELISTED_HOST_IPS = [];
     private const DEFAULT_WHITELISTED_PATHS    = [];
     private const DEFAULT_PRESHARED_SECRET     = '';
+    private const DEFAULT_REDIS_HOST           = 'redis-soarce';
+    private const DEFAULT_API_HOST             = 'web-soarce';
 
     public const PIPE_NAME_TEMPLATE   = 'SOARCE_PIPE_%d';
     public const TRIGGER_FILENAME     = '.SOARCE-gather-stats';
@@ -179,5 +181,15 @@ class Config
     public function setWhitelistedPaths(array $whitelistedPaths): void
     {
         $this->whitelistedPaths = $whitelistedPaths;
+    }
+
+    public function getRedisHost(): string
+    {
+        return $_ENV['SOARCE_REDIS_HOST'] ?? $_SERVER['SOARCE_REDIS_HOST'] ?? self::DEFAULT_REDIS_HOST;
+    }
+
+    public function getApiHost(): string
+    {
+        return $_ENV['SOARCE_API_HOST'] ?? $_SERVER['SOARCE_API_HOST'] ?? self::DEFAULT_API_HOST;
     }
 }
