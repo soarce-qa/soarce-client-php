@@ -44,7 +44,7 @@
   },
   "require-dev": {
     "roave/security-advisories": "dev-master",
-    "m6web/redis-mock": "^4.6",
+    "m6web/redis-mock": "^5.1",
     "php-parallel-lint/php-parallel-lint": "^1.4"
   }
 }
